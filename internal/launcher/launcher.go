@@ -137,7 +137,7 @@ func writeIfChanged(path string, content []byte) error {
 // BuildNodeOptions returns a NODE_OPTIONS value with --require="<hookPath>" appended.
 // Forward slashes are used so Node.js NODE_OPTIONS parsing handles Windows paths cleanly.
 func BuildNodeOptions(existing, hookPath string) string {
-	norm := filepath.ToSlash(hookPath)
+	norm := strings.ReplaceAll(filepath.ToSlash(hookPath), `\`, "/")
 	req := fmt.Sprintf(`--require="%s"`, norm)
 	existing = strings.TrimSpace(existing)
 	if existing == "" {

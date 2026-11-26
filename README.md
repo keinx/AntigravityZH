@@ -9,8 +9,8 @@
 | 平台 | 架构 | 编译产物 |
 | :--- | :--- | :--- |
 | Windows 10 / 11 | x64 (`windows/amd64`) | `dist/AntigravityZH-windows-amd64.exe`（内置原版图标） |
-| macOS（Intel 芯片） | x64 (`darwin/amd64`) | `dist/AntigravityZH-darwin-amd64` |
-| macOS（M 系列芯片） | ARM64 (`darwin/arm64`) | `dist/AntigravityZH-darwin-arm64` |
+| macOS（Intel 芯片） | x64 (`darwin/amd64`) | `dist/AntigravityZH-darwin-amd64.dmg`（内含 `AntigravityZH.app`） |
+| macOS（M 系列芯片） | ARM64 (`darwin/arm64`) | `dist/AntigravityZH-darwin-arm64.dmg`（内含 `AntigravityZH.app`） |
 
 ---
 
@@ -48,12 +48,13 @@
 ### 1. 日常启动
 
 - **Windows**：直接双击 **`AntigravityZH.exe`**（或 `dist/AntigravityZH-windows-amd64.exe`）。
-- **macOS（Intel / M 芯片）**：首次运行前先赋予可执行权限并移除隔离属性：
-  ```bash
-  chmod +x AntigravityZH-darwin-arm64   # Intel 芯片替换为 AntigravityZH-darwin-amd64
-  xattr -cr AntigravityZH-darwin-arm64
-  ./AntigravityZH-darwin-arm64
-  ```
+- **macOS（Intel / M 芯片）**：
+  1. 下载对应架构的 `.dmg` 安装镜像（M 系列芯片选 `AntigravityZH-darwin-arm64.dmg`，Intel 芯片选 `AntigravityZH-darwin-amd64.dmg`），打开后将 **`AntigravityZH.app`** 拖入 `Applications`（应用程序）文件夹。
+  2. 首次打开若遇到 macOS 提示“无法验证开发者 / 已损坏”，在终端执行一次以下命令移除隔离属性即可：
+     ```bash
+     xattr -cr /Applications/AntigravityZH.app
+     ```
+  3. 之后即可直接从「应用程序」/ 启动台 / Spotlight 双击 **`AntigravityZH`** 启动中文版 Antigravity。
 - 如果 Antigravity 尚未运行，将直接以简体中文模式启动。
 - 如果 Antigravity 已在运行（单实例应用限制），启动器会弹窗询问是否一键关闭当前实例并重启为汉化模式。
 - 启动后点击左上角 `Antigravity` 菜单，可在「版本」与「检查更新」之间看到当前编译固化的 `汉化助手版本 2.35.2`，点击可直接在默认浏览器打开项目主页。
@@ -72,7 +73,7 @@
 
 启动器按以下优先级自动定位 Antigravity（命中即止）：
 
-1. **同目录配置文件**：读取同目录 `antigravity-zh.json` 中的 `antigravity_exe` 字段（macOS 支持填写 `.app` 路径，自动解析至 `Contents/MacOS/Antigravity`）。
+1. **配置文件**：读取 `antigravity-zh.json` 中的 `antigravity_exe` 字段（Windows 与命令行模式位于启动器同目录；macOS `.app` 模式位于 `~/Library/Application Support/AntigravityZH/antigravity-zh.json`，支持填写 `.app` 路径，自动解析至 `Contents/MacOS/Antigravity`）。
 2. **平台默认安装路径**：
    - **Windows**：`%LOCALAPPDATA%\Programs\Antigravity\Antigravity.exe`、`%LOCALAPPDATA%\Antigravity\Antigravity.exe`、`%ProgramFiles%\Antigravity\Antigravity.exe`、`D:\Program Files\Antigravity\Antigravity.exe`
    - **macOS**：`/Applications/Antigravity.app`、`~/Applications/Antigravity.app`、`/Applications/Google Antigravity.app`
@@ -161,6 +162,18 @@ go build -ldflags="-s -w" -o dist/AntigravityZH-darwin-amd64 ./cmd/antigravity-z
 $env:GOOS="darwin"; $env:GOARCH="arm64"
 go build -ldflags="-s -w" -o dist/AntigravityZH-darwin-arm64 ./cmd/antigravity-zh
 ```
+
+### macOS 本地打包 `.app` 与 `.dmg`
+
+在 macOS 上可直接运行打包脚本，分别生成包含 `AntigravityZH.app`（内置 `AppIcon.icns` 与 `Info.plist`）的 Apple Silicon 和 Intel `.dmg` 安装镜像：
+
+```bash
+chmod +x scripts/package-macos.sh
+./scripts/package-macos.sh arm64   # 输出 dist/AntigravityZH-darwin-arm64.dmg
+./scripts/package-macos.sh amd64   # 输出 dist/AntigravityZH-darwin-amd64.dmg
+```
+
+推送 `v*` 标签（如 `git tag v2.35.2 && git push origin v2.35.2`）或在 GitHub Actions 页面手动触发 `Build & Release` 工作流，即可自动构建 Windows `.exe` 与 macOS `arm64`/`amd64` `.dmg` 并发布到 GitHub Release。
 
 ### 更新兼容版本号与重新提取图标
 1. 修改 `assets/dict_zh_cn.json` 顶部的 `"version"` 为当前适配的 Antigravity 版本号。

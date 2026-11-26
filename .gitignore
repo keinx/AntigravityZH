@@ -8,6 +8,8 @@ AntigravityZH-darwin-*
 *.so
 *.dylib
 *.app/
+*.dmg
+*.icns
 *.test
 *.out
 /bin/

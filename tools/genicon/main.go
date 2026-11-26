@@ -12,8 +12,9 @@ import (
 
 func main() {
 	extractExe := flag.String("extract", "", "Source Windows .exe to extract primary icon from")
-	icoPath := flag.String("ico", "", "Path to .ico file (output when -extract is set, input when -syso is set)")
+	icoPath := flag.String("ico", "", "Path to .ico file (output when -extract is set, input when -syso or -png is set)")
 	sysoPath := flag.String("syso", "", "Output Windows amd64 .syso resource file")
+	pngPath := flag.String("png", "", "Output largest PNG image extracted from .ico")
 	flag.Parse()
 
 	if *extractExe != "" {
@@ -34,6 +35,16 @@ func main() {
 			fatal(err)
 		}
 		fmt.Printf("Generated COFF resource %s\n", *sysoPath)
+	}
+
+	if *pngPath != "" {
+		if *icoPath == "" {
+			fatal(errors.New("-ico is required with -png"))
+		}
+		if err := extractLargestPNGFromICO(*icoPath, *pngPath); err != nil {
+			fatal(err)
+		}
+		fmt.Printf("Extracted largest PNG icon to %s\n", *pngPath)
 	}
 }
 
@@ -405,4 +416,55 @@ func buildSysoFromICO(icoPath, sysoPath string) error {
 	_ = binary.Write(&coff, binary.LittleEndian, uint32(4))
 
 	return os.WriteFile(sysoPath, coff.Bytes(), 0o644)
+}
+
+// --- Part 3: Extract highest-resolution PNG frame from .ico (for macOS .icns generation) ---
+
+func extractLargestPNGFromICO(icoPath, outPNG string) error {
+	ico, err := os.ReadFile(icoPath)
+	if err != nil {
+		return err
+	}
+	if len(ico) < 6 {
+		return errors.New("invalid .ico file")
+	}
+	count := int(binary.LittleEndian.Uint16(ico[4:6]))
+	if count == 0 || len(ico) < 6+count*16 {
+		return errors.New("invalid .ico directory")
+	}
+
+	pngSig := []byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}
+	var best []byte
+	bestArea := -1
+
+	for i := 0; i < count; i++ {
+		e := ico[6+i*16 : 6+(i+1)*16]
+		w := int(e[0])
+		if w == 0 {
+			w = 256
+		}
+		h := int(e[1])
+		if h == 0 {
+			h = 256
+		}
+		size := binary.LittleEndian.Uint32(e[8:12])
+		off := binary.LittleEndian.Uint32(e[12:16])
+		if int(off+size) > len(ico) {
+			return errors.New("icon payload out of bounds")
+		}
+		payload := ico[off : off+size]
+		if len(payload) < len(pngSig) || !bytes.Equal(payload[:len(pngSig)], pngSig) {
+			continue
+		}
+		area := w * h
+		if area > bestArea || (area == bestArea && len(payload) > len(best)) {
+			bestArea = area
+			best = payload
+		}
+	}
+
+	if len(best) == 0 {
+		return errors.New("no PNG image found inside .ico")
+	}
+	return os.WriteFile(outPNG, best, 0o644)
 }

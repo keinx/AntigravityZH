@@ -17,7 +17,7 @@ func escapeAppleScript(s string) string {
 }
 
 func runAppleScript(script string) (string, error) {
-	out, err := exec.Command("osascript", "-e", script).Output()
+	out, err := exec.Command("osascript", "-e", "activate", "-e", script).Output()
 	return strings.TrimSpace(string(out)), err
 }
 
