@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 
 	"antigravity-zh/assets"
@@ -21,13 +22,17 @@ func main() {
 	if err != nil {
 		selfExe = "."
 	}
-	selfDir := filepath.Dir(selfExe)
+	userDataDir := getUserDataDir(selfExe)
 
 	var debugMode bool
 	var exportDict bool
 	var passthroughArgs []string
 
 	for _, arg := range os.Args[1:] {
+		if runtime.GOOS == "darwin" && strings.HasPrefix(arg, "-psn_") {
+			// Ignore macOS LaunchServices process serial number argument when launched as a .app bundle.
+			continue
+		}
 		switch arg {
 		case "--agzh-debug", "--debug":
 			debugMode = true
@@ -39,7 +44,11 @@ func main() {
 	}
 
 	if exportDict {
-		outPath := filepath.Join(selfDir, "dict_zh_cn.json")
+		if err := os.MkdirAll(userDataDir, 0o755); err != nil {
+			winui.MessageBoxError(appTitle, fmt.Sprintf("创建配置目录失败：%v", err))
+			os.Exit(1)
+		}
+		outPath := filepath.Join(userDataDir, "dict_zh_cn.json")
 		if err := os.WriteFile(outPath, assets.DefaultDictJSON, 0o644); err != nil {
 			winui.MessageBoxError(appTitle, fmt.Sprintf("导出词库失败：%v", err))
 			os.Exit(1)
@@ -48,7 +57,7 @@ func main() {
 		return
 	}
 
-	configPath := filepath.Join(selfDir, "antigravity-zh.json")
+	configPath := filepath.Join(userDataDir, "antigravity-zh.json")
 	exePath, err := locator.LocateAntigravity(configPath)
 	if err != nil {
 		picked, ok := winui.BrowseForExe("未自动找到 Antigravity，请手动选择安装位置")
@@ -86,7 +95,7 @@ func main() {
 		_ = proc.CloseAndWait(procName, 4*time.Second)
 	}
 
-	externalDict := filepath.Join(selfDir, "dict_zh_cn.json")
+	externalDict := filepath.Join(userDataDir, "dict_zh_cn.json")
 	rtPaths, err := launcher.SyncRuntimeFiles(runtimeDir, externalDict)
 	if err != nil {
 		winui.MessageBoxError(appTitle, fmt.Sprintf("准备汉化运行文件失败：%v", err))
@@ -98,6 +107,27 @@ func main() {
 		os.Exit(1)
 	}
 	// Exit immediately -> 0 MB resident memory!
+}
+
+func isMacAppBundle(exePath string) bool {
+	if runtime.GOOS != "darwin" {
+		return false
+	}
+	macosDir := filepath.Dir(exePath)
+	contentsDir := filepath.Dir(macosDir)
+	appDir := filepath.Dir(contentsDir)
+	return strings.EqualFold(filepath.Base(macosDir), "MacOS") &&
+		strings.EqualFold(filepath.Base(contentsDir), "Contents") &&
+		strings.HasSuffix(strings.ToLower(appDir), ".app")
+}
+
+func getUserDataDir(exePath string) string {
+	if isMacAppBundle(exePath) {
+		if home, err := os.UserHomeDir(); err == nil && home != "" {
+			return filepath.Join(home, "Library", "Application Support", "AntigravityZH")
+		}
+	}
+	return filepath.Dir(exePath)
 }
 
 func getRuntimeDir() string {

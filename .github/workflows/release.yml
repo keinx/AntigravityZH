@@ -1,0 +1,157 @@
+name: Build & Release
+
+on:
+  push:
+    branches:
+      - "main"
+      - "feat/*"
+    tags:
+      - "v*"
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Optional version string for macOS Info.plist (defaults to assets/dict_zh_cn.json)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    name: Test & Build Windows (amd64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Run Go vet & unit tests (Windows)
+        shell: bash
+        run: |
+          go vet ./...
+          go test -v ./...
+
+      - name: Build Windows executable
+        shell: bash
+        run: |
+          mkdir -p dist
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 \
+            go build -ldflags="-s -w -H windowsgui" \
+            -o dist/AntigravityZH-windows-amd64.exe ./cmd/antigravity-zh
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-windows-amd64
+          path: dist/AntigravityZH-windows-amd64.exe
+          if-no-files-found: error
+
+  build-macos:
+    name: Test & Build macOS DMG (arm64 & amd64)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run JS unit tests & syntax check
+        run: |
+          node assets/renderer_i18n_test.js
+          node -c assets/agzh_hook.js
+
+      - name: Run Go vet (all target platforms) & unit tests (macOS)
+        run: |
+          GOOS=windows GOARCH=amd64 go vet ./...
+          GOOS=darwin GOARCH=amd64 go vet ./...
+          GOOS=darwin GOARCH=arm64 go vet ./...
+          go test -v ./...
+
+      - name: Resolve version
+        id: meta
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VER="${{ inputs.version }}"
+          elif [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            VER="${GITHUB_REF_NAME#v}"
+          else
+            VER=""
+          fi
+          echo "version=${VER}" >> "$GITHUB_OUTPUT"
+
+      - name: Package macOS arm64 & amd64 DMGs
+        run: |
+          chmod +x scripts/package-macos.sh
+          ./scripts/package-macos.sh arm64 "${{ steps.meta.outputs.version }}"
+          ./scripts/package-macos.sh amd64 "${{ steps.meta.outputs.version }}"
+
+      - name: Upload macOS arm64 DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-darwin-arm64
+          path: dist/AntigravityZH-darwin-arm64.dmg
+          if-no-files-found: error
+
+      - name: Upload macOS amd64 DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-darwin-amd64
+          path: dist/AntigravityZH-darwin-amd64.dmg
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [build-windows, build-macos]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Generate SHA256SUMS
+        working-directory: dist
+        run: |
+          sha256sum AntigravityZH-windows-amd64.exe AntigravityZH-darwin-arm64.dmg AntigravityZH-darwin-amd64.dmg > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          body: |
+            ### 下载说明
+            - **Windows (x64)**：`AntigravityZH-windows-amd64.exe`（直接双击运行）
+            - **macOS (Apple Silicon / M 系列芯片)**：`AntigravityZH-darwin-arm64.dmg`
+            - **macOS (Intel 芯片)**：`AntigravityZH-darwin-amd64.dmg`
+
+            ### macOS 安装与首次启动
+            1. 打开对应架构的 `.dmg`，将 **`AntigravityZH.app`** 拖入 **`Applications`（应用程序）** 文件夹。
+            2. 由于未进行 Apple Developer 付费公证，首次打开若提示「无法验证开发者 / 已损坏」，请在终端执行一次以下命令解除隔离属性即可：
+               ```bash
+               xattr -cr /Applications/AntigravityZH.app
+               ```
+            3. 之后即可直接从「应用程序」/ 启动台 / Spotlight 双击 **`AntigravityZH`** 启动中文版 Antigravity。
+          files: |
+            dist/AntigravityZH-windows-amd64.exe
+            dist/AntigravityZH-darwin-arm64.dmg
+            dist/AntigravityZH-darwin-amd64.dmg
+            dist/SHA256SUMS.txt

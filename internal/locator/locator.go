@@ -42,6 +42,11 @@ func LoadConfig(configPath string) (string, error) {
 }
 
 func SaveConfig(configPath, exePath string) error {
+	if dir := filepath.Dir(configPath); dir != "" && dir != "." {
+		if err := os.MkdirAll(dir, 0o755); err != nil {
+			return err
+		}
+	}
 	data, err := json.MarshalIndent(Config{AntigravityExe: exePath}, "", "  ")
 	if err != nil {
 		return err
