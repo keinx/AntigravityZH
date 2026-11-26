@@ -1,0 +1,2523 @@
+{
+  "version": "2.35.2",
+  "menus": {
+    "File": "文件",
+    "Edit": "编辑",
+    "View": "视图",
+    "Window": "窗口",
+    "Workspace": "工作区",
+    "Help": "帮助",
+    "New Window": "新建窗口",
+    "Close Window": "关闭窗口",
+    "Close": "关闭",
+    "Quit": "退出",
+    "Quit Antigravity": "退出 Antigravity",
+    "Exit": "退出",
+    "Undo": "撤销",
+    "Redo": "重做",
+    "Cut": "剪切",
+    "Copy": "复制",
+    "Paste": "粘贴",
+    "Select All": "全选",
+    "Reload": "重新加载",
+    "Force Reload": "强制重新加载",
+    "Toggle Developer Tools": "切换开发者工具",
+    "Actual Size": "实际大小",
+    "Reset Zoom": "重置缩放",
+    "Zoom In": "放大",
+    "Zoom Out": "缩小",
+    "Toggle Full Screen": "切换全屏",
+    "Minimize": "最小化",
+    "Maximize": "最大化",
+    "Show Window": "显示窗口",
+    "Open Antigravity": "打开 Antigravity",
+    "Connect to WSL": "连接到 WSL",
+    "Reopen Locally": "在本地重新打开",
+    "Check for Updates": "检查更新",
+    "Check for Updates...": "检查更新...",
+    "No updates available": "当前已是最新版本",
+    "Create Project": "创建项目",
+    "Command Palette": "命令面板",
+    "Docs": "官方文档",
+    "Documentation": "文档",
+    "About": "关于",
+    "About Antigravity": "关于 Antigravity",
+    "Settings": "设置",
+    "Preferences": "偏好设置"
+  },
+  "exact": {
+    "View": "视图",
+    "Window": "窗口",
+    "Workspace": "工作区",
+    "Check for Updates": "检查更新",
+    "Create Project": "创建项目",
+    "Command Palette": "命令面板",
+    "Minimize": "最小化",
+    "Maximize": "最大化",
+
+    "Build me a web app": "帮我构建一个 Web 应用",
+    "Add a Gemini feature to my app": "为我的应用添加 Gemini 功能",
+    "Bring over my setup from other Agentic Developer Tools": "从其他 AI 开发工具迁移我的配置",
+    "Antigravity can review code, trace errors, and ship across your stack.": "Antigravity 可以审查代码、追踪错误并完成全栈开发交付。",
+
+    "This Computer": "本机电脑",
+    "Runs on this machine": "在当前设备上运行",
+    "Remote": "远程",
+    "Runs in a cloud environment": "在云端环境中运行",
+    "SSH Host": "SSH 主机",
+    "Search Hosts...": "搜索主机...",
+    "No matching hosts": "没有匹配的主机",
+    "No hosts in ~/.ssh/config yet": "~/.ssh/config 中暂无主机配置",
+    "No hosts in ~/.ssh/config yet. Type one above.": "~/.ssh/config 中暂无主机配置，请在上方输入。",
+    "No hosts in": "以下配置中暂无主机：",
+    "yet. Type one above.": "，请在上方输入。",
+    "Connect to SSH Host...": "连接到 SSH 主机...",
+    "Open SSH Host": "打开 SSH 主机",
+    "Enter [user@]host[:port], or pick a host from your SSH config. Then create the project in its window.": "输入 [user@]host[:port]，或从 SSH 配置中选择主机，然后在其窗口中创建项目。",
+    "Enter [user@]host[:port], or pick a host from your SSH config.": "输入 [user@]host[:port]，或从你的 SSH 配置中选择主机。",
+    "Then create the project in its window.": "然后在其窗口中创建项目。",
+    ", or pick a host from your SSH config.": "，或从你的 SSH 配置中选择主机。",
+    ", or pick a host from your SSH config. Then create the project in its window.": "，或从你的 SSH 配置中选择主机，然后在其窗口中创建项目。",
+    "Create a project on a machine you reach over SSH. It opens in that host's own window.": "在通过 SSH 连接的机器上创建项目，它将在该主机的独立窗口中打开。",
+    "Couldn't connect to": "无法连接到",
+    "Connecting to": "正在连接到",
+    "Connect": "连接",
+    "Reconnect": "重新连接",
+    "Stop Server": "停止服务",
+    "SSH config:": "SSH 配置：",
+    "~/.ssh/config (default)": "~/.ssh/config（默认）",
+    "Choose File...": "选择文件...",
+    "A host can't contain spaces.": "主机名不能包含空格。",
+
+    "Select Project": "选择项目",
+    "Set Project Name": "设置项目名称",
+    "Project Name": "项目名称",
+    "Enter project name...": "输入项目名称...",
+    "No remote projects": "暂无远程项目",
+    "GitHub Repositories": "GitHub 仓库",
+    "New Remote Project": "新建远程项目",
+    "Search Repositories...": "搜索仓库...",
+    "Loading Repositories...": "正在加载仓库...",
+    "Connect GitHub": "连接 GitHub",
+    "Select Folder(s)": "选择文件夹",
+    "Add Folder": "添加文件夹",
+    "Select Resource(s)": "选择资源",
+    "Add Resource": "添加资源",
+    "Upload Files": "上传文件",
+    "Uploaded files and connected resources are mounted in your cloud environment.": "上传的文件和已连接的资源将挂载到你的云端环境中。",
+    "Files and resources in cloud workspaces": "云端工作区中的文件与资源",
+    "Here's how uploaded files, attachments, and connected resources work in your cloud environment": "以下是上传的文件、附件以及已连接资源在云端环境中的工作方式",
+    "Stored and mounted in your cloud environment": "在云端环境中存储与挂载",
+    "Uploaded project files and in-chat attachments are stored on Google servers and mounted into your cloud sandbox so your agent can read and work with them.": "上传的项目文件和对话附件将存储在 Google 服务器上，并挂载到你的云端沙箱中，以便智能体读取和使用。",
+    "Connected Google Drive and GitHub resources": "已连接的 Google Drive 与 GitHub 资源",
+    "Files, folders, and repositories you connect are accessible to your agent in this project, including during background or scheduled runs.": "你连接的文件、文件夹和代码仓库可供本项目中的智能体访问，包括在后台运行或定时任务期间。",
+    "Manage and delete your data anytime": "随时管理并删除你的数据",
+    "Remove individual uploaded files or connected resources in Project Settings, or delete a project or conversation to remove its stored files.": "你可以在项目设置中移除单个已上传的文件或已连接的资源，或删除项目/对话以清除其存储的文件。",
+    "Avoid uploading highly sensitive data and verify actions taken by your agent. Make sure you have the": "请避免上传高度敏感的数据，并核实智能体执行的操作。请确保你拥有上传内容或文件的",
+    "necessary rights": "必要权利",
+    "to any content or files that you upload, including content of minors. Don't generate content that infringes on others' rights, including content that deceives, harasses, or harms. When using Antigravity, you must comply with Google's": "（包括涉及未成年人的内容）。请勿生成侵犯他人权利的内容，包括欺骗、骚扰或伤害他人的内容。使用 Antigravity 时，你必须遵守 Google 的",
+    "Prohibited Use Policy": "禁止使用政策",
+    ". Your use is subject to the": "。你的使用受",
+    "Google Antigravity Terms of Service": "Google Antigravity 服务条款",
+    "Google Privacy Policy": "Google 隐私政策",
+    "Got it": "知道了",
+    "Select Environment": "选择环境",
+    "Select Environment (Ctrl+.)": "选择环境 (Ctrl+.)",
+    "Hey": "你好",
+    ", what should we build today?": "，今天想构建点什么？",
+    "Welcome back,": "欢迎回来，",
+    ". Where should we pick up?": "。我们从哪里继续？",
+    "Good to see you,": "很高兴见到你，",
+    ". What's next?": "。接下来做什么？",
+    "CONNECTION_FAILED:": "连接失败：",
+    "HOSTKEY_REJECTED:": "主机密钥被拒绝：",
+    "AUTH_FAILED:": "身份验证失败：",
+    "INVALID_DESTINATION:": "无效目标地址：",
+    "SSH_CONFIG_INVALID:": "SSH 配置无效：",
+    "INSTALL_FAILED:": "安装失败：",
+    "UNSUPPORTED_HOST:": "不支持的主机：",
+    "FORWARDING_PROHIBITED:": "端口转发被禁止：",
+    "CONNECTION_CLOSED:": "连接已关闭：",
+    "LS_START_FAILED:": "服务启动失败：",
+    "LS_STOPPED:": "服务已停止：",
+    "Couldn't connect to the SSH host. Check its name, your network and ssh config (e.g. a ProxyCommand), and that ssh to it works in a terminal without a prompt.": "无法连接到 SSH 主机。请检查主机名、网络和 SSH 配置（例如 ProxyCommand），并确认在终端中可以无交互直接 SSH 连接。",
+    "Couldn't connect to the SSH host. Try ssh to it in a terminal, and see the Antigravity log for details.": "无法连接到 SSH 主机。请尝试在终端中手动 SSH 连接，并查看 Antigravity 日志了解详情。",
+    "The host's SSH key is unknown or has changed. Save it with ssh in a terminal. If it changed, ask the host's owner first: the connection may be intercepted.": "该主机的 SSH 密钥未知或已更改。请先在终端中使用 ssh 保存密钥；如果密钥发生了变化，请先向主机管理员确认，连接可能正被拦截。",
+    "The host's SSH key has changed or isn't trusted. If it changed, ask the host's owner first: the connection may be intercepted.": "该主机的 SSH 密钥已更改或不受信任。如果密钥发生变化，请先向主机管理员确认，连接可能正被拦截。",
+    "SSH authentication failed. Antigravity can't answer password or code prompts on Windows yet: set up key-based login with ssh-agent, then try again.": "SSH 身份验证失败。Antigravity 在 Windows 上暂不支持交互式密码或验证码输入：请使用 ssh-agent 配置密钥登录后重试。",
+    "SSH authentication failed. Check your password, code or keys, then try again.": "SSH 身份验证失败。请检查密码、验证码或密钥后重试。",
+    "SSH authentication failed. Click Reconnect to sign in again.": "SSH 身份验证失败。请点击重新连接以再次登录。",
+    "SSH can't use your SSH config file. Fix the problem ssh reports, or choose another config file.": "SSH 无法使用当前的配置文件。请修复 ssh 报告的问题，或选择其他配置文件。",
+    "SSH port forwarding failed. Make sure the server allows TCP forwarding (AllowTcpForwarding) for your account, then try again.": "SSH 端口转发失败。请确认服务器允许你的账号使用 TCP 转发（AllowTcpForwarding）后重试。",
+    "That SSH host isn't valid. Enter an alias from your SSH config or a host like user@host or user@host:2222.": "该 SSH 主机格式无效。请输入 SSH 配置中的别名，或类似 user@host、user@host:2222 的地址。",
+    "Invalid SSH config file.": "无效的 SSH 配置文件。",
+    "The Antigravity server on the SSH host stopped. Reconnect to start it again.": "SSH 主机上的 Antigravity 服务已停止。请重新连接以再次启动。",
+    "The SSH connection closed. Check your network connection, then reconnect.": "SSH 连接已关闭。请检查网络连接后重新连接。",
+    "The connection was cancelled.": "连接已取消。",
+    "The connection was closed before it finished.": "连接在完成前已关闭。",
+    "Couldn't install the Antigravity server on the SSH host. Make sure it has free disk space, and that it or this computer can download from the internet.": "无法在 SSH 主机上安装 Antigravity 服务。请确保主机有足够磁盘空间，且主机或本机可正常联网下载。",
+    "Antigravity needs a Linux host on x64 or arm64 with glibc 2.26 or newer.": "Antigravity 需要 x64 或 arm64 架构且 glibc >= 2.26 的 Linux 主机。",
+    "Another host that shares your home directory runs the Antigravity server. Connect to that host, or connect again and choose Take Over.": "共享同一主目录的另一台主机正在运行 Antigravity 服务。请连接到该主机，或重新连接并选择接管。",
+    "This window opens it again once it has started.": "服务启动后，此窗口将自动重新打开。",
+    "Asked again: your last answer may not have worked.": "再次询问：您上次的输入可能未生效。",
+    "That's too long.": "输入内容过长。",
+    "Host key verification failed.": "主机密钥验证失败。",
+
+    "Welcome to Antigravity": "欢迎使用 Antigravity",
+    "Welcome to the new Antigravity!": "欢迎使用全新 Antigravity！",
+    "Setting up...": "正在初始化...",
+    "Download the Antigravity IDE": "下载 Antigravity IDE",
+    "Explore the new Antigravity": "探索全新 Antigravity",
+
+    "Invalid Media": "无效的媒体文件",
+    "Maximum number of attachments reached": "已达到附件数量上限",
+
+    "New Project": "新建项目",
+    "No Project": "无项目",
+    "Local Checkout": "本地检出",
+    "New Worktree": "新建工作树 (Worktree)",
+    "Worktrees are available for Git repositories": "工作树仅适用于 Git 仓库",
+
+    "Files": "文件",
+    "Folder": "文件夹",
+    "Folders": "文件夹",
+    "Mentions": "@ 提及",
+    "Actions": "/ 指令",
+    "Drive": "Google 云端硬盘",
+    "Set up": "去配置",
+    "Browse rules": "浏览规则",
+    "Conversation": "对话",
+    "Install or enable the Google Drive plugin in Customizations to search files with @drive: or paste Drive links": "请在「自定义配置」中安装或启用 Google Drive 插件，以使用 @drive: 搜索文件或粘贴云盘链接",
+
+    "Thinking effort": "思考深度",
+    "Controls how much time and quota the model spends reasoning before responding. Higher effort improves accuracy on hard problems, at the cost of slower responses and higher quota use.": "控制模型在回复前用于推理的时间与配额。更高的思考深度可提升难题准确率，但响应会稍慢且消耗更多配额。",
+    "For most deep reasoning and complex problems": "适用于大多数深度推理与复杂问题",
+    "The original Gemini 4 model for advanced workflows. Leaving on Nov 30.": "初代 Gemini 4 模型，适用于高级工作流。将于 11 月 30 日下线。",
+    "Use Hydrogen for better quality with lower quota usage. Leaving on Nov 30.": "推荐改用 Hydrogen，质量更高且配额消耗更低。将于 11 月 30 日下线。",
+    "GPT-OSS will be removed from Antigravity on November 30, 2026.": "GPT-OSS 将于 2026 年 11 月 30 日从 Antigravity 中移除。",
+
+    "Run until the specified goal is completely finished.": "持续运行直到指定目标完全达成。",
+    "Compact the conversation now (summarize history to free up the context window).": "立即压缩当前对话（总结历史记录以释放上下文窗口）。",
+    "Run an instruction on a recurring schedule or as a one-time timer.": "按周期计划或一次性定时执行指令。",
+    "Invoke a browser agent for web tasks.": "调用浏览器智能体执行网页任务。",
+    "Plan carefully before executing a task.": "在执行任务前先制定详细的实施方案。",
+    "Interview me to align on a plan.": "通过交互式提问与我对齐方案细节。",
+    "Invoke a team of agents to autonomously tackle large projects.": "调用多智能体团队自主协作完成大型项目。",
+    "Reflect on recent successes or corrections to capture reusable skills or rules.": "总结近期的成功经验或纠正，沉淀为可复用的技能或规则。",
+    "Invoke the Boost multi-agent orchestrator for complex tasks.": "调用 Boost 多智能体编排器处理复杂任务。",
+
+    "Auto": "自动",
+    "Off": "关闭",
+    "On": "开启",
+    "Always": "始终",
+    "Never": "从不",
+    "Custom": "自定义",
+    "Copy link": "复制链接",
+    "Copy message": "复制消息",
+    "Edit message": "编辑消息",
+    "Delete conversation": "删除对话",
+    "Archive conversation": "归档对话",
+    "Pin conversation": "置顶对话",
+    "Unpin conversation": "取消置顶",
+    "Rename conversation": "重命名对话",
+    "Open in IDE": "在 IDE 中打开",
+    "Open in Explorer": "在资源管理器中打开",
+    "Reveal in File Explorer": "在文件资源管理器中显示",
+    "Open in Terminal": "在终端中打开",
+    "Copy path": "复制路径",
+    "Copy relative path": "复制相对路径",
+    "New Terminal": "新建终端",
+    "Kill Terminal": "终止终端",
+    "Clear Terminal": "清空终端",
+    "Toggle Panel": "切换面板",
+    "Manage plugins": "管理插件",
+    "Browse Marketplace": "浏览插件市场",
+    "Installed plugins": "已安装插件",
+    "Available plugins": "可用插件",
+    "Add MCP server": "添加 MCP 服务",
+    "No MCP servers configured": "暂未配置 MCP 服务",
+    "No skills installed": "暂未安装技能",
+    "No rules configured": "暂未配置规则",
+    "Create rule": "创建规则",
+    "Create skill": "创建技能",
+    "Edit rule": "编辑规则",
+    "View logs": "查看日志",
+    "Open log folder": "打开日志目录",
+    "Report a bug": "反馈问题",
+    "Send feedback": "发送反馈",
+    "Privacy Policy": "隐私政策",
+    "Terms of Service": "服务条款",
+    "Release Notes": "更新日志",
+    "What's New": "新特性",
+    "Restart to Update": "重启以完成更新",
+    "Update Available": "发现新版本",
+    "Downloading update...": "正在下载更新...",
+    "Ready to install": "已就绪，可安装",
+
+    "Ask anything, @ to mention, / for actions": "输入任何问题，@ 提及上下文，/ 调用指令",
+    "Add Context": "添加上下文",
+    "Leaving Soon": "即将下线",
+    "Notice": "提示",
+    "View Usage": "查看用量",
+    "Usage": "用量统计",
+    "Gemini Models": "Gemini 模型",
+    "Claude and GPT models": "Claude 与 GPT 模型",
+    "Weekly limit": "每周限额",
+    "5h limit": "5 小时限额",
+    "Extra High": "超高",
+    "For your hardest, long-horizon tasks": "适用于最复杂、长周期的任务",
+    "For speed and efficiency in execution tasks": "注重执行任务的速度与效率",
+    "Offloads routine steps to a faster executor. Same quality, fewer tokens used.": "将常规步骤交给更快的执行器处理，质量不变，消耗更少 Token。",
+    "% left": "% 剩余",
+
+    "Remote Permissions": "远程权限",
+    "This Conversation": "当前对话",
+    "Every command requires approval.": "每条命令都需要手动批准。",
+    "Ask before sensitive operations.": "敏感操作前请求确认。",
+    "Automatically decide if commands run.": "自动判断是否允许运行命令。",
+    "Run all commands without restrictions.": "无限制运行所有命令。",
+    "Turbo": "极速",
+    "Only this conversation uses this preset.": "仅当前对话使用此预设。",
+    "Your This Computer setting": "你的「本机电脑」默认设置",
+    "Your Remote setting": "你的「远程」默认设置",
+
+    "Browse": "浏览",
+    "Unlock the power of agent swarms.": "解锁多智能体蜂群协作的强大能力。",
+    "Local Permissions": "本地权限",
+    "Stop Recording and Send": "停止录音并发送",
+    "Voice speed": "语音语速",
+    "Mute Antigravity (Alt+Shift+M)": "静音 Antigravity (Alt+Shift+M)",
+    "Unmute Antigravity (Alt+Shift+M)": "取消静音 Antigravity (Alt+Shift+M)",
+
+    "Toggle Project Selector": "切换项目选择器",
+    "Toggle Environment Selector": "切换环境选择器",
+    "Sort Conversations": "对话排序",
+    "Last Updated": "最近更新",
+    "Last Prompt": "最近提问",
+    "Only Unread": "仅看未读",
+    "Only Archived": "仅看已归档",
+    "Only Automations": "仅看自动化任务",
+    "Search Conversations": "搜索对话",
+
+    "just now": "刚刚",
+    "Context usage": "上下文占用",
+    "Hide breakdown": "收起明细",
+    "Services this plugin connects to on your behalf. Credentials stay on this machine and are only sent to the domains listed.": "此插件代表你连接的服务。凭据仅保存在本机，且只会发送到以下列出的域名。",
+    "Scopes:": "权限范围：",
+    "Allowed by you": "你已允许的权限",
+    "Nothing is always allowed. You'll be asked before this plugin makes changes.": "暂无始终允许项。此插件在做出更改前都会先向你询问确认。",
+    "Adding...": "正在添加...",
+    "Removing...": "正在移除...",
+    "Installing...": "正在安装...",
+    "Uninstalling...": "正在卸载...",
+    "Enabling...": "正在启用...",
+    "Disabling...": "正在禁用...",
+    "Updating...": "正在更新...",
+    "Deleting...": "正在删除...",
+    "Reloading...": "正在重新加载...",
+    "Restart": "重启",
+
+    "Working": "处理中",
+    "Send Message": "发送消息",
+    "Send Message Enter": "发送消息 Enter",
+    "Find": "查找",
+    "No Results": "无结果",
+    "Previous Match (Shift+Enter)": "上一个匹配项 (Shift+Enter)",
+    "Next Match (Enter)": "下一个匹配项 (Enter)",
+    "Close (Escape)": "关闭 (Esc)",
+    "Match Case (Aa)": "区分大小写 (Aa)",
+    "Match Whole Word (ab)": "全字匹配 (ab)",
+    "Use Regular Expression (.*)": "使用正则表达式 (.*)",
+    "View Stacked Diff": "堆叠对比视图",
+    "Agent Edits": "智能体修改",
+    "Unread": "未读",
+
+    "Projects (Archived)": "项目（已归档）",
+    "Are you sure you want to delete the project": "确定要删除项目",
+    "This will permanently delete": "此操作将永久删除其中的",
+    "within it.": "。",
+    "Search or enter a URL": "搜索或输入网址",
+    "Open File": "打开文件",
+    "Side Question": "侧边提问",
+    "See all": "查看全部",
+    "Save Comment": "保存批注",
+    "Connection is secure": "连接是安全的",
+    "Connection is not secure": "连接不安全",
+    "Your information (for example, passwords or credit card numbers) is private when it is sent to this site.": "你的信息（例如密码或信用卡号）在发送到此网站时会保持私密。",
+    "Certificate is valid": "证书有效",
+    "Certificate is not valid": "证书无效",
+    "Issued to": "颁发给",
+    "Issued by": "颁发者",
+    "Valid until": "有效期至",
+    "Protocol": "协议",
+    "Cookies and site data": "Cookie 与网站数据",
+    "Clear cookies and site data": "清除 Cookie 与网站数据",
+    "Downloads": "下载记录",
+    "No recent downloads": "暂无最近下载",
+    "Ask a side question without interrupting the main conversation": "发起侧边提问，不打断当前主对话",
+    "No swarm in this conversation": "当前对话中暂无蜂群任务",
+    "Swarms started in this conversation appear here automatically, with their board, members and @mention graph. Start one with": "在本对话中启动的蜂群任务会自动显示在此处（包含消息板、成员列表与 @提及关系图）。使用以下命令启动：",
+    "Open this pane from a conversation to see its swarm. Swarms started there appear here automatically; start one with": "从某个对话中打开此面板即可查看其蜂群任务。在该对话中启动的蜂群会自动显示在此处；使用以下命令启动：",
+    "Watching for a swarm": "正在监听蜂群任务",
+    "Export Artifact": "导出产物",
+    "Export as PDF": "导出为 PDF",
+
+    "Select a folder.": "选择一个文件夹。",
+    "Conversation Archived": "对话已归档",
+    "View archived in the sidebar (": "在侧边栏的（",
+    "menu).": "菜单）中查看已归档对话。",
+    "Pinned Conversations": "置顶对话",
+    "Sort By": "排序方式",
+    "Delete Conversation": "删除对话",
+    "Are you sure you want to delete this conversation? This action cannot be undone.": "确定要删除此对话吗？此操作无法撤销。",
+    "Task not found": "未找到任务",
+    "For Turn": "当前轮次",
+    "For Conversation": "整个对话",
+    "All Changes": "全部变更",
+    "View Split Diff": "分栏对比视图",
+    "View Unified Diff": "统一对比视图",
+    "Hide Whitespace Changes": "隐藏空白字符变更",
+    "Show Whitespace Changes": "显示空白字符变更",
+    "Collapse All": "全部折叠",
+    "Expand All": "全部展开",
+    "Leave a comment": "添加批注",
+    "Add Comment": "添加批注",
+    "Edit Comment": "编辑批注",
+    "Delete Comment": "删除批注",
+    "Comment": "批注",
+    "Quote": "引用",
+
+    "now": "刚刚",
+    "SSH Host...": "SSH 主机...",
+    "Copy Project Name": "复制项目名称",
+    "Show in File Explorer": "在文件资源管理器中显示",
+    "Delete Project": "删除项目",
+    "New Conversation in Project": "在项目中新建对话",
+    "Archive Conversation": "归档对话",
+    "Updated": "更新于",
+    "Mark Unread": "标为未读",
+    "Mark Read": "标为已读",
+    "Started voice chat": "已开启语音对话",
+    "Stopped voice chat": "已结束语音对话",
+    "Voice transcript": "语音文字记录",
+    "Good Response": "回答不错",
+    "Bad Response": "回答不佳",
+    "Undo to this point": "撤销到此节点",
+    "Zoom in (+)": "放大 (+)",
+    "Zoom out (-)": "缩小 (-)",
+    "Reset zoom (0)": "重置缩放 (0)",
+    "Edited": "已编辑",
+    "Editing": "正在编辑",
+    "Reading": "正在读取",
+    "Writing": "正在写入",
+    "Creating": "正在创建",
+    "Searching": "正在搜索",
+    "Analyzing": "正在分析",
+    "Planning": "正在规划",
+    "Checking": "正在检查",
+    "Building": "正在构建",
+    "Testing": "正在测试",
+    "Inspecting": "正在检查",
+    "Reviewing": "正在审查",
+    "Viewing": "正在查看",
+    "Listing": "正在列出",
+    "Finding": "正在查找",
+    "Fetching": "正在获取",
+    "Executing": "正在执行",
+    "Preview is not available for this file type.": "此文件类型暂不支持预览。",
+    "Keep Open": "保持打开",
+    "Close Other Tabs": "关闭其他标签页",
+    "Close Tabs to the Left": "关闭左侧标签页",
+    "Close Tabs to the Right": "关闭右侧标签页",
+    "Close All Tabs": "关闭全部标签页",
+    "Close Saved Tabs": "关闭已保存标签页",
+    "Pin Tab": "固定标签页",
+    "Unpin Tab": "取消固定标签页",
+    "Duplicate Tab": "复制标签页",
+    "Drag to select a region to comment": "拖动以选择要批注的区域",
+    "Created": "已创建",
+    "Deleted": "已删除",
+    "Analyzed": "已分析",
+    "Searched": "已搜索",
+    "Ran command, edited file": "已运行命令、编辑文件",
+    "Ran command, edited files": "已运行命令、编辑多个文件",
+    "Ran commands, edited file": "已运行多条命令、编辑文件",
+    "Ran commands, edited files": "已运行多条命令、编辑多个文件",
+    "Ran command": "已运行命令",
+    "Ran commands": "已运行多条命令",
+    "Edited file": "已编辑文件",
+    "Edited files": "已编辑多个文件",
+    "Read file": "已读取文件",
+    "Read files": "已读取多个文件",
+    "Created file": "已创建文件",
+    "Created files": "已创建多个文件",
+    "Searched web": "已联网搜索",
+
+    "on the": "在每月",
+    "Version": "版本",
+    "Website": "官方网站",
+    "Sign in required.": "需要登录账号。",
+    "Sign in required": "需要登录",
+    "Global Permissions": "全局权限",
+    "Configure global allowed and denied resource permissions.": "配置全局允许与拒绝的资源权限。",
+    "Permission preset": "权限预设",
+    "Tool permissions": "工具权限",
+    "Tool Permissions": "工具权限",
+    "Modify permissions for file, terminal, and MCP tools.": "修改文件、终端与 MCP 工具的权限。",
+    "Network access rules": "网络访问规则",
+    "Configure allowed and denied URLs for reading.": "配置允许与拒绝读取的网址规则。",
+    "File access rules": "文件访问规则",
+    "Configure allowed and denied paths for file reads and writes.": "配置允许与拒绝读写的文件路径。",
+    "Terminal commands": "终端命令",
+    "Configure allowed terminal commands.": "配置允许执行的终端命令。",
+    "MCP tools": "MCP 工具",
+    "Configure external tools via Model Context Protocol.": "通过 Model Context Protocol (MCP) 配置外部工具。",
+    "Plugin permissions": "插件权限",
+    "Changes plugins can make without asking.": "插件无需询问即可执行的更改。",
+    "Network Permissions": "网络权限",
+    "Read URLs": "读取网址",
+    "Allow/deny agent read access to specific URLs or domains.": "允许或拒绝智能体读取特定网址或域名。",
+    "File Permissions": "文件权限",
+    "File reads": "文件读取",
+    "Allow/deny agent read access to specific files or directories.": "允许或拒绝智能体读取特定文件或目录。",
+    "File writes": "文件写入",
+    "Allow/deny agent write access to specific files or directories.": "允许或拒绝智能体写入特定文件或目录。",
+    "Terminal Commands": "终端命令",
+    "Allow/deny specific terminal commands.": "允许或拒绝执行特定终端命令。",
+    "MCP Tools": "MCP 工具",
+    "External tools the agent can call via Model Context Protocol.": "智能体可通过 Model Context Protocol (MCP) 调用的外部工具。",
+    "Enter tool name or server...": "输入工具名称或服务...",
+    "Enter file path or pattern...": "输入文件路径或匹配模式...",
+    "Enter command or pattern...": "输入命令或匹配模式...",
+    "Enter URL or domain...": "输入网址或域名...",
+    "Device name": "设备名称",
+    "A label for this computer when you connect from another device. Changing it reconnects.": "从其他设备连接时用于标识此电脑的名称。修改后将重新连接。",
+    "Scan the code to open this device in Remote Control, or": "扫描二维码在远程控制中打开此设备，或",
+    "copy link": "复制链接",
+    "System UI": "系统默认字体",
+    "Legacy Light": "经典浅色",
+    "Legacy Dark": "经典深色",
+    "Chat Layout": "对话布局",
+    "Configure the maximum width of the conversation panel.": "配置对话面板的最大宽度。",
+    "Narrow": "较窄",
+    "Fill": "铺满",
+    "Accessibility": "无障碍辅助",
+    "Screen reader mode": "屏幕阅读器模式",
+    "Optimize the interface and terminal output for screen readers.": "针对屏幕阅读器优化界面与终端输出。",
+    "No keyboard shortcuts found matching your filter.": "未找到匹配筛选条件的快捷键。",
+    "Edit Shortcut": "编辑快捷键",
+    "Remove Shortcut": "移除快捷键",
+    "Add Shortcut": "添加快捷键",
+    "Available AI credits:": "可用 AI 额度：",
+    "See Activity": "查看明细",
+    "Get More AI Credits": "获取更多 AI 额度",
+    "Models within this group:": "此分组包含的模型：",
+    "Thinking for": "已思考",
+    "Thought for": "思考了",
+    "Configure built-in browser, link opening, and browser subagent preferences.": "配置内置浏览器、链接打开方式与浏览器子智能体偏好。",
+    "Built-in Browser": "内置浏览器",
+    "Open links in": "链接打开方式",
+    "Choose where links open by default when clicked.": "选择点击链接时默认打开的位置。",
+    "External Browser": "外部浏览器",
+    "Download location": "下载位置",
+    "Folder where files downloaded in the built-in browser are saved.": "内置浏览器下载文件的保存目录。",
+    "Change...": "更改...",
+    "Browsing history": "浏览历史",
+    "Clear visited URLs and autocomplete suggestions from the built-in browser.": "清除内置浏览器中访问过的网址与自动补全建议。",
+    "Browser Subagent": "浏览器子智能体",
+    "Browser actuation rules": "浏览器操作规则",
+    "Configure allowed and denied URLs for the browser subagent. It runs in the built-in browser, so no separate browser install is needed.": "配置浏览器子智能体允许与拒绝访问的网址。它运行在内置浏览器中，无需单独安装浏览器。",
+    "Browser Actuation Permissions": "浏览器操作权限",
+    "Execute URLs": "可执行网址",
+    "Allow/deny agent browser actuation access to specific URLs.": "允许或拒绝智能体在特定网址上执行浏览器操作。",
+    "Download files": "下载文件",
+    "Allow/deny agent browser file downloads from specific sites.": "允许或拒绝智能体浏览器从特定站点下载文件。",
+    "Manage project folders and settings.": "管理项目文件夹与设置。",
+    "Settings for conversations outside of projects.": "用于管理不属于任何项目的独立对话设置。",
+    "The breakdown below shows token usage from customizations like rules, skills, and MCP. If a budget is exceeded, large rules are demoted to path pointers and large customizations are excluded automatically.": "下方明细展示了规则、技能与 MCP 等自定义配置的 Token 占用情况。若超出预算，大型规则会自动降级为路径引用，大型自定义配置将被自动排除。",
+    "There are no customizations enabled.": "当前未启用任何自定义配置。",
+    "Global": "全局",
+    "Danger Zone": "危险区域",
+    "Delete project": "删除项目",
+    "Permanently delete": "永久删除",
+    "including": "，包括",
+    "Feedback Type": "反馈类型",
+    "Bug Report": "缺陷报告",
+    "Feature Request": "功能建议",
+    "Auth and Billing": "账号与计费",
+    "Remote Control Issue": "远程控制问题",
+    "General Feedback": "常规反馈",
+    "Description": "问题描述",
+    "Please describe the issue in detail. The more actionable your feedback, the quicker our team can address your request. Some helpful information includes:": "请详细描述遇到的问题。反馈越具体，我们团队就越快能够处理。以下信息会很有帮助：",
+    "Steps to reproduce the issue": "复现问题的步骤",
+    "Expected behavior": "预期行为",
+    "Actual behavior": "实际行为",
+    "Any error messages": "相关错误信息",
+    "Any relevant information": "其他相关信息",
+    "Describe the bug you encountered...": "描述你遇到的缺陷...",
+    "Steps to Reproduce": "复现步骤",
+    "Please list the steps to reproduce the issue": "请列出复现该问题的步骤",
+    "Attach a screenshot (optional)": "附加截图（可选）",
+    "Attach Antigravity server logs": "附加 Antigravity 服务日志",
+    "Submit": "提交",
+    "Visit": "访问",
+    "Legal Help": "法律帮助",
+    "to ask for content changes for legal reasons.": "以因法律原因请求更改内容。",
+    "Manage your plan, credentials, and general preferences.": "管理你的订阅方案、凭据与常规偏好设置。",
+    "Enable telemetry": "启用遥测数据",
+    "When toggled on, Antigravity collects usage data to help Google enhance performance and features.": "开启后，Antigravity 会收集使用数据，帮助 Google 改进性能与功能。",
+    "Marketing emails": "营销与产品邮件",
+    "Receive product updates, tips, and promotions from Google Antigravity via email.": "通过电子邮件接收 Google Antigravity 的产品更新、使用技巧与推广信息。",
+    "Email": "电子邮箱",
+    "Remote Agents Data": "远程智能体数据",
+    "Delete all Remote Agents data": "删除所有远程智能体数据",
+    "Permanently delete your remote conversations, projects, scheduled tasks, connected plugins and settings. Data in the desktop app and your Google account are not affected.": "永久删除你的远程对话、项目、定时任务、已连接插件与设置。桌面应用本地数据及你的 Google 账号不受影响。",
+    "Delete All Data": "删除所有数据",
+    "By using this app, you agree to its": "使用本应用即表示你同意其",
+    "Please describe the feature you'd like to see. The more detailed the requirements, the easier it will be for our team to incorporate your ideas. Some helpful information includes:": "请描述你希望看到的功能。需求越详细，我们团队就越容易采纳你的想法。以下信息会很有帮助：",
+    "What is missing in your workflow": "当前工作流中缺少什么",
+    "What you would like to see to address this gap in your workflow": "你希望通过什么功能来弥补这一缺失",
+    "How this feature would help you and other users": "此功能将如何帮助你和其他用户",
+    "Describe the feature you would like to see...": "描述你希望看到的功能...",
+    "Please describe your auth or billing issue. More details will help our support team resolve your issue quicker. Some helpful information includes:": "请描述你遇到的账号或计费问题。更多细节有助于支持团队更快为你解决。以下信息会很有帮助：",
+    "What quota or feature is being incorrectly limited": "哪些配额或功能受到了错误限制",
+    "What functionality you expect your account tier to have available that is missing": "你期望当前账号等级应具备但缺失的功能",
+    "Any error messages seen when trying to log in": "登录时看到的任何错误信息",
+    "Describe your auth or billing issue...": "描述你的账号或计费问题...",
+    "Use this form if you cannot connect to Remote Control. If your instance is already connected and you are experiencing issues in the browser, report directly from the Remote Control web page so that relevant logs are included. Some helpful information includes:": "如果你无法连接到远程控制，请使用此表单。如果实例已连接但在浏览器中遇到问题，请直接从远程控制网页提交反馈以附带相关日志。以下信息会很有帮助：",
+    "Whether it never connects or is intermittent/flaky": "是完全无法连接，还是间歇性/不稳定断连",
+    "Did restarting the desktop app help?": "重启桌面应用是否有所帮助？",
+    "Describe your Remote Control issue...": "描述你的远程控制问题...",
+    "For any feedback that does not fit into the above categories.": "适用于不属于以上任何分类的其他反馈。",
+    "Enter your feedback here...": "在此输入你的反馈...",
+    "Delete All Remote Agents Data?": "确定删除所有远程智能体数据？",
+    "This permanently deletes all of your Remote Agents conversations, projects, scheduled tasks, connected plugins and settings, and stops any running remote agents. It can't be undone. Data in the desktop app and your Google account are not affected, and you can keep using Remote Agents afterwards.": "此操作将永久删除你所有的远程智能体对话、项目、定时任务、已连接插件与设置，并停止所有正在运行的远程智能体，且无法撤销。桌面应用本地数据及你的 Google 账号不受影响，之后仍可继续使用远程智能体。",
+    "Welcome to Antigravity!": "欢迎使用 Antigravity！",
+    "Continue with Google": "使用 Google 账号继续",
+    "Use Business Account": "使用企业账号",
+    "Having trouble signing in?": "登录遇到问题？",
+    "Failed to create automation.": "创建自动化任务失败。",
+    "Agents created by this automation run in a dedicated project with its own permissions. You can change the permissions in the project settings page.": "此自动化任务创建的智能体将在拥有独立权限的专属项目中运行。你可以在项目设置页面更改权限。",
+    "Next run": "下次运行",
+    "Last run": "上次运行",
+    "No runs yet": "暂无运行记录",
+    "Manage Permissions": "管理权限",
+    "Run Now": "立即运行",
+    "View Logs": "查看日志",
+    "Manage project folders, agent settings, and permissions.": "管理项目文件夹、智能体设置与权限。",
+    "No folders added yet.": "暂未添加文件夹。",
+    "Permission Settings": "权限设置",
+    "This project was created for the": "此项目是为自动化任务",
+    "automation. Also includes": "创建的。在此项目中工作时也包含",
+    "when working in this project.": "。",
+    "This project is managed by the": "此项目由自动化任务",
+    "automation and can only be deleted by deleting that automation.": "管理，只能通过删除该自动化任务来一并删除。",
+    "SCHEDULE": "计划时间",
+    "Schedule": "计划时间",
+    "AGENT": "智能体",
+    "Runs": "运行记录",
+    "Paused. Resume it to schedule the next run.": "已暂停。恢复启用后将安排下次运行。",
+    "Task Logs": "任务日志",
+    "Delete Task": "删除任务",
+    "? This action cannot be undone.": " 吗？此操作无法撤销。",
+    "Standalone": "独立对话",
+    "Run tests and rebuild": "运行测试并重新编译",
+    "Explored files, ran commands": "已浏览文件、运行命令",
+    "Explored files, ran command": "已浏览文件、运行命令",
+    "Explored files": "已浏览文件",
+    "Explored file": "已浏览文件",
+    "Explored files, edited file": "已浏览文件、编辑文件",
+    "Explored files, edited files": "已浏览文件、编辑多个文件",
+    "Explored files, ran command, edited file": "已浏览文件、运行命令、编辑文件",
+    "Explored files, ran commands, edited files": "已浏览文件、运行多条命令、编辑多个文件",
+    "Edited artifact": "已编辑产物",
+    "Edited artifacts": "已编辑多个产物",
+    "Created artifact": "已创建产物",
+    "Created artifacts": "已创建多个产物",
+    "Read artifact": "已读取产物",
+    "Proceeded with": "已确认执行",
+    "Optimization Plan": "优化方案",
+    "in the sandbox": "（沙箱内）",
+    "outside the sandbox": "（沙箱外）",
+    "Ran in the sandbox": "已在沙箱中运行",
+    "Ran outside the sandbox": "已在沙箱外运行",
+    "Cancel (Ctrl+D)": "取消生成 (Ctrl+D)",
+    "Permissions cannot be changed while the agent is running": "智能体运行期间无法更改权限",
+    "Model cannot be changed while the agent is running": "智能体运行期间无法切换模型",
+    "Queue Message": "排队发送消息",
+    "Queue Message Enter": "排队发送消息 Enter",
+    "Queue Message Ctrl+Enter": "排队发送消息 Ctrl+Enter",
+    "Edit Conversation Title": "编辑对话标题",
+    "Downloading Update": "正在下载更新",
+    "Loading plugin...": "正在加载插件...",
+    "Modify permissions for file and terminal tools.": "修改文件与终端工具的权限。",
+    "Queue until after the current turn.": "排队等待当前轮次结束后发送。",
+    "Interrupt the agent and send immediately.": "中断智能体并立即发送。",
+    "Enter Queues after the turn": "Enter：当前轮次后排队发送",
+    "Queues after the turn": "当前轮次后排队发送",
+    "Alt+Enter Sends immediately": "Alt+Enter：立即发送",
+    "Sends immediately": "立即发送",
+    "Alt+Enter On empty prompt, sends next in queue": "Alt+Enter：输入框为空时发送队列下一条",
+    "On empty prompt, sends next in queue": "输入框为空时发送队列下一条",
+    "Press Enter to send, Shift+Enter for a new line.": "按 Enter 发送，按 Shift+Enter 换行。",
+    "Press Ctrl+Enter to send, Enter for a new line.": "按 Ctrl+Enter 发送，按 Enter 换行。",
+    "How loud Antigravity's voice is.": "调整 Antigravity 的语音播放音量。",
+    "Voice volume": "语音音量",
+    "Confident and clear": "自信清晰",
+    "Warm and engaging": "温暖亲和",
+    "Deep and velvety": "低沉柔和",
+    "Light and precise": "轻快精准",
+    "Go to Accounts": "前往账号设置",
+    "Display Options": "显示选项",
+    "Create New Project": "创建新项目",
+    "Group By": "分组方式",
+    "Project": "项目",
+    "Sort Projects": "项目排序",
+    "Custom Order": "自定义顺序",
+    "Alphabetical": "按名称排序",
+    "Most Recent": "按最近活跃",
+    "Display": "显示内容",
+    "Auto Pin": "自动置顶",
+    "Archived Only": "仅看已归档",
+    "Mark All as Read": "全部标为已读",
+    "Status": "状态",
+    "None": "无",
+    "Today": "今天",
+    "Yesterday": "昨天",
+    "Last 7 days": "最近 7 天",
+    "Last 30 days": "最近 30 天",
+    "All Time": "全部时间",
+    "Just now": "刚刚",
+    "Subtitles": "副标题显示",
+    "Worktree": "工作树 (Worktree)",
+    "Decorations": "状态标记",
+
+    "Summarize this design doc and list the open questions": "总结这份设计文档并列出待解决的问题",
+    "Draft a launch announcement in a new doc from my notes": "根据我的笔记在新文档中起草一份发布公告",
+    "Reply to the open comments on my doc and resolve them": "回复文档中未解决的评论并将其标记为已解决",
+    "Read and write your Google Docs. Summarize any doc from its link, draft proposals and announcements in a new doc, and reply to and resolve open comments.": "读写你的 Google 文档。根据链接总结任意文档、在新文档中起草方案与公告，并回复及解决未关闭的评论。",
+
+    "restore_page": "↺",
+    "Monday": "星期一",
+    "Tuesday": "星期二",
+    "Wednesday": "星期三",
+    "Thursday": "星期四",
+    "Friday": "星期五",
+    "Saturday": "星期六",
+    "Sunday": "星期日",
+    "See more": "查看更多",
+    "Bundled With the App": "应用内置",
+    "Copy Path": "复制路径",
+    "Add MCP Server": "添加 MCP 服务",
+    "Delete MCP Server": "删除 MCP 服务",
+    "Search MCP servers by name": "按名称搜索 MCP 服务",
+    "Search for MCP servers to add to your configuration": "搜索要添加到配置中的 MCP 服务",
+    "Loading MCP servers...": "正在加载 MCP 服务...",
+    "Setup required": "需要配置",
+    "Setup Required": "需要配置",
+    "Authenticate": "身份验证",
+    "Re-authenticate": "重新验证",
+    "Authenticated": "已验证",
+    "Authenticating...": "正在验证...",
+    "Not authenticated": "未验证",
+    "Are you sure you want to delete": "确定要删除",
+    "? This will remove it from your MCP configuration.": " 吗？此操作将从你的 MCP 配置中移除该服务。",
+    "MCP server": "MCP 服务",
+    "MCP Server": "MCP 服务",
+    "Prerequisites": "前置条件",
+    "Example prompts": "示例提示词",
+    "Example Prompts": "示例提示词",
+    "Resources": "相关资源",
+    "Getting Started": "快速开始",
+    "Quick Start": "快速开始",
+    "Installation": "安装说明",
+    "Configuration": "配置说明",
+    "Features": "功能特性",
+    "Requirements": "环境要求",
+    "Troubleshooting": "故障排查",
+    "API key:": "API 密钥：",
+    "SDK installation:": "SDK 安装：",
+    "CLI installation": "CLI 安装",
+    "Interactions API Guide": "Interactions API 指南",
+    "GitHub Repository": "GitHub 代码仓库",
+    "Added": "已添加",
+    "UI Plugins": "UI 插件",
+    "UI plugins": "UI 插件",
+    "Live view of the native swarm board, roster and @mention graph for the current conversation's swarm.": "实时查看当前对话的蜂群消息板、成员列表与 @提及关系图。",
+    "Agents": "智能体",
+    "Prompts": "提示词",
+    "Tools": "工具",
+    "Author": "作者",
+    "Homepage": "主页",
+    "Repository": "代码仓库",
+    "License": "许可证",
+    "Configure": "配置",
+    "Requires Authentication": "需要登录认证",
+    "Sign in to use": "登录后使用",
+
+    "Set up Firebase in my app and connect it to a Firebase project": "在我的应用中配置 Firebase 并连接到 Firebase 项目",
+    "Add Firebase Authentication with Google sign-in to my app": "为我的应用添加支持 Google 登录的 Firebase 身份认证",
+    "Write and audit Firestore security rules for my data model": "为我的数据模型编写并审计 Firestore 安全规则",
+
+    "Split": "拆分视图",
+    "Split Right": "向右拆分",
+    "Split Down": "向下拆分",
+    "Replace with New": "替换为新对话",
+    "Conversation Name": "对话名称",
+    "Conversation ID": "对话 ID",
+    "Customize Sections": "自定义分区",
+    "Pull Requests": "拉取请求 (PR)",
+    "Side Questions": "侧边提问",
+    "Goals": "目标",
+    "Documents": "文档",
+    "Links": "链接",
+    "Modified Files": "已修改文件",
+    "Uploads": "已上传文件",
+    "Skills Used": "已使用技能",
+    "Walkthrough": "实施总结",
+    "Implementation Plan": "实施方案",
+    "Maximize Pane": "最大化面板",
+    "Restore Pane": "还原面板",
+    "Toggle sidebar": "切换侧边栏",
+
+    "Repeat every": "重复周期：每",
+    "hours": "小时",
+    "day": "天",
+    "days": "天",
+    "week": "周",
+    "weeks": "周",
+    "month": "月",
+    "months": "月",
+    "on": "在",
+    "See less": "收起",
+    "Copy Config File Path": "复制配置文件路径",
+    "Make your coding agent a better engineer": "强化你的编程智能体，打造更高效的工程化工作流。",
+    "Google does not control the availability or functionality of third party developer tools. Your data from third party developer tools connected to your Antigravity instance may be shared with Google. Google will protect any such data in accordance with the Google Privacy Policy, found here:": "Google 不控制第三方开发工具的可用性或功能。连接到你 Antigravity 实例的第三方开发工具数据可能会与 Google 共享。Google 将按照 Google 隐私政策保护此类数据，详情见：",
+
+    "Create with Prompt": "用提示词创建",
+    "No automations yet": "暂无自动化任务",
+    "No automations": "暂无自动化任务",
+    "Run a prompt on a schedule, like a morning summary of yesterday's changes. Runs show up here.": "按计划定时运行提示词（例如每天早晨总结昨天的变更），运行记录将显示在此处。",
+    "Untitled": "未命名",
+    "Required": "必填",
+    "This computer": "本机电脑",
+    "Uses your local files and tools. Schedules only.": "使用你的本地文件与工具，仅支持定时触发。",
+    "Trigger": "触发方式",
+    "Scheduled": "定时触发",
+    "Every hour": "每小时",
+    "Every day": "每天",
+    "Every weekday": "每个工作日",
+    "Every week": "每周",
+    "Custom...": "自定义...",
+    "at": "于",
+    "Instructions": "执行指令",
+    "What should the agent do on each run? For example: summarize new bugs assigned to me and anything that changed overnight.": "智能体每次运行时应执行什么任务？例如：总结分配给我的新 Bug 以及昨夜的代码变更。",
+    "Required to create: title, instructions": "创建前需填写：标题、执行指令",
+    "Required to create: title": "创建前需填写：标题",
+    "Required to create: instructions": "创建前需填写：执行指令",
+
+    "Search customizations...": "搜索自定义配置...",
+    "Featured": "精选推荐",
+    "Details": "详情",
+    "Find skills, agents, and more in the Marketplace.": "在插件市场中发现更多技能、智能体与插件。",
+    "Browse the Marketplace": "浏览插件市场",
+    "Skills & Rules": "技能与规则",
+    "Built In": "内置",
+    "Custom Agents": "自定义智能体",
+    "No custom agents yet.": "暂无自定义智能体。",
+    "No MCP servers yet. Use Add to browse the store.": "暂无 MCP 服务，点击「添加」浏览商店。",
+    "Create a Plugin with the Agent": "让智能体帮你创建插件",
+
+    "Connect to Google Workspace, including Docs, Sheets, Slides, Drive, Calendar, and Gmail.": "连接 Google Workspace，涵盖文档、表格、幻灯片、云端硬盘、日历与 Gmail。",
+    "Build with Google": "Google 开发者平台",
+    "Build on Google's developer platforms, including Android, Chrome, Gemini, and Google Cloud.": "基于 Android、Chrome、Gemini 与 Google Cloud 等 Google 开发者平台构建应用。",
+    "Design, Creative & Media": "设计、创意与媒体",
+    "Design, creative, and media tools.": "设计、创意与多媒体工具。",
+    "Science": "科学研究",
+    "Agent skills, databases, and interactive viewers for scientific research.": "面向科学研究的智能体技能、数据库与交互式查看器。",
+    "Productivity & Project Management": "效率与项目管理",
+    "Plan work, track issues, sign documents, and manage your notes and files.": "规划工作、追踪问题、签署文档以及管理笔记与文件。",
+    "Cloud Hosting & Deployment": "云托管与部署",
+    "Deploy and host your apps, sites, and their backends.": "部署并托管你的应用、网站与后端服务。",
+    "Developer Tools": "开发者工具",
+    "APIs, services, and tools to build, test, secure, and run your apps.": "用于构建、测试、保护和运行应用的 API、服务与工具。",
+    "Business": "商业与企业服务",
+    "Payments, CRM, accounting, data, identity, customer support, marketing, and workflow automation.": "支付、CRM、财务、数据、身份认证、客服、营销与工作流自动化。",
+    "More Plugins": "更多插件",
+    "Explore other marketplace customizations": "探索插件市场中的更多自定义扩展",
+
+    "Read, draft, and edit docs.": "阅读、起草和编辑文档。",
+    "Read, write, and format spreadsheets.": "读取、编写和格式化电子表格。",
+    "Read, edit, and export presentations.": "阅读、编辑和导出演示文稿。",
+    "Search, upload, download, and share files.": "搜索、上传、下载和分享文件。",
+    "Check availability, schedule events, and RSVP.": "查看空闲时间、安排日程活动与回复邀请。",
+    "Search, read, draft, and send emails in Gmail.": "在 Gmail 中搜索、阅读、起草和发送邮件。",
+    "Core tools and knowledge required to develop for Android.": "Android 开发所需的核心工具与知识库。",
+    "Using the Google Antigravity Python SDK to build AI agents": "使用 Google Antigravity Python SDK 构建 AI 智能体。",
+    "Integration skill and tools for Google Maps Platform APIs": "Google Maps Platform API 集成技能与工具。",
+    "Antigravity for science highlights, and an overview of the main science plugins.": "Antigravity 科研能力亮点及核心科研插件概览。",
+    "Prototype, build & run modern apps that users love with Firebase's backend, AI, and operational infrastructure.": "借助 Firebase 后端、AI 与运维基础设施，快速原型设计、构建并运行现代应用。",
+
+    "Commands": "命令",
+    "Search for commands...": "搜索命令...",
+    "Search for files in the project...": "在项目中搜索文件...",
+    "Search for conversations...": "搜索对话...",
+    "Search projects...": "搜索项目...",
+    "Recent Files": "最近文件",
+    "Untitled Conversation": "未命名对话",
+    "Outside of Project": "项目之外",
+    "Collapse All Folders": "折叠所有文件夹",
+    "Expand All Folders": "展开所有文件夹",
+    "Select Next Conversation": "选择下一个对话",
+    "Select Previous Conversation": "选择上一个对话",
+    "Move Conversation Up": "向上移动对话",
+    "Move Conversation Down": "向下移动对话",
+    "Open Keyboard Shortcuts": "打开快捷键设置",
+    "Provide Feedback": "提交反馈",
+    "Next Side Panel Tab": "下一个侧边面板标签页",
+    "Previous Side Panel Tab": "上一个侧边面板标签页",
+    "Download Diagnostics": "下载诊断信息",
+    "Toggle Between Light/Dark Themes": "切换浅色/深色主题",
+    "Toggle Sidebar": "切换侧边栏",
+    "Toggle Side Panel": "切换右侧面板",
+    "Toggle Maximize Side Panel": "最大化/还原右侧面板",
+    "New Terminal Tab": "新建终端标签页",
+    "Toggle Terminal": "切换终端",
+    "Split Terminal": "拆分终端",
+    "Focus Input": "聚焦输入框",
+    "Open Settings": "打开设置",
+    "Go Back": "后退",
+    "Go Forward": "前进",
+    "Close Tab": "关闭标签页",
+    "New Tab": "新建标签页",
+    "Reopen Closed Tab": "重新打开已关闭的标签页",
+    "Split Conversation Horizontally": "水平拆分对话",
+    "Split Conversation Vertically": "垂直拆分对话",
+    "Find in Pane": "在面板中查找",
+    "Pin This Conversation": "置顶当前对话",
+    "Mark This Conversation as Unread": "将当前对话标为未读",
+    "Rename This Conversation": "重命名当前对话",
+    "Archive This Conversation": "归档当前对话",
+    "Jump to Previous Prompt": "跳转到上一条提问",
+    "Jump to Next Prompt": "跳转到下一条提问",
+    "Copy Conversation Markdown": "复制对话为 Markdown",
+    "Toggle Model Selector": "切换模型选择器",
+    "Toggle Voice Recording": "切换语音录制",
+    "Submit Prompt (Alternate to Enter)": "提交提问（替代回车键）",
+    "Find in Conversation": "在对话中查找",
+    "Toggle Overview Panel": "切换概览面板",
+    "File Picker": "文件选择器",
+    "Open Command Palette": "打开命令面板",
+    "Open Conversation Picker": "打开对话选择器",
+    "Open Project Picker": "打开项目选择器",
+
+    "Record Audio": "语音输入",
+    "Start Voice mode": "开启语音模式",
+    "Stop Recording": "停止录音",
+    "Finalizing...": "正在处理...",
+    "Choose Antigravity's Voice": "选择 Antigravity 的语音",
+    "Powered by Gemini Live · You can change this in": "由 Gemini Live 驱动 · 你稍后可以在",
+    "later.": "中更改。",
+    "Clear and friendly": "清晰友好",
+    "Warm and approachable": "温暖亲切",
+    "Calm and composed": "沉稳从容",
+    "Bright and energetic": "明快有活力",
+    "Deep and resonant": "低沉浑厚",
+    "Smooth and conversational": "自然流畅",
+    "Crisp and articulate": "清脆干练",
+    "Gentle and soothing": "温和舒缓",
+    "Expressive and lively": "生动活泼",
+    "Balanced and neutral": "均衡自然",
+    "Mute mic (Alt+M)": "静音麦克风 (Alt+M)",
+    "Unmute mic (Alt+M)": "取消静音 (Alt+M)",
+    "Mute": "静音",
+    "Unmute": "取消静音",
+    "Muted": "已静音",
+    "End": "结束",
+    "Listening. Ask anything.": "正在聆听，请随时提问。",
+    "Speaking...": "正在说话...",
+
+    "Low": "低",
+    "Medium": "中",
+    "High": "高",
+    "Minimal": "极简",
+    "Max": "最高",
+    "New": "新",
+
+    "New Conversation": "新建对话",
+    "New Chat": "新建对话",
+    "New Thread": "新建对话",
+    "Conversations": "对话列表",
+    "Recent Conversations": "最近对话",
+    "All Conversations": "全部对话",
+    "Projects": "项目",
+    "Workspaces": "工作区",
+    "Add Project": "添加项目",
+    "Open Project": "打开项目",
+    "Open Folder": "打开文件夹",
+    "Switch Project": "切换项目",
+    "Scheduled Tasks": "定时任务",
+    "Automations": "自动化任务",
+    "New Schedule": "新建定时任务",
+    "Skills": "技能 (Skills)",
+    "Skills & Customizations": "技能与自定义",
+    "Customizations": "自定义配置",
+    "Rules": "规则 (Rules)",
+    "Plugins": "插件",
+    "Marketplace": "插件市场",
+    "Plugins Manager": "插件管理",
+    "MCP Servers": "MCP 服务",
+    "MCP": "MCP",
+    "Hooks": "钩子 (Hooks)",
+    "Sidecars": "边车服务",
+    "Inbox": "收件箱",
+    "Archive": "归档",
+    "Archived": "已归档",
+    "Pinned": "已置顶",
+    "Starred": "已星标",
+    "Search": "搜索",
+    "Search conversations": "搜索对话",
+    "Search settings": "搜索设置",
+    "Filter": "筛选",
+    "Sort": "排序",
+
+    "Subagents": "子智能体",
+    "Background Tasks": "后台任务",
+    "Tasks": "任务",
+    "Artifacts": "产物",
+    "Files Changed": "已更改文件",
+    "Changed Files": "已更改文件",
+    "Terminals": "终端",
+    "Terminal": "终端",
+    "Browser": "浏览器",
+    "Preview": "预览",
+    "Diff": "差异对比",
+    "Overview": "概览",
+    "Activity": "活动",
+    "Logs": "日志",
+    "Output": "输出",
+    "History": "历史记录",
+
+    "Settings": "设置",
+    "Application": "应用程序",
+    "Not in Project": "不属于任何项目",
+    "Give Feedback": "提交反馈",
+    "Configure agent execution, queued message delivery, and permissions.": "配置智能体执行方式、排队消息发送与权限管理。",
+    "Interface Layout": "界面布局",
+    "Knowledge Work": "知识工作",
+    "Simplified interface for research, writing, and everyday tasks.": "简洁界面，适合研究、写作与日常任务。",
+    "Software Engineering": "软件工程",
+    "Full interface for coding, developer tools, and managing agents.": "完整界面，适用于编程、开发者工具与管理智能体。",
+    "Configure what the agent can do in local and remote conversations.": "配置智能体在本地和远程对话中可执行的操作。",
+    "Controls the actions the agent can take.": "控制智能体在本机可执行的操作。",
+    "Controls permissions for remote conversations.": "控制远程对话的权限策略。",
+    "Advanced": "高级",
+    "Input Box": "输入框",
+    "Queued messages": "排队消息",
+    "Configure when follow-up messages are sent.": "配置后续追问消息的发送时机。",
+    "Queue": "排队发送",
+    "Send Immediately": "立即发送",
+    "Keyboard shortcuts": "快捷键",
+    "Send message": "发送消息",
+    "Choose which key sends a message in the chat composer.": "选择在对话输入框中发送消息的按键。",
+    "Voice mode": "语音模式",
+    "Voice": "语音",
+    "The voice used in Voice mode. Powered by Gemini Live.": "语音模式使用的音色，由 Gemini Live 驱动。",
+    "Change": "更改",
+    "Microphone": "麦克风",
+    "Input device for voice mode and dictation.": "用于语音模式与语音听写的输入设备。",
+    "System default": "系统默认",
+    "Manage Antigravity app settings.": "管理 Antigravity 应用程序设置。",
+    "Prevent sleep": "防止系统休眠",
+    "Prevent the computer from sleeping while the app is running.": "在应用运行期间防止电脑进入休眠状态。",
+    "Keep in menu bar": "保留在托盘/菜单栏",
+    "Keep the app accessible from the menu bar and running in the background when all windows are closed.": "关闭所有窗口后仍保留在托盘/菜单栏中并在后台运行。",
+    "Remote Control": "远程控制",
+    "Enable Remote Control": "启用远程控制",
+    "Work with local agents from another device.": "从其他设备远程协作使用本机智能体。",
+    "Notification settings": "通知设置",
+    "To modify notification settings, open your operating system's system preferences.": "如需修改通知设置，请打开操作系统的系统偏好设置。",
+    "Open System Preferences": "打开系统偏好设置",
+    "App version": "应用版本",
+    "Advanced Settings": "高级设置",
+    "Automatic check for updates": "自动检查更新",
+    "Automatically prompt you to restart the app when a new update is available. When disabled, you can check for updates manually from the app menu.": "有新版本时自动提示重启更新。关闭后，可在应用菜单中手动检查更新。",
+    "Configure the agent's visual theme and display preferences.": "配置界面视觉主题与显示偏好。",
+    "Chat": "对话",
+    "Conversation steps": "对话步骤详情",
+    "Choose how much detail is shown during a conversation.": "选择对话过程中展示的步骤详细程度。",
+    "Verbose": "详细",
+    "Contrast": "对比度",
+    "Strong": "高对比",
+    "Font": "字体",
+    "Font size": "字体大小",
+    "Light Theme": "浅色主题",
+    "Dark Theme": "深色主题",
+    "Preset": "预设",
+    "Default Light": "默认浅色",
+    "Default Dark": "默认深色",
+    "Background": "背景色",
+    "Foreground": "前景色",
+    "Accent": "强调色",
+    "Code Preview": "代码预览",
+    "Keyboard shortcuts for quick navigation and control.": "用于快速导航与控制的键盘快捷键。",
+    "Search shortcuts...": "搜索快捷键...",
+    "Navigation": "导航",
+    "Open File Search": "打开文件搜索",
+    "Enter always submits. This adds a second shortcut.": "回车键始终可提交，此处用于添加第二个快捷键。",
+    "Cancel Generation": "取消生成",
+    "Mute Voice Mic": "静音语音麦克风",
+    "Mute Voice Speaker": "静音语音扬声器",
+    "Add to Chat/Quote": "添加到对话/引用",
+    "Comment on Selection": "对选中内容添加批注",
+    "Side Question Selection": "对选中内容发起侧边提问",
+    "Pin / Unpin Conversation": "置顶 / 取消置顶对话",
+    "Layout Controls": "布局控制",
+    "Terminal: Add to Chat": "终端：添加到对话",
+    "Terminal: Select All": "终端：全选",
+    "Manage your notification preferences.": "管理你的通知偏好设置。",
+    "Enable notifications for agent": "启用智能体通知",
+    "Show system notifications when your action is needed or the agent finishes.": "在需要你操作或智能体完成任务时显示系统通知。",
+    "Sound": "提示音",
+    "Enable sounds for agent": "启用智能体提示音",
+    "Play a sound when your action is needed or the agent finishes.": "在需要你操作或智能体完成任务时播放提示音。",
+    "Volume": "音量",
+    "Set the volume of agent sounds.": "设置智能体提示音的音量大小。",
+    "Models & Usage": "模型与用量",
+    "Manage your model quota and credits.": "管理你的模型配额与额度。",
+    "Plan": "订阅方案",
+    "You can upgrade to a Google AI Ultra plan to receive higher rate limits.": "你可以升级到 Google AI Ultra 方案以获得更高的速率限制。",
+    "Model Credits": "模型额度",
+    "Enable AI credit overages": "启用 AI 超额抵扣",
+    "When toggled on, Antigravity will use your AI credits to fulfill model requests once you're out of model quota. Antigravity will always use your model quota first before using AI credits.": "开启后，当模型配额耗尽时，Antigravity 将使用你的 AI 额度继续处理请求。系统始终优先消耗模型配额，再使用 AI 额度。",
+    "Orchestrator Settings": "编排器设置",
+    "Choose the models Orchestrator uses. A larger, smarter orchestrator model with a faster, cheaper executor gives high quality for fewer tokens.": "选择编排器使用的模型。用更强大的编排模型搭配更快速高效的执行模型，可在保证高质量的同时减少 Token 消耗。",
+    "Orchestrator Model": "编排模型",
+    "Plans the work, makes design decisions, and reviews the result. Pick a top-tier model. You can also pick one per conversation from the Orchestrator row in the model menu.": "负责任务规划、设计决策与结果审查，建议选择旗舰模型。你也可以在模型菜单的编排器栏中为单个对话单独指定。",
+    "Executor Model": "执行模型",
+    "Carries out the plan: searches, edits, builds, and tests. Pick a faster, cheaper model.": "负责具体执行计划：搜索、编辑、构建与测试，建议选择更快速经济的模型。",
+    "Weekly Limit Remaining": "每周剩余配额",
+    "Five Hour Limit Remaining": "5 小时剩余配额",
+    "You have not used any of your weekly limit.": "你尚未消耗本周配额。",
+    "You have not used any of your 5-hour limit.": "你尚未消耗本周期 5 小时配额。",
+    "Global Settings": "全局设置",
+    "Project Settings": "项目设置",
+    "Project-Level Settings": "项目级设置",
+    "General": "常规",
+    "Appearance": "外观",
+    "Theme": "主题",
+    "Theme mode": "主题模式",
+    "Light": "浅色",
+    "Dark": "深色",
+    "System": "跟随系统",
+    "Conversation width": "对话宽度",
+    "Compact": "紧凑",
+    "Default": "默认",
+    "Wide": "宽屏",
+    "Full": "全宽",
+    "Model": "模型",
+    "Models": "模型",
+    "Model Selection": "模型选择",
+    "Select Model": "选择模型",
+    "Permissions": "权限管理",
+    "Agent Permissions": "智能体权限",
+    "Security": "安全",
+    "Tool Execution Policy": "工具执行策略",
+    "Auto-Execution Policy": "自动执行策略",
+    "Always Proceed": "始终自动执行",
+    "Request Review": "执行前请求确认",
+    "Proceed in Sandbox": "在沙箱中自动执行",
+    "Strict": "严格模式",
+    "Terminal Sandbox": "终端沙箱",
+    "Sandbox Mode": "沙箱模式",
+    "Non-Workspace File Access": "工作区外文件访问",
+    "File Access Policy": "文件访问策略",
+    "Internet Access Policy": "网络访问策略",
+    "Internet Access": "网络访问",
+    "Permission Grants": "权限白名单/黑名单",
+    "Command Allowlist": "命令白名单",
+    "Command Denylist": "命令黑名单",
+    "Command Allowlist / Denylist": "命令白名单 / 黑名单",
+    "Browser Allowlist": "浏览器域名白名单",
+    "Notifications": "系统通知",
+    "App Settings": "应用设置",
+    "Keep computer awake": "运行时保持电脑唤醒",
+    "Run in background": "关闭窗口后后台运行",
+    "Auto-check for updates": "自动检查更新",
+    "Check for updates": "检查更新",
+    "Keyboard Shortcuts": "快捷键",
+    "Shortcuts": "快捷键",
+    "Account": "账号",
+    "Accounts": "账号",
+    "Connected Accounts": "已连接账号",
+    "Sign in": "登录",
+    "Sign In": "登录",
+    "Sign out": "退出登录",
+    "Sign Out": "退出登录",
+    "About": "关于",
+    "Feedback": "反馈",
+    "Help": "帮助",
+    "Documentation": "文档",
+
+    "Allow": "允许",
+    "Allow Once": "仅允许一次",
+    "Always Allow": "始终允许",
+    "Deny": "拒绝",
+    "Ask": "询问",
+    "Proceed": "继续执行",
+    "Continue": "继续",
+    "Approve": "批准",
+    "Reject": "拒绝",
+    "Accept": "接受",
+    "Accept All": "全部接受",
+    "Discard": "放弃",
+    "Cancel": "取消",
+    "Confirm": "确认",
+    "OK": "确定",
+    "Done": "完成",
+    "Close": "关闭",
+    "Save": "保存",
+    "Save Changes": "保存更改",
+    "Reset": "重置",
+    "Restore": "恢复",
+    "Apply": "应用",
+    "Enable": "启用",
+    "Enabled": "已启用",
+    "Disable": "禁用",
+    "Disabled": "已禁用",
+    "Install": "安装",
+    "Installed": "已安装",
+    "Uninstall": "卸载",
+    "Update": "更新",
+    "Upgrade": "升级",
+    "Add": "添加",
+    "Create": "创建",
+    "Edit": "编辑",
+    "Rename": "重命名",
+    "Delete": "删除",
+    "Remove": "移除",
+    "Clear": "清空",
+    "Refresh": "刷新",
+    "Reload": "重新加载",
+    "Retry": "重试",
+    "Stop": "停止",
+    "Pause": "暂停",
+    "Resume": "恢复",
+    "Run": "运行",
+    "Running": "运行中",
+    "Send": "发送",
+    "Copy": "复制",
+    "Copied": "已复制",
+    "Copied!": "已复制！",
+    "Paste": "粘贴",
+    "Share": "分享",
+    "Export": "导出",
+    "Import": "导入",
+    "Download": "下载",
+    "Upload": "上传",
+    "Open": "打开",
+    "Show more": "显示更多",
+    "Show less": "收起",
+    "Expand": "展开",
+    "Collapse": "折叠",
+    "Pin": "置顶",
+    "Unpin": "取消置顶",
+    "Star": "标星",
+    "Unstar": "取消标星",
+    "Unarchive": "取消归档",
+    "Duplicate": "复制副本",
+    "Back": "返回",
+    "Next": "下一步",
+    "Previous": "上一步",
+    "Skip": "跳过",
+    "Learn more": "了解更多",
+    "Review": "审阅",
+
+    "Thinking": "思考中",
+    "Thinking...": "思考中...",
+    "Thought": "思考过程",
+    "Working...": "处理中...",
+    "Loading...": "加载中...",
+    "Connecting...": "连接中...",
+    "Connected": "已连接",
+    "Disconnected": "已断开",
+    "Idle": "空闲",
+    "Completed": "已完成",
+    "Failed": "失败",
+    "Error": "错误",
+    "Warning": "警告",
+    "Success": "成功",
+    "Pending": "等待中",
+    "Queued": "排队中",
+    "Cancelled": "已取消",
+    "No results found": "未找到匹配结果",
+    "No conversations yet": "暂无对话",
+    "No active tasks": "暂无运行中的任务",
+    "No background tasks": "暂无后台任务",
+    "No files changed": "暂无文件变更",
+    "No artifacts": "暂无产物",
+    "No terminals": "暂无终端",
+    "Waiting for input": "等待输入",
+    "Ready": "就绪"
+  },
+  "attributes": {
+    "Ask anything...": "输入任何问题或指令...",
+    "Type a message...": "输入消息...",
+    "Send a message...": "发送消息...",
+    "Search...": "搜索...",
+    "Search conversations...": "搜索对话...",
+    "Search settings...": "搜索设置...",
+    "Search files...": "搜索文件...",
+    "Filter...": "筛选...",
+    "user@host:port": "用户名@主机:端口",
+    "Attach files": "附加文件",
+    "Upload image or file": "上传图片或文件",
+    "Close panel": "关闭面板",
+    "Copy to clipboard": "复制到剪贴板",
+    "Stop generating": "停止生成"
+  },
+  "patterns": [
+    {
+      "regex": "^Hey\\s+(.+?),\\s*what should we build today\\?$",
+      "replace": "你好 $1，今天想构建点什么？",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Welcome back,\\s*(.+?)\\.\\s*Where should we pick up\\?$",
+      "replace": "欢迎回来，$1。我们从哪里继续？",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Good to see you,\\s*(.+?)\\.\\s*What's next\\?$",
+      "replace": "很高兴见到你，$1。接下来做什么？",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Welcome back,\\s*(.+?)!$",
+      "replace": "欢迎回来，$1！",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Good to see you,\\s*(.+?)\\.$",
+      "replace": "很高兴见到你，$1。",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Enter\\s+\\[user@\\]host\\[:port\\].*?SSH config\\.\\s*Then create the project in its window\\.?$",
+      "flags": "s",
+      "replace": "输入 [user@]host[:port]，或从你的 SSH 配置中选择主机，然后在其窗口中创建项目。"
+    },
+    {
+      "regex": "^Comprehensive guide and reference for the Antigravity Customization System\\..*$",
+      "replace": "Antigravity 自定义系统完整指南与参考（技能、规则、插件、钩子与 MCP）。"
+    },
+    {
+      "regex": "^Provides a comprehensive guide, quick reference, and sitemap for Google Antigravity.*$",
+      "replace": "Google Antigravity (AGY) 完整使用指南、快速参考与功能导航。"
+    },
+    {
+      "regex": "^Interactive guide to design and create a scheduled background automation\\..*$",
+      "replace": "交互式引导设计并创建后台定时自动化任务。"
+    },
+    {
+      "regex": "^How to render rich interactive HTML widgets inline in the chat.*$",
+      "replace": "在对话或独立产物中渲染交互式 HTML 富媒体组件。"
+    },
+    {
+      "regex": "^Build, package, and debug MCP Apps for Antigravity:.*$",
+      "replace": "为 Antigravity 构建、打包和调试带交互界面的 MCP 应用。"
+    },
+    {
+      "regex": "^Migrates the user's MCP servers, skills, slash commands, subagents.*$",
+      "replace": "从 Claude Code、Codex、Cursor 等其他工具迁移 MCP、技能与配置。"
+    },
+    {
+      "regex": "^Automatically migrate legacy workflows to modern skills.*$",
+      "replace": "自动将旧版工作流迁移为新版 Skills 配置。"
+    },
+    {
+      "regex": "^How to manage and create plugins\\s*[—-].*$",
+      "replace": "管理与创建 Antigravity 插件（打包技能、规则、MCP 与钩子）。"
+    },
+    {
+      "regex": "^How to write and run a dynamic workflow script with the .*run_workflow.*$",
+      "replace": "使用 run_workflow 编写并运行多智能体 Python 编排工作流脚本。"
+    },
+    {
+      "regex": "^\\(Preview & Quota Heavy\\) Run a swarm:.*$",
+      "replace": "（预览版 · 较耗配额）启动蜂群模式：多个智能体并行协作完成同一任务。"
+    },
+    {
+      "regex": "^Manage local Antigravity conversations programmatically.*$",
+      "replace": "通过 HTTP+JSON 接口批量管理本地 Antigravity 对话。"
+    },
+    {
+      "regex": "^Discover UI plugin panels relevant to the current task.*$",
+      "replace": "发现并一键打开与当前任务相关的 UI 插件侧边栏面板。"
+    },
+    {
+      "regex": "^(.+?)\\s+will be removed from Antigravity on\\s+(.+?)\\.$",
+      "replace": "$1 将于 $2 从 Antigravity 中移除。"
+    },
+    {
+      "regex": "^ssh exited \\(exit code (\\d+)\\):\\s*banner exchange:\\s*Connection to\\s+(\\S+)\\s+port\\s+(-?\\d+):\\s*Connection refused$",
+      "replace": "SSH 已退出（退出码 $1）：握手失败，连接到 $2（端口 $3）被拒绝"
+    },
+    {
+      "regex": "^ssh exited \\(exit code (\\d+)\\):\\s*Connection closed by\\s+(\\S+)\\s+port\\s+(\\d+)$",
+      "replace": "SSH 已退出（退出码 $1）：连接已被 $2（端口 $3）关闭"
+    },
+    {
+      "regex": "^ssh exited \\(exit code (\\d+)\\):\\s*Host key verification failed\\.?$",
+      "replace": "SSH 已退出（退出码 $1）：主机密钥验证失败。"
+    },
+    {
+      "regex": "^ssh exited \\(exit code (\\d+)\\):\\s*(.*)$",
+      "replace": "SSH 已退出（退出码 $1）：$2"
+    },
+    {
+      "regex": "^Select Environment\\s*\\((.+?)\\)$",
+      "replace": "选择环境 ($1)"
+    },
+    {
+      "regex": "^Connecting to\\s+(.+?)\\.\\.\\.$",
+      "replace": "正在连接到 $1..."
+    },
+    {
+      "regex": "^Couldn't connect to\\s+(.+)$",
+      "replace": "无法连接到 $1"
+    },
+    {
+      "regex": "^No hosts in\\s+(.+?)\\s+yet\\.\\s*Type one above\\.$",
+      "replace": "$1 中暂无主机配置，请在上方输入。"
+    },
+    {
+      "regex": "^No hosts in\\s+(.+?)\\s+yet$",
+      "replace": "$1 中暂无主机配置"
+    },
+    {
+      "regex": "^Windows SSH hosts aren't supported yet\\.\\s*(.*)$",
+      "replace": "暂不支持 Windows SSH 主机。Antigravity 需要 x64 或 arm64 架构且 glibc >= 2.26 的 Linux 主机。"
+    },
+    {
+      "regex": "^Your\\s+(.+?)\\s+setting$",
+      "replace": "你的「$1」默认设置",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Stop Recording\\s*\\((.+?)\\)$",
+      "replace": "停止录音 ($1)"
+    },
+    {
+      "regex": "^Mute mic\\s*\\((.+?)\\)$",
+      "replace": "静音麦克风 ($1)"
+    },
+    {
+      "regex": "^Unmute mic\\s*\\((.+?)\\)$",
+      "replace": "取消静音 ($1)"
+    },
+    {
+      "regex": "^Use\\s+([A-Z][a-z]+)$",
+      "replace": "使用 $1"
+    },
+    {
+      "regex": "^(\\d+)%\\s+left$",
+      "flags": "i",
+      "replace": "剩余 $1%"
+    },
+    {
+      "regex": "^Resets in\\s+(\\d+)d\\s+(\\d+)h$",
+      "flags": "i",
+      "replace": "距重置还有 $1 天 $2 小时"
+    },
+    {
+      "regex": "^Resets in\\s+(\\d+)h\\s+(\\d+)m$",
+      "flags": "i",
+      "replace": "距重置还有 $1 小时 $2 分钟"
+    },
+    {
+      "regex": "^Resets in\\s+(\\d+)m$",
+      "flags": "i",
+      "replace": "距重置还有 $1 分钟"
+    },
+    {
+      "regex": "^Resets in\\s+(\\d+)h$",
+      "flags": "i",
+      "replace": "距重置还有 $1 小时"
+    },
+    {
+      "regex": "^Resets in\\s+(\\d+)d$",
+      "flags": "i",
+      "replace": "距重置还有 $1 天"
+    },
+    {
+      "regex": "^Resets in\\s+(.+)$",
+      "flags": "i",
+      "replace": "距重置还有 $1"
+    },
+    {
+      "regex": "^(\\d+)\\s+files?\\s+changed$",
+      "flags": "i",
+      "replace": "已更改 $1 个文件"
+    },
+    {
+      "regex": "^(\\d+)\\s+tasks?\\s+running$",
+      "flags": "i",
+      "replace": "$1 个任务运行中"
+    },
+    {
+      "regex": "^(\\d+)\\s+seconds?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 秒前"
+    },
+    {
+      "regex": "^(\\d+)\\s+minutes?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 分钟前"
+    },
+    {
+      "regex": "^(\\d+)\\s+hours?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 小时前"
+    },
+    {
+      "regex": "^(\\d+)\\s+days?\\s+ago$",
+      "flags": "i",
+      "replace": "$1 天前"
+    },
+    {
+      "regex": "^Thought\\s+for\\s+(\\d+)\\s*s(?:econds?)?$",
+      "flags": "i",
+      "replace": "已思考 $1 秒"
+    },
+    {
+      "regex": "^Thought\\s+for\\s+(\\d+)\\s*m(?:inutes?)?$",
+      "flags": "i",
+      "replace": "已思考 $1 分钟"
+    },
+    {
+      "regex": "^Mute Antigravity\\s*\\((.+?)\\)$",
+      "replace": "静音 Antigravity ($1)"
+    },
+    {
+      "regex": "^Unmute Antigravity\\s*\\((.+?)\\)$",
+      "replace": "取消静音 Antigravity ($1)"
+    },
+    {
+      "regex": "^Voice speed,\\s*(.+)$",
+      "replace": "语音语速，$1"
+    },
+    {
+      "regex": "^(.+?)\\s+\\(XHigh\\)$",
+      "replace": "$1（超高）"
+    },
+    {
+      "regex": "^(.+?)\\s+\\(High\\)$",
+      "replace": "$1（高）"
+    },
+    {
+      "regex": "^(.+?)\\s+\\(Medium\\)$",
+      "replace": "$1（中）"
+    },
+    {
+      "regex": "^(.+?)\\s+\\(Low\\)$",
+      "replace": "$1（低）"
+    },
+    {
+      "regex": "^(\\d{1,2}:\\d{2})\\s+AM$",
+      "replace": "上午 $1"
+    },
+    {
+      "regex": "^(\\d{1,2}:\\d{2})\\s+PM$",
+      "replace": "下午 $1"
+    },
+    {
+      "regex": "^Guidelines for interacting with GitHub and request permissions from the user.*$",
+      "replace": "与 GitHub 交互并在需要时向用户请求权限的操作规范。"
+    },
+    {
+      "regex": "^ONLY for the native-swarm worker whose brief says it is the monitor\\..*$",
+      "replace": "仅限蜂群监控节点使用：定时检查整体进度并唤醒阻塞成员。"
+    },
+    {
+      "regex": "^ONLY for the coordinator of an active /swarm session\\..*$",
+      "replace": "仅限活跃 /swarm 会话的协调者使用：维护蜂群概览面板与任务分组。"
+    },
+    {
+      "regex": "^Build applications and shell workflows with the Gemini Interactions API.*$",
+      "replace": "使用 Gemini API 与 CLI 构建应用和命令行工作流（支持文本、图像、视频、语音、音乐与实时多模态）。"
+    },
+    {
+      "regex": "^Reliable automation, in-depth debugging, and performance analysis in Chrome.*$",
+      "replace": "基于 Chrome DevTools 与 Puppeteer 的可靠自动化、深度调试与性能分析。"
+    },
+    {
+      "regex": "^Google Cloud guidance for coding agents:.*$",
+      "replace": "面向编程智能体的 Google Cloud 指南：项目引导、凭据认证与 gcloud 安全校验，内置 Google 开发者知识库 MCP。"
+    },
+    {
+      "regex": "^This plugin provides a specialized suite of skills for data engineers.*$",
+      "replace": "为 Google Cloud 数据工程师与数据库从业者提供的专业技能套件，支持自然语言架构设计与开发。"
+    },
+    {
+      "regex": "^Search and retrieve official documentation across Google Cloud, Gemini.*$",
+      "replace": "搜索并检索 Google Cloud、Gemini、Android、Firebase、Flutter 与 Web 官方文档。"
+    },
+    {
+      "regex": "^Search and retrieve official Google Health API documentation.*$",
+      "replace": "通过 Google Health Developer MCP 搜索并检索官方 Google Health API 文档。"
+    },
+    {
+      "regex": "^Search official Google Home, Matter, and OpenThread documentation.*$",
+      "replace": "搜索 Google Home、Matter 与 OpenThread 官方文档并查询云端集成诊断。"
+    },
+    {
+      "regex": "^Official plugin for Dart and Flutter that installs Flutter/Dart Skills.*$",
+      "replace": "Dart 与 Flutter 官方插件，提供技能、规则、自定义智能体与 Dart MCP，支持全平台原生应用开发。"
+    },
+    {
+      "regex": "^Create, edit, review, resize, and brand-check Canva designs.*$",
+      "replace": "通过 Canva MCP 创建、编辑、审阅、调整尺寸及品牌合规检查 Canva 设计稿。"
+    },
+    {
+      "regex": "^Turn Figma designs into production code, map components with Code Connect.*$",
+      "replace": "将 Figma 设计稿转化为生产代码，映射 Code Connect 组件，并在 Antigravity 中创建或编辑 Figma 文件。"
+    },
+    {
+      "regex": "^Give your AI agent 600,000\\+ real app screens.*$",
+      "replace": "为 AI 智能体提供 60 万+ 真实应用界面参考与 Mobbin MCP，按你的设计系统重构界面。"
+    },
+    {
+      "regex": "^Generate images and V4 videos with Kling AI\\..*$",
+      "replace": "使用可灵 AI (Kling AI) 生成图像与 V4 视频，支持多模态参考、主体复用与运动控制。"
+    },
+    {
+      "regex": "^AlphaGenome and major genetics databases to analyze DNA variants.*$",
+      "replace": "结合 AlphaGenome 与主流基因组数据库，分析 DNA 变异、基因调控与疾病关联。"
+    },
+    {
+      "regex": "^RDKit cheminformatics, reaction and property tools, plus ChEMBL.*$",
+      "replace": "集成 RDKit 化学信息学工具与 ChEMBL/PubChem 数据库，处理分子属性、反应与生物活性数据。"
+    },
+    {
+      "regex": "^Robotics skills for any robot: 3D perception, collision-free motion.*$",
+      "replace": "通用机器人开发技能：3D 感知、无碰撞运动规划、视觉伺服、Sim2Real 与 MuJoCo 仿真。"
+    },
+    {
+      "regex": "^Teamwork Graph CLI is Atlassian's agent-first interface.*$",
+      "replace": "Atlassian 智能体优先的协作接口：直连 Jira 工单、Confluence 页面与 Bitbucket PR。"
+    },
+    {
+      "regex": "^Connect Antigravity to your ClickUp workspace.*$",
+      "replace": "将 Antigravity 连接到 ClickUp 工作区，管理任务、追踪工时并与团队高效协作。"
+    },
+    {
+      "regex": "^Connect Antigravity to your Notion workspace with the Notion MCP.*$",
+      "replace": "通过 Notion MCP 连接工作区，提供调研、文档撰写、会议准备与项目进度更新技能。"
+    },
+    {
+      "regex": "^The product development system for teams and agents\\..*$",
+      "replace": "面向团队与智能体的研发协作系统：在 Antigravity 中管理 Linear 议题、项目与文档。"
+    },
+    {
+      "regex": "^Build, test, and debug Docusign integrations.*$",
+      "replace": "构建、测试并调试 Docusign 集成，涵盖认证、模板签署、信封状态与排错技能。"
+    },
+    {
+      "regex": "^Build, deploy and manage apps on Cloudflare Workers.*$",
+      "replace": "通过单一 MCP 服务在 Cloudflare Workers、存储与 AI 上构建、部署和管理应用。"
+    },
+    {
+      "regex": "^Build and deploy on Netlify: functions, edge functions.*$",
+      "replace": "在 Netlify 上构建与部署：函数、边缘函数、存储、数据库、身份认证、表单与 AI 网关。"
+    },
+    {
+      "regex": "^Build and deploy web apps and AI agents on Vercel.*$",
+      "replace": "在 Vercel 上构建和部署 Web 应用与 AI 智能体，内置 Next.js、AI SDK 技能与官方 MCP。"
+    },
+    {
+      "regex": "^Official Supabase plugin for Antigravity with Supabase skills.*$",
+      "replace": "Supabase 官方插件，提供项目管理、数据库开发、认证、存储与 Postgres 最佳实践及 MCP。"
+    },
+    {
+      "regex": "^Official Antigravity plugin for MongoDB Atlas.*$",
+      "replace": "MongoDB Atlas 官方插件（托管 MCP + 技能），支持数据探索、集合管理与查询优化。"
+    },
+    {
+      "regex": "^Agent skills for Neo4j graph database.*$",
+      "replace": "Neo4j 图数据库智能体技能：编写 Cypher 查询、图建模、构建 GraphRAG 与管理 Aura 实例。"
+    },
+    {
+      "regex": "^Query Grafana Cloud metrics, logs, traces and profiles.*$",
+      "replace": "通过托管 MCP 查询 Grafana Cloud 指标、日志、链路追踪，管理仪表盘与告警事件。"
+    },
+    {
+      "regex": "^Use Datadog directly in Antigravity through a preconfigured Datadog MCP.*$",
+      "replace": "通过预配置的 Datadog MCP 用自然语言查询日志、指标、链路追踪与仪表盘。"
+    },
+    {
+      "regex": "^Set up Sentry monitoring, investigate production errors.*$",
+      "replace": "配置 Sentry 监控、排查生产环境错误、管理告警与版本发布。"
+    },
+    {
+      "regex": "^Investigate incidents, check who's on call, and query logs.*$",
+      "replace": "在 Better Stack 中排查故障、查看值班表、查询日志与指标并管理可用性监控。"
+    },
+    {
+      "regex": "^Query Arize AX projects, traces, datasets, and experiments.*$",
+      "replace": "查询 Arize AX 项目、链路追踪、数据集与实验，提供评测与提示词优化技能。"
+    },
+    {
+      "regex": "^Add Auth0 authentication to any app:.*$",
+      "replace": "为任意应用添加 Auth0 认证（登录、MFA、SSO、组织与 RBAC），支持认证排错与迁移。"
+    },
+    {
+      "regex": "^Add authentication and user management with Clerk\\..*$",
+      "replace": "使用 Clerk 添加身份认证与用户管理，提供框架集成、组织、计费、Webhook 技能与 MCP。"
+    },
+    {
+      "regex": "^CodeRabbit is the governance and control layer.*$",
+      "replace": "CodeRabbit 为 AI 智能体软件开发提供代码治理与审查控制层，提升 AI 代码可信度。"
+    },
+    {
+      "regex": "^Up-to-date documentation lookup\\. Pull version-specific documentation.*$",
+      "replace": "实时查阅最新版开发文档，将特定版本的文档与代码示例直接拉取到智能体上下文。"
+    },
+    {
+      "regex": "^Equip Antigravity with specialized Postman skills.*$",
+      "replace": "为 Antigravity 配备 Postman 全生命周期 API 技能：发现、设计、测试、Mock 与监控。"
+    },
+    {
+      "regex": "^Set up Qodo, explore code and repository history.*$",
+      "replace": "配置 Qodo，探索代码与仓库历史、审查本地变更并直接解决 PR 审查意见。"
+    },
+    {
+      "regex": "^Build and deploy Base44 full-stack apps:.*$",
+      "replace": "构建并部署 Base44 全栈应用：CLI 项目管理、JS/TS SDK 开发与生产排错。"
+    },
+    {
+      "regex": "^Query your SentinelOne Singularity Console.*$",
+      "replace": "通过只读 Purple AI MCP 查询 SentinelOne Singularity 安全控制台。"
+    },
+    {
+      "regex": "^Accept payments and grow your business\\. Stripe's official MCP.*$",
+      "replace": "Stripe 官方 MCP：支持智能体管理客户、商品、价格、支付链接、发票、订阅与退款。"
+    },
+    {
+      "regex": "^Manage your Bigin CRM from Antigravity:.*$",
+      "replace": "在 Antigravity 中管理 Bigin CRM：查看销售漏斗、联系人与交易、记录通话并发送邮件。"
+    },
+    {
+      "regex": "^Build on Zoho CRM v8: REST API, Deluge functions.*$",
+      "replace": "基于 Zoho CRM v8 开发：REST API、Deluge 函数、脚本与组件，通过 Zoho MCP 连接实时数据。"
+    },
+    {
+      "regex": "^Databricks skills for the CLI, Apps, Lakebase.*$",
+      "replace": "Databricks 开发技能：CLI、Apps、Lakebase、模型服务、Lakeflow 作业与声明式流水线。"
+    },
+    {
+      "regex": "^Connect to your managed Looker MCP server.*$",
+      "replace": "连接托管 Looker MCP 服务，探索数据、运行视图、构建仪表盘并校验 LookML。"
+    },
+    {
+      "regex": "^Build, test, and manage n8n workflows and Agents.*$",
+      "replace": "通过 MCP 构建、测试和管理 n8n 自动化工作流与智能体，涵盖节点配置与调试。"
+    },
+    {
+      "regex": "^Automate workflows across 10,000\\+ apps\\..*$",
+      "replace": "跨 10,000+ 款应用自动化工作流，一键串联 YouTube、Gmail、Slack、LinkedIn 等。"
+    },
+    {
+      "regex": "^Research U\\.S\\. case law, statutes, regulations.*$",
+      "replace": "检索美国判例法、成文法、法规与法院规则，核查引文与后续判例引用关系。"
+    },
+    {
+      "regex": "^Show\\s+(\\d+)\\s+breakdowns?$",
+      "flags": "i",
+      "replace": "展开 $1 项明细"
+    },
+    {
+      "regex": "^Used for:\\s*(.+)$",
+      "replace": "用途：$1"
+    },
+    {
+      "regex": "^Domains:\\s*(.+)$",
+      "replace": "域名：$1"
+    },
+    {
+      "regex": "^(\\d+)\\s+tools?\\s+enabled$",
+      "flags": "i",
+      "replace": "已启用 $1 个工具"
+    },
+    {
+      "regex": "^(\\d+)\\s+of\\s+(\\d+)$",
+      "replace": "第 $1 / $2 项"
+    },
+    {
+      "regex": "^Stopped voice chat\\s*·\\s*(\\d+)m\\s+(\\d+)s$",
+      "replace": "已结束语音对话 · $1 分 $2 秒"
+    },
+    {
+      "regex": "^Stopped voice chat\\s*·\\s*(\\d+)s$",
+      "replace": "已结束语音对话 · $1 秒"
+    },
+    {
+      "regex": "^(\\d{1,2}:\\d{2})\\s*·\\s*(\\d+)m\\s+(\\d+)s$",
+      "replace": "$1 · $2 分 $3 秒"
+    },
+    {
+      "regex": "^(\\d{1,2}:\\d{2})\\s*·\\s*(\\d+)s$",
+      "replace": "$1 · $2 秒"
+    },
+    {
+      "regex": "^(\\d+)\\s+active\\s+conversations?\\s+and\\s+(\\d+)\\s+archived\\s+conversations?$",
+      "replace": "$1 个活跃对话和 $2 个已归档对话"
+    },
+    {
+      "regex": "^(\\d+)\\s+active\\s+conversations?$",
+      "replace": "$1 个活跃对话"
+    },
+    {
+      "regex": "^(\\d+)\\s+archived\\s+conversations?$",
+      "replace": "$1 个已归档对话"
+    },
+    {
+      "regex": "^Clearing cookies and site data for\\s+(.+?)\\s+may sign you out of this site\\.$",
+      "replace": "清除 $1 的 Cookie 与网站数据可能会使你退出该网站的登录状态。"
+    },
+    {
+      "regex": "^Site data cleared for\\s+(.+?)\\.$",
+      "replace": "已清除 $1 的网站数据。"
+    },
+    {
+      "regex": "^\\+(\\d+)\\s+more\\s+lines?$",
+      "flags": "i",
+      "replace": "展开其余 $1 行"
+    },
+    {
+      "regex": "^(·\\s*)?(\\d+)m\\s+(\\d+)s$",
+      "replace": "$1$2 分 $3 秒"
+    },
+    {
+      "regex": "^(·\\s*)?(\\d+)h\\s+(\\d+)m$",
+      "replace": "$1$2 小时 $3 分"
+    },
+    {
+      "regex": "^(\\d+)s$",
+      "replace": "$1 秒"
+    },
+    {
+      "regex": "^Ran\\s+(.+)$",
+      "replace": "已运行 $1",
+      "allowMixedCJK": true
+    },
+    {
+      "regex": "^Updated\\s+(.+)$",
+      "replace": "更新于 $1"
+    },
+    {
+      "regex": "^Started voice chat\\s*·\\s*(.+)$",
+      "replace": "已开启语音对话 · $1"
+    },
+    {
+      "regex": "^Stopped voice chat\\s*·\\s*(.+)$",
+      "replace": "已结束语音对话 · $1"
+    },
+    {
+      "regex": "^Worked for\\s+(\\d+)m\\s+(\\d+)s$",
+      "replace": "已耗时 $1 分 $2 秒"
+    },
+    {
+      "regex": "^Worked for\\s+(\\d+)m$",
+      "replace": "已耗时 $1 分钟"
+    },
+    {
+      "regex": "^Worked for\\s+(\\d+)s$",
+      "replace": "已耗时 $1 秒"
+    },
+    {
+      "regex": "^Worked for\\s+(.+)$",
+      "replace": "已耗时 $1"
+    },
+    {
+      "regex": "^(\\d+)s\\s+ago$",
+      "replace": "$1 秒前"
+    },
+    {
+      "regex": "^(\\d+)m\\s+ago$",
+      "replace": "$1 分钟前"
+    },
+    {
+      "regex": "^(\\d+)h\\s+ago$",
+      "replace": "$1 小时前"
+    },
+    {
+      "regex": "^(\\d+)d\\s+ago$",
+      "replace": "$1 天前"
+    },
+    {
+      "regex": "^(\\d{1,2})(?:st|nd|rd|th)$",
+      "replace": "$1 日"
+    },
+    {
+      "regex": "^Last\\s+(\\d+)\\s+days$",
+      "flags": "i",
+      "replace": "最近 $1 天"
+    },
+    {
+      "regex": "^(\\d+)m$",
+      "replace": "$1 分钟"
+    },
+    {
+      "regex": "^(\\d+)h$",
+      "replace": "$1 小时"
+    },
+    {
+      "regex": "^(\\d+)d$",
+      "replace": "$1 天"
+    },
+    {
+      "regex": "^(\\d+)w$",
+      "replace": "$1 周"
+    },
+    {
+      "regex": "^Read, create, edit, and manage Google Docs\\..*$",
+      "replace": "阅读、创建、编辑与管理 Google 文档（支持摘要、起草、评论、表格、图片与 Markdown 同步）。"
+    },
+    {
+      "regex": "^Read, write, format, and manage Google Sheets\\..*$",
+      "replace": "读取、编写、格式化与管理 Google 表格（支持公式、图表、数据透视表与 CSV 导入导出）。"
+    },
+    {
+      "regex": "^Read, create, edit, and export Google Slides.*$",
+      "replace": "阅读、创建、编辑与导出 Google 幻灯片演示文稿。"
+    },
+    {
+      "regex": "^Search, upload, download, organize, and share files in Google Drive.*$",
+      "replace": "在 Google 云端硬盘中搜索、上传、下载、整理与分享文件。"
+    },
+    {
+      "regex": "^Check availability, create and manage events.*Google Calendar.*$",
+      "replace": "查看日程空闲时间、创建与管理 Google 日历活动及回复邀请。"
+    },
+    {
+      "regex": "^Search, read, draft, send, and organize emails in Gmail.*$",
+      "replace": "在 Gmail 中搜索、阅读、起草、发送和整理电子邮件。"
+    },
+    {
+      "regex": "^Skill for converting an installed Firebase Extension.*$",
+      "replace": "将已安装的 Firebase Extension 转换为独立 Cloud Functions 代码库。"
+    },
+    {
+      "regex": "^Official skill for integrating Firebase AI Logic.*$",
+      "replace": "将 Firebase AI Logic (Gemini API) 集成到 Web 应用的官方技能。"
+    },
+    {
+      "regex": "^Deploys and manages full-stack web applications \\(Next\\.js, Angular\\).*$",
+      "replace": "使用服务器端渲染部署和管理 Next.js、Angular 全栈 Web 应用。"
+    },
+    {
+      "regex": "^Guide for setting up and using Firebase Authentication\\..*$",
+      "replace": "配置与使用 Firebase 身份认证（用户登录、注册与会话管理）指南。"
+    },
+    {
+      "regex": "^Provides foundational Firebase CLI setup, CLI installation.*$",
+      "replace": "提供 Firebase CLI 基础安装、版本检查与项目初始化配置。"
+    },
+    {
+      "regex": "^Comprehensive guide for Firebase Crashlytics.*$",
+      "replace": "Firebase Crashlytics 崩溃分析完整配置与 SDK 使用指南。"
+    },
+    {
+      "regex": "^Builds and deploys Firebase SQL Connect.*$",
+      "replace": "构建并部署基于 PostgreSQL 的 Firebase Data Connect 后端服务。"
+    },
+    {
+      "regex": "^Sets up, manages, queries, and configures Cloud Firestore.*$",
+      "replace": "配置、管理与查询 Cloud Firestore 数据库（标准版/企业版）。"
+    },
+    {
+      "regex": "^Deploys and configures classic Firebase Hosting.*$",
+      "replace": "部署并配置经典 Firebase Hosting，支持静态网站与单页应用 (SPA)。"
+    },
+    {
+      "regex": "^Manages Firebase Remote Config templates, feature flags.*$",
+      "replace": "管理 Firebase Remote Config 远程配置模板、特性开关与发布策略。"
+    },
+    {
+      "regex": "^Audits Firebase \\(Firestore, Cloud Storage\\) security rules.*$",
+      "replace": "审计 Firestore 与 Cloud Storage 安全规则中的漏洞与提权风险。"
+    },
+    {
+      "regex": "^Designs, authors, refactors, and hardens production-grade Cloud Firestore.*$",
+      "replace": "设计、编写、重构并加固生产级 Cloud Firestore 安全规则。"
+    },
+    {
+      "regex": "^Safely modifies Xcode projects \\(\\.pbxproj\\) to add Swift Packages.*$",
+      "replace": "安全修改 Xcode 项目文件（.pbxproj）以添加 Swift 包与链接库。"
+    },
+    {
+      "regex": "^MANDATORY specialist subagent for Cloud Firestore Security Rules.*$",
+      "replace": "Cloud Firestore 安全规则专家子智能体，负责编写与校验 firestore.rules。"
+    },
+    {
+      "regex": "^See\\s+(\\d+)\\s+more$",
+      "flags": "i",
+      "replace": "展开其余 $1 项"
+    },
+    {
+      "regex": "^Keep your coding agent up to date with the late.*$",
+      "replace": "让编程智能体始终掌握最新现代 Web 开发规范与最佳实践。"
+    },
+    {
+      "regex": "^Develop ideas with context and review docume.*$",
+      "replace": "结合上下文深化构思并审阅文档的思考模型工具。"
+    },
+    {
+      "regex": "^Connect your agent to invideo's AI-native video.*$",
+      "replace": "将智能体连接到 invideo AI 原生视频平台，快速生成与编辑视频。"
+    },
+    {
+      "regex": "^AlphaFold, 3D visualization tools, and protein d.*$",
+      "replace": "集成 AlphaFold、3D 可视化工具与蛋白质结构数据库，助力结构生物学研究。"
+    },
+    {
+      "regex": "^Search scientific papers, clinical trials, FDA reco.*$",
+      "replace": "检索科研论文、临床试验与 FDA 医药审批记录。"
+    },
+    {
+      "regex": "^Connect Antigravity to Dropbox to search, insp.*$",
+      "replace": "连接 Dropbox，在 Antigravity 中搜索、查看与管理云端文件。"
+    },
+    {
+      "regex": "^The AI notepad for meetings\\. Connect to your.*$",
+      "replace": "AI 会议记事本：连接你的 Granola 会议记录，检索摘要与待办事项。"
+    },
+    {
+      "regex": "^Plan and track work in monday\\.com from Antigr.*$",
+      "replace": "在 Antigravity 中规划与追踪 monday.com 项目看板和任务进度。"
+    },
+    {
+      "regex": "^Create and send proposals, quotes, and contra.*$",
+      "replace": "创建并发送商业提案、报价单与电子合同。"
+    },
+    {
+      "regex": "^Official Trello plugin with the Trello MCP server.*$",
+      "replace": "Trello 官方插件与 MCP 服务，管理看板、列表与任务卡片。"
+    },
+    {
+      "regex": "^Deploy, configure, monitor, and troubleshoot a.*$",
+      "replace": "在 Railway 上部署、配置、监控并排查应用与云服务故障。"
+    },
+    {
+      "regex": "^Turn an idea into a website, dashboard, report,.*$",
+      "replace": "将创意快速转化为网站、仪表盘、报告与交互页面。"
+    },
+    {
+      "regex": "^Build Wix apps and headless sites, and manage.*$",
+      "replace": "构建 Wix 应用与无头站点，管理网站内容与业务数据。"
+    },
+    {
+      "regex": "^Build, publish, and manage WordPress\\.com and.*$",
+      "replace": "构建、发布并管理 WordPress.com 及自托管 WordPress 站点。"
+    },
+    {
+      "regex": "^Give your agent a real browser: navigate, click, t.*$",
+      "replace": "为智能体提供真实云端浏览器：支持网页导航、点击、输入与抓取。"
+    },
+    {
+      "regex": "^Use the official CrowdStrike-hosted MCP server.*$",
+      "replace": "使用 CrowdStrike 官方托管 MCP 服务查询终端安全检测与威胁情报。"
+    },
+    {
+      "regex": "^Investigate production issues with real Dynatra.*$",
+      "replace": "结合 Dynatrace 实时可观测性数据排查生产环境性能与故障问题。"
+    },
+    {
+      "regex": "^Packaged workflows for SCA remediation, AI SA.*$",
+      "replace": "内置软件成分分析 (SCA) 修复与 AI 安全审计工作流。"
+    },
+    {
+      "regex": "^Triage Exabeam New-Scale alerts and cases en.*$",
+      "replace": "端到端分诊与调查 Exabeam New-Scale 安全告警与事件工单。"
+    },
+    {
+      "regex": "^Build and debug pipelines, manage deploymen.*$",
+      "replace": "构建与调试 CI/CD 流水线，管理软件交付与部署发布。"
+    },
+    {
+      "regex": "^Respond to and investigate incidents, manage.*$",
+      "replace": "快速响应与排查线上故障，管理告警响应流程与复盘。"
+    },
+    {
+      "regex": "^Search the web and read any page as clean mar.*$",
+      "replace": "联网搜索并将任意网页提取为干净的 Markdown 文本供智能体阅读。"
+    },
+    {
+      "regex": "^Ask a question of the live web and get a table b.*$",
+      "replace": "向实时网络提问并自动整理成结构化数据表格返回。"
+    },
+    {
+      "regex": "^Create, run and debug Leapwork Play tests and.*$",
+      "replace": "创建、运行并调试 Leapwork Play 自动化测试套件。"
+    },
+    {
+      "regex": "^Search the live web and fetch page content wit.*$",
+      "replace": "并行联网搜索并高速抓取网页内容。"
+    },
+    {
+      "regex": "^Agent plugin for PingOne multi-tenant\\. Include.*$",
+      "replace": "PingOne 多租户身份管理智能体插件，支持认证配置与运维。"
+    },
+    {
+      "regex": "^Skills for integrating the Scandit Data Capture S.*$",
+      "replace": "集成 Scandit 数据采集与条码扫描 SDK 的开发技能。"
+    },
+    {
+      "regex": "^SonarQube is the AI code quality and security v.*$",
+      "replace": "SonarQube AI 代码质量与安全漏洞检测和修复平台。"
+    },
+    {
+      "regex": "^Web search, content extraction, website crawli.*$",
+      "replace": "面向 AI 的联网搜索、内容提取与网站爬取工具。"
+    },
+    {
+      "regex": "^Run, debug and triage tests on the TestMu AI cl.*$",
+      "replace": "在 TestMu AI 云端平台运行、调试与分类排查自动化测试。"
+    },
+    {
+      "regex": "^Unity's official plugin for Antigravity, with curate.*$",
+      "replace": "Unity 官方 Antigravity 插件，内置精选游戏开发技能与工具。"
+    },
+    {
+      "regex": "^Investigate files, URLs, domains and IP address.*$",
+      "replace": "通过 VirusTotal 查验文件、URL、域名与 IP 地址的安全威胁情报。"
+    },
+    {
+      "regex": "^Search Intercom conversations, contacts, and c.*$",
+      "replace": "搜索 Intercom 客户对话、联系人与帮助中心工单记录。"
+    },
+    {
+      "regex": "^Salaries, jobs & career advice\\. Levels\\.fyi is your.*$",
+      "replace": "查询科技行业薪资水平、岗位机会与职业发展建议。"
+    },
+    {
+      "regex": "^SEO workflows on live Semrush data: keyword r.*$",
+      "replace": "基于 Semrush 实时数据的 SEO 工作流：关键词研究与竞品分析。"
+    },
+    {
+      "regex": "^Search and read your Wispr Flow meeting notes.*$",
+      "replace": "搜索并阅读你的 Wispr Flow 语音笔记与会议记录。"
+    },
+    {
+      "regex": "^Run Zoho Books from Antigravity: invoicing, bill.*$",
+      "replace": "在 Antigravity 中操作 Zoho Books：管理发票、账单与财务记账。"
+    },
+    {
+      "regex": "^Zoho Desk plugin for Antigravity\\. Review, priorit.*$",
+      "replace": "Zoho Desk 客服工单插件：审阅、排序并高效回复客户支持工单。"
+    },
+    {
+      "regex": "^Connect Zoho Projects to Antigravity to turn ta.*$",
+      "replace": "连接 Zoho Projects，高效管理项目任务、里程碑与团队协作。"
+    },
+    {
+      "regex": "^Read-only marketing analytics: report spend, c.*$",
+      "replace": "只读营销数据分析：汇总广告投放花费、转化率与效果报表。"
+    },
+    {
+      "regex": "^Search European procurement data and manag.*$",
+      "replace": "检索欧洲招投标采购数据并管理投标项目。"
+    },
+    {
+      "regex": "^Generate 3D models from text or images with.*$",
+      "replace": "使用 Meshy 根据文本或图像一键生成 3D 模型。"
+    },
+    {
+      "regex": "^Research US case law, statutes, and regulations.*$",
+      "replace": "检索美国判例法、成文法与行政法规，辅助法律研究。"
+    },
+    {
+      "regex": "^Multi-model deliberation panel\\. Diverse AI voic.*$",
+      "replace": "多模型协同议事面板，汇聚不同 AI 视角进行深度讨论与决策。"
+    },
+    {
+      "regex": "^Investigate cloud risk from your IDE: query Orc.*$",
+      "replace": "直接排查云端安全风险，查询 Orca 安全告警与合规状态。"
+    },
+    {
+      "regex": "^U\\.S\\. immigration law research: published and u.*$",
+      "replace": "美国移民法专业检索：涵盖已公开及未公开判例与法规。"
+    },
+    {
+      "regex": "^Transcribe meetings, interviews, podcasts and.*$",
+      "replace": "将会议、访谈、播客与音视频精准转录为文字。"
+    },
+    {
+      "regex": "^See what GPTBot, ClaudeBot, PerplexityBot an.*$",
+      "replace": "检测网站对 GPTBot、ClaudeBot、PerplexityBot 等 AI 爬虫的可见性。"
+    },
+    {
+      "regex": "^Access and clone GitHub repositories in remot.*$",
+      "replace": "在远程环境中访问并克隆 GitHub 代码仓库。"
+    },
+    {
+      "regex": "^Collection of tools for tandem mass spectrome.*$",
+      "replace": "串联质谱数据分析工具集，助力化学与蛋白质组学研究。"
+    },
+    {
+      "regex": "^Manage Any\\.do personal tasks, workspace boar.*$",
+      "replace": "管理 Any.do 个人待办任务、工作区看板与团队协作计划。"
+    },
+    {
+      "regex": "^Create and edit images with Kling Image 4\\.0,.*$",
+      "replace": "使用可灵图像 4.0 创建和编辑图像、生成高质量视频内容。"
+    },
+    {
+      "regex": "^Bring Claude, GPT, Muse, Kimi & more into.*$",
+      "replace": "将 Claude、GPT、Muse、Kimi 等多款大模型接入 Antigravity。"
+    },
+    {
+      "regex": "^Show\\s+(\\d+)\\s+more\\.*$",
+      "flags": "i",
+      "replace": "展开其余 $1 项..."
+    },
+    {
+      "regex": "^(\\d+)\\s+selected$",
+      "flags": "i",
+      "replace": "已选择 $1 项"
+    },
+    {
+      "regex": "^Version\\s+([\\d.]+)$",
+      "flags": "i",
+      "replace": "版本 $1"
+    },
+    {
+      "regex": "^(·\\s*)?just\\s+now$",
+      "flags": "i",
+      "replace": "$1刚刚"
+    },
+    {
+      "regex": "^Editing\\s+(\\S+)$",
+      "replace": "正在编辑 $1"
+    },
+    {
+      "regex": "^Reading\\s+(\\S+)$",
+      "replace": "正在读取 $1"
+    },
+    {
+      "regex": "^Writing\\s+(\\S+)$",
+      "replace": "正在写入 $1"
+    },
+    {
+      "regex": "^Creating\\s+(\\S+)$",
+      "replace": "正在创建 $1"
+    },
+    {
+      "regex": "^Deleting\\s+(\\S+)$",
+      "replace": "正在删除 $1"
+    },
+    {
+      "regex": "^Viewing\\s+(\\S+)$",
+      "replace": "正在查看 $1"
+    },
+    {
+      "regex": "^Analyzing\\s+(\\S+)$",
+      "replace": "正在分析 $1"
+    },
+    {
+      "regex": "^Searching\\s+(\\S+)$",
+      "replace": "正在搜索 $1"
+    },
+    {
+      "regex": "^Running\\s+(\\S+)$",
+      "replace": "正在运行 $1"
+    },
+    {
+      "regex": "^Are you sure you want to delete\\s+(.+?)\\?\\s*This will remove it from your MCP configuration\\.$",
+      "replace": "确定要删除 $1 吗？此操作将从你的 MCP 配置中移除该服务。"
+    },
+    {
+      "regex": "^Your plan:\\s*(.+)$",
+      "replace": "当前方案：$1"
+    },
+    {
+      "regex": "^You have used some of your weekly limit, it will fully refresh in (\\d+) days?, (\\d+) hours?\\.$",
+      "replace": "你已使用部分每周配额，将在 $1 天 $2 小时后完全重置。"
+    },
+    {
+      "regex": "^You have used some of your weekly limit, it will fully refresh in (\\d+) hours?, (\\d+) minutes?\\.$",
+      "replace": "你已使用部分每周配额，将在 $1 小时 $2 分钟后完全重置。"
+    },
+    {
+      "regex": "^You have used some of your weekly limit, it will fully refresh in (\\d+) days?\\.$",
+      "replace": "你已使用部分每周配额，将在 $1 天后完全重置。"
+    },
+    {
+      "regex": "^You have used some of your 5-hour limit, it will fully refresh in (\\d+) hours?, (\\d+) minutes?\\.$",
+      "replace": "你已使用部分 5 小时配额，将在 $1 小时 $2 分钟后完全重置。"
+    },
+    {
+      "regex": "^You have used some of your 5-hour limit, it will fully refresh in (\\d+) minutes?\\.$",
+      "replace": "你已使用部分 5 小时配额，将在 $1 分钟后完全重置。"
+    },
+    {
+      "regex": "^You have used some of your 5-hour limit, it will fully refresh in (\\d+) hours?\\.$",
+      "replace": "你已使用部分 5 小时配额，将在 $1 小时后完全重置。"
+    },
+    {
+      "regex": "^Available AI credits:\\s*(.+)$",
+      "replace": "可用 AI 额度：$1"
+    },
+    {
+      "regex": "^Models within this group:\\s*(.+)$",
+      "replace": "此分组包含的模型：$1"
+    },
+    {
+      "regex": "^Thinking for (\\d+)m (\\d+)s$",
+      "replace": "已思考 $1 分 $2 秒"
+    },
+    {
+      "regex": "^Thinking for (\\d+)s$",
+      "replace": "已思考 $1 秒"
+    },
+    {
+      "regex": "^Thought for (\\d+)m (\\d+)s$",
+      "replace": "思考了 $1 分 $2 秒"
+    },
+    {
+      "regex": "^Thought for (\\d+)s$",
+      "replace": "思考了 $1 秒"
+    },
+    {
+      "regex": "^Run tests and rebuild\\s+(.+?)\\s+finished$",
+      "replace": "运行测试并重新编译 $1 已完成"
+    },
+    {
+      "regex": "^Run tests and rebuild\\s+(.+)$",
+      "replace": "运行测试并重新编译 $1"
+    },
+    {
+      "regex": "^(.+?)\\s+finished$",
+      "replace": "$1 已完成"
+    },
+    {
+      "regex": "^Send feedback as\\s+(.+)$",
+      "replace": "以 $1 的身份发送反馈"
+    },
+    {
+      "regex": "^(\\d+)\\s+active conversations? and (\\d+)\\s+archived conversations?\\.?$",
+      "replace": "$1 个活跃对话和 $2 个已归档对话。"
+    },
+    {
+      "regex": "^(\\d+)\\s+active conversations?\\.?$",
+      "replace": "$1 个活跃对话。"
+    },
+    {
+      "regex": "^(\\d+)\\s+archived conversations?\\.?$",
+      "replace": "$1 个已归档对话。"
+    },
+    {
+      "regex": "^Build, package, and debug MCP Apps for Antigravity:.*$",
+      "replace": "构建、打包和调试 Antigravity MCP 应用：使 MCP 服务工具结果在对话、侧边栏或全页中以交互式界面呈现。"
+    },
+    {
+      "regex": "^Migrates the user's MCP servers, skills, slash commands,.*$",
+      "replace": "将用户在其他编程智能体（Claude Code、Codex、Cursor、Gemini CLI）中的 MCP 服务、技能、斜杠命令、子智能体与指令文件迁移为新的 Antigravity 插件。"
+    },
+    {
+      "regex": "^Automatically migrate legacy workflows to modern skills.*$",
+      "replace": "自动将全局和工作区配置中的旧版工作流迁移为新版技能（SKILL.md），并安全归档旧工作流文件。"
+    },
+    {
+      "regex": "^Guidelines for interacting with GitHub and request permissions.*$",
+      "replace": "与 GitHub 交互的指南，并在命令因环境权限受限失败时向用户请求授权。"
+    },
+    {
+      "regex": "^How to manage and create plugins — namespaced bundles.*$",
+      "replace": "管理与创建插件的指南——将技能、智能体、规则、MCP 服务与钩子打包为统一安装与启停的命名空间扩展包。"
+    },
+    {
+      "regex": "^How to write and run a dynamic workflow script with.*$",
+      "replace": "使用 run_workflow 工具编写和运行 Python 动态工作流脚本，通过 agent、parallel、pipeline 与 phase 编排多个智能体。"
+    },
+    {
+      "regex": "^ONLY for the native-swarm worker whose brief says it is the monitor\\..*$",
+      "replace": "仅限蜂群监控者（monitor）工作节点使用：定时检测整个蜂群是否停滞并唤醒对应成员推进任务。"
+    },
+    {
+      "regex": "^ONLY for the coordinator of an active /swarm session\\..*$",
+      "replace": "仅限活跃 /swarm 会话的协调者使用：维护蜂群概览面板的目标、任务分组与截图时间线。"
+    },
+    {
+      "regex": "^Discover UI plugin panels relevant to the current task.*$",
+      "replace": "发现与当前任务相关的 UI 插件面板，并在对话中提供一键打开/切换侧边面板的快捷入口。"
+    },
+    {
+      "regex": "^Failed to create sidecar: sidecar with ID \"(.*)\" already exists \\(error ID: ([^)]+)\\)$",
+      "replace": "创建边车任务失败：ID 为 \"$1\" 的任务已存在（错误 ID：$2）"
+    },
+    {
+      "regex": "^Failed to create sidecar:\\s*(.+)$",
+      "replace": "创建边车任务失败：$1"
+    },
+    {
+      "regex": "^Enabled \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已启用「$1」。"
+    },
+    {
+      "regex": "^Disabled \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已停用「$1」。"
+    },
+    {
+      "regex": "^Paused \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已暂停「$1」。"
+    },
+    {
+      "regex": "^Deleted \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已删除「$1」。"
+    },
+    {
+      "regex": "^Started \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已启动「$1」。"
+    },
+    {
+      "regex": "^Restarted \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已重启「$1」。"
+    },
+    {
+      "regex": "^Stopped \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已停止「$1」。"
+    },
+    {
+      "regex": "^Resumed \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已恢复「$1」。"
+    },
+    {
+      "regex": "^Created \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已创建「$1」。"
+    },
+    {
+      "regex": "^Updated \"(.+)\"\\.?$",
+      "allowMixedCJK": true,
+      "replace": "已更新「$1」。"
+    },
+    {
+      "regex": "^已运行\\s+in the sandbox$",
+      "allowMixedCJK": true,
+      "replace": "已在沙箱中运行"
+    },
+    {
+      "regex": "^已运行\\s+outside the sandbox$",
+      "allowMixedCJK": true,
+      "replace": "已在沙箱外运行"
+    },
+    {
+      "regex": "^Daily at (\\d{1,2}:\\d{2})\\s*AM$",
+      "replace": "每天上午 $1"
+    },
+    {
+      "regex": "^Daily at (\\d{1,2}:\\d{2})\\s*PM$",
+      "replace": "每天下午 $1"
+    },
+    {
+      "regex": "^Daily at (\\d{1,2}:\\d{2})$",
+      "replace": "每天 $1"
+    },
+    {
+      "regex": "^Weekdays at (\\d{1,2}:\\d{2})\\s*AM$",
+      "replace": "工作日 上午 $1"
+    },
+    {
+      "regex": "^Weekdays at (\\d{1,2}:\\d{2})\\s*PM$",
+      "replace": "工作日 下午 $1"
+    },
+    {
+      "regex": "^Tomorrow (\\d{1,2}:\\d{2})\\s*AM$",
+      "replace": "明天上午 $1"
+    },
+    {
+      "regex": "^Tomorrow (\\d{1,2}:\\d{2})\\s*PM$",
+      "replace": "明天下午 $1"
+    },
+    {
+      "regex": "^Today (\\d{1,2}:\\d{2})\\s*AM$",
+      "replace": "今天上午 $1"
+    },
+    {
+      "regex": "^Today (\\d{1,2}:\\d{2})\\s*PM$",
+      "replace": "今天下午 $1"
+    },
+    {
+      "regex": "^Next run tomorrow around (\\d{1,2}:\\d{2})\\s*AM\\s*(.*)$",
+      "replace": "下次运行：明天上午 $1 左右 $2"
+    },
+    {
+      "regex": "^Next run tomorrow around (\\d{1,2}:\\d{2})\\s*PM\\s*(.*)$",
+      "replace": "下次运行：明天下午 $1 左右 $2"
+    },
+    {
+      "regex": "^Next run today around (\\d{1,2}:\\d{2})\\s*AM\\s*(.*)$",
+      "replace": "下次运行：今天上午 $1 左右 $2"
+    },
+    {
+      "regex": "^Next run today around (\\d{1,2}:\\d{2})\\s*PM\\s*(.*)$",
+      "replace": "下次运行：今天下午 $1 左右 $2"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Low\\)\\s*·\\s*This computer$",
+      "replace": "$1（低）· 本机电脑"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Medium\\)\\s*·\\s*This computer$",
+      "replace": "$1（中）· 本机电脑"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(High\\)\\s*·\\s*This computer$",
+      "replace": "$1（高）· 本机电脑"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Extra High\\)\\s*·\\s*This computer$",
+      "replace": "$1（超高）· 本机电脑"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Minimal\\)\\s*·\\s*This computer$",
+      "replace": "$1（极简）· 本机电脑"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Low\\)\\s*·\\s*Remote$",
+      "replace": "$1（低）· 远程"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Medium\\)\\s*·\\s*Remote$",
+      "replace": "$1（中）· 远程"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(High\\)\\s*·\\s*Remote$",
+      "replace": "$1（高）· 远程"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Extra High\\)\\s*·\\s*Remote$",
+      "replace": "$1（超高）· 远程"
+    },
+    {
+      "regex": "^(.+?)\\s*\\(Minimal\\)\\s*·\\s*Remote$",
+      "replace": "$1（极简）· 远程"
+    }
+  ],
+  "skipSelectors": [
+    ".monaco-editor",
+    ".xterm",
+    ".cm-editor",
+    "[data-agzh-skip]"
+  ]
+}

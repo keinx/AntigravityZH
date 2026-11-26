@@ -1,0 +1,38 @@
+# Compiled binaries & build outputs
+AntigravityZH.exe
+AntigravityZH
+AntigravityZH-windows-*
+AntigravityZH-darwin-*
+*.exe
+*.dll
+*.so
+*.dylib
+*.app/
+*.test
+*.out
+/bin/
+/dist/
+
+# Go workspace & coverage
+go.work
+go.work.sum
+coverage.out
+
+# Local user config, exported dictionary & runtime/debug files
+antigravity-zh.json
+/dict_zh_cn.json
+plugin_cache_zh.json
+fuse_cache.json
+debug.log
+*.log
+*.tmp
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
