@@ -117,6 +117,7 @@
       if (flags || hasUnescapedPipe(regexStr)) return null;
       let depth = 0;
       let inClass = false;
+      let inBrace = false;
       let cur = '';
       let best = '';
       const flush = () => {
@@ -128,7 +129,7 @@
         if (ch === '\\') {
           if (i + 1 >= regexStr.length) break;
           const next = regexStr[++i];
-          if (depth === 0 && !inClass && !/[A-Za-z0-9]/.test(next)) {
+          if (depth === 0 && !inClass && !inBrace && !/[A-Za-z0-9]/.test(next)) {
             const after = regexStr[i + 1] || '';
             if (after === '?' || after === '*' || after === '{') {
               flush();
@@ -144,11 +145,16 @@
           if (ch === ']') inClass = false;
           continue;
         }
+        if (inBrace) {
+          if (ch === '}') inBrace = false;
+          continue;
+        }
         if (ch === '[') { flush(); inClass = true; continue; }
         if (ch === '(') { flush(); depth++; continue; }
         if (ch === ')') { flush(); if (depth > 0) depth--; continue; }
         if (depth > 0) continue;
-        if ('{}*+?|.^$'.includes(ch)) {
+        if (ch === '{') { flush(); inBrace = true; continue; }
+        if ('}*+?|.^$'.includes(ch)) {
           flush();
           continue;
         }
@@ -383,7 +389,7 @@
   let dict = typeof __AGZH_DICT__ !== 'undefined' ? __AGZH_DICT__ : {};
   let initCache = typeof __AGZH_CACHE__ !== 'undefined' ? __AGZH_CACHE__ : {};
   const debug = typeof __AGZH_DEBUG__ !== 'undefined' && __AGZH_DEBUG__;
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.2';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.3';
   const skipSelector = Array.isArray(dict.skipSelectors) && dict.skipSelectors.length > 0
     ? dict.skipSelectors.join(',')
     : '';
@@ -724,6 +730,10 @@
     if (!node || node.nodeType !== 3) return;
     const val = node.nodeValue;
     if (!val || lastProcessed.get(node) === val) return;
+    if (!ATTR_ASCII_RE.test(val)) {
+      lastProcessed.set(node, val);
+      return;
+    }
     const parent = node.parentElement;
     if (!skipChecked && parent && shouldSkipTextContainer(parent)) {
       lastProcessed.set(node, val);
@@ -765,7 +775,7 @@
 
   function processAttributes(el) {
     if (!el || el.nodeType !== 1) return;
-    if (ATTR_SKIP_TAGS.has(el.tagName)) return;
+    if (ATTR_SKIP_TAGS.has(el.tagName) || !el.hasAttributes()) return;
     let seen = attrCache.get(el);
     for (let i = 0; i < ATTRS.length; i++) {
       const attr = ATTRS[i];
@@ -829,10 +839,17 @@
   function walkAndTranslate(root) {
     if (!root) return;
     if (root.nodeType === 3) {
-      if (root.parentElement && tryTranslateConsecutiveTextRuns(root.parentElement)) {
-        return;
+      const parent = root.parentElement;
+      if (parent) {
+        if (shouldSkipTextContainer(parent)) {
+          lastProcessed.set(root, root.nodeValue || '');
+          return;
+        }
+        if (tryTranslateConsecutiveTextRuns(parent, true)) {
+          return;
+        }
       }
-      processTextNode(root);
+      processTextNode(root, true);
       return;
     }
     if (root.nodeType !== 1 && root.nodeType !== 11 && root.nodeType !== 9) return;
@@ -906,6 +923,7 @@
     const el = node && (node.nodeType === 1 ? node : node.parentElement);
     if (!el) return false;
     if (SKIP_TAGS.has(el.tagName)) return true;
+    if (el.isContentEditable) return true;
     if (skipSelector) {
       try {
         if (el.closest(skipSelector)) return true;
@@ -929,12 +947,22 @@
     for (let i = 0; i < mutations.length; i++) {
       const m = mutations[i];
       if (m.type === 'characterData') {
-        const val = m.target && m.target.nodeValue;
-        if (!val || lastProcessed.get(m.target) === val) continue;
-        if (!isHotSkipTarget(m.target)) enqueue(m.target);
+        const t = m.target;
+        const val = t && t.nodeValue;
+        if (!val || val.length > 640 || lastProcessed.get(t) === val) continue;
+        if (!ATTR_ASCII_RE.test(val)) {
+          const prev = t.previousSibling;
+          const next = t.nextSibling;
+          if ((!prev || prev.nodeType !== 3) && (!next || next.nodeType !== 3)) continue;
+        }
+        if (!isHotSkipTarget(t)) enqueue(t);
       } else if (m.type === 'attributes') {
-        if (m.target && m.target.nodeType === 1 && !isHotAttrSkipTarget(m.target)) {
-          processAttributes(m.target);
+        const el = m.target;
+        if (!el || el.nodeType !== 1) continue;
+        const seen = attrCache.get(el);
+        if (seen && m.attributeName && seen[m.attributeName] === el.getAttribute(m.attributeName)) continue;
+        if (!isHotAttrSkipTarget(el)) {
+          processAttributes(el);
         }
       } else if (m.type === 'childList') {
         if (m.addedNodes.length === 0 || isHotSkipTarget(m.target)) continue;
@@ -943,6 +971,15 @@
           const nt = added && added.nodeType;
           if (nt !== 1 && nt !== 3) continue;
           if (nt === 1 && ATTR_SKIP_TAGS.has(added.tagName)) continue;
+          if (nt === 3) {
+            const val = added.nodeValue;
+            if (!val || val.length > 640 || lastProcessed.get(added) === val) continue;
+            if (!ATTR_ASCII_RE.test(val)) {
+              const prev = added.previousSibling;
+              const next = added.nextSibling;
+              if ((!prev || prev.nodeType !== 3) && (!next || next.nodeType !== 3)) continue;
+            }
+          }
           enqueue(added);
         }
       }

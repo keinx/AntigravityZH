@@ -165,6 +165,16 @@ assert.strictEqual(translateString('Yes, allow', false), '是，允许');
 assert.strictEqual(translateString('Using browser · Thinking...', false), '正在使用浏览器 · 思考中...');
 assert.strictEqual(translateString('8 browser steps', false), '8 个浏览器步骤');
 assert.strictEqual(translateString('System Message', false), '系统消息');
+assert.strictEqual(translateString('Searching...', false), '正在搜索...');
+assert.strictEqual(translateString('No matching results', false), '没有匹配的结果');
+assert.strictEqual(translateString('Other (write your answer)', false), '其他（填写你的回答）');
+assert.strictEqual(translateString('Compacting ·', false), '压缩中 ·');
+assert.strictEqual(translateString('Compacting · 12s', false), '压缩中 · 12s');
+assert.strictEqual(translateString('Your quota for this model is running low.', false), '当前模型的配额即将耗尽。');
+assert.strictEqual(translateString('Work in a New Worktree', false), '在新的 Worktree 中工作');
+assert.strictEqual(translateString('Keeps your checkout untouched', false), '保持当前工作区代码不受影响');
+assert.strictEqual(translateString('View could not be opened', false), '无法打开视图');
+assert.strictEqual(translateString('Artifact not found', false), '未找到产物');
 
 // 4b. AutoCache is gated by allowAutoCache so cached plugin names never leak
 const { translateString: txWithCache } = createTranslator(dict, {
@@ -173,6 +183,12 @@ const { translateString: txWithCache } = createTranslator(dict, {
 });
 assert.strictEqual(txWithCache('Google Docs', false, false), null);
 assert.strictEqual(txWithCache('Read and edit your documents easily.', false, true), '轻松阅读和编辑您的文档。');
+
+// 4c. Top-level brace quantifiers like \d{10,20} must not extract "10,20" as a literal contains guard
+const { translateString: txBrace } = createTranslator({
+  patterns: [{ regex: '^ID \\d{10,20}$', replace: '编号已匹配' }]
+});
+assert.strictEqual(txBrace('ID 123456789012', false), '编号已匹配');
 
 // 5. Already Chinese / unmatched / long text skipped safely
 assert.strictEqual(translateString('已经是中文', false), null);

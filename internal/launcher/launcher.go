@@ -105,10 +105,40 @@ func buildMergedDict(baseBytes []byte, externalDictPath string) ([]byte, error) 
 		base.Attributes[k] = v
 	}
 	if len(ext.Patterns) > 0 {
-		base.Patterns = append(ext.Patterns, base.Patterns...)
+		merged := make([]PatternRule, 0, len(ext.Patterns)+len(base.Patterns))
+		seen := make(map[string]struct{}, len(ext.Patterns)+len(base.Patterns))
+		for _, p := range ext.Patterns {
+			key := p.Flags + "\x00" + p.Regex
+			if _, dup := seen[key]; !dup {
+				seen[key] = struct{}{}
+				merged = append(merged, p)
+			}
+		}
+		for _, p := range base.Patterns {
+			key := p.Flags + "\x00" + p.Regex
+			if _, dup := seen[key]; !dup {
+				seen[key] = struct{}{}
+				merged = append(merged, p)
+			}
+		}
+		base.Patterns = merged
 	}
 	if len(ext.SkipSelectors) > 0 {
-		base.SkipSelectors = append(base.SkipSelectors, ext.SkipSelectors...)
+		merged := make([]string, 0, len(base.SkipSelectors)+len(ext.SkipSelectors))
+		seen := make(map[string]struct{}, len(base.SkipSelectors)+len(ext.SkipSelectors))
+		for _, s := range base.SkipSelectors {
+			if _, dup := seen[s]; !dup {
+				seen[s] = struct{}{}
+				merged = append(merged, s)
+			}
+		}
+		for _, s := range ext.SkipSelectors {
+			if _, dup := seen[s]; !dup {
+				seen[s] = struct{}{}
+				merged = append(merged, s)
+			}
+		}
+		base.SkipSelectors = merged
 	}
 	return json.Marshal(base)
 }

@@ -97,12 +97,12 @@ func InjectAndResume(port int, hookPath string, timeout time.Duration) error {
 	// Wait for Debugger.paused so we get the top call frame (where `require` is in scope).
 	var pausedFrameID string
 	pauseDeadline := time.Now().Add(4 * time.Second)
+	_ = ws.conn.SetReadDeadline(pauseDeadline)
 	for time.Now().Before(pauseDeadline) {
-		_ = ws.conn.SetReadDeadline(time.Now().Add(250 * time.Millisecond))
 		frame, err := ws.ReadText()
 		if err != nil {
 			if ne, ok := err.(net.Error); ok && ne.Timeout() {
-				continue
+				break
 			}
 			return err
 		}
@@ -181,7 +181,7 @@ func InjectAndResume(port int, hookPath string, timeout time.Duration) error {
 }
 
 func waitForEvalResponse(ws *wsConn, targetID int) error {
-	for i := 0; i < 64; i++ {
+	for i := 0; i < 512; i++ {
 		frame, err := ws.ReadText()
 		if err != nil {
 			return err
@@ -216,7 +216,7 @@ func waitForEvalResponse(ws *wsConn, targetID int) error {
 
 func waitForAck(ws *wsConn, targetID int, timeout time.Duration) error {
 	_ = ws.conn.SetReadDeadline(time.Now().Add(timeout))
-	for i := 0; i < 32; i++ {
+	for i := 0; i < 256; i++ {
 		frame, err := ws.ReadText()
 		if err != nil {
 			return err
@@ -385,29 +385,26 @@ func (w *wsConn) WriteText(payload []byte) error {
 	_, _ = rand.Read(mask[:])
 
 	n := len(payload)
-	header := make([]byte, 0, 14)
-	header = append(header, 0x81) // FIN + text opcode
+	frame := make([]byte, 0, 14+n)
+	frame = append(frame, 0x81) // FIN + text opcode
 	switch {
 	case n < 126:
-		header = append(header, 0x80|byte(n))
+		frame = append(frame, 0x80|byte(n))
 	case n < 65536:
-		header = append(header, 0x80|126, byte(n>>8), byte(n))
+		frame = append(frame, 0x80|126, byte(n>>8), byte(n))
 	default:
 		var b [8]byte
 		binary.BigEndian.PutUint64(b[:], uint64(n))
-		header = append(header, 0x80|127)
-		header = append(header, b[:]...)
+		frame = append(frame, 0x80|127)
+		frame = append(frame, b[:]...)
 	}
-	header = append(header, mask[:]...)
-
-	masked := make([]byte, n)
+	frame = append(frame, mask[:]...)
+	offset := len(frame)
+	frame = frame[:offset+n]
 	for i := 0; i < n; i++ {
-		masked[i] = payload[i] ^ mask[i%4]
+		frame[offset+i] = payload[i] ^ mask[i%4]
 	}
-	if _, err := w.conn.Write(header); err != nil {
-		return err
-	}
-	_, err := w.conn.Write(masked)
+	_, err := w.conn.Write(frame)
 	return err
 }
 

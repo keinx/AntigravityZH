@@ -34,7 +34,7 @@
   logDebug('agzh_hook.js loaded in Electron main process');
 
   // Close the temporary V8 inspector port right after Debugger.resume completes.
-  setTimeout(() => {
+  const closeInspectorTimer = setTimeout(() => {
     try {
       const inspector = require('inspector');
       if (inspector && typeof inspector.close === 'function') {
@@ -43,6 +43,9 @@
       }
     } catch (_) {}
   }, 500);
+  if (closeInspectorTimer && typeof closeInspectorTimer.unref === 'function') {
+    closeInspectorTimer.unref();
+  }
 
   let dict = { menus: {}, exact: {}, attributes: {}, patterns: [], skipSelectors: [] };
   let rendererCode = '';
@@ -74,7 +77,7 @@
   }
 
   // Pre-serialize static dictionary JSON once at startup (avoids re-stringifying ~100KB on every page load).
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.2';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.3';
   const dictJsonStr = JSON.stringify(dict);
   const menuMap = Object.assign({}, dict.menus || {});
   dict = null; // Free parsed dict object from Electron main-process heap.
@@ -130,6 +133,29 @@
           if (cacheDiskDirty) scheduleSaveCache();
         });
     }, 1000);
+    if (cacheSaveTimer && typeof cacheSaveTimer.unref === 'function') {
+      cacheSaveTimer.unref();
+    }
+  }
+
+  function flushCacheSync() {
+    if (!cachePath || !cacheDiskDirty) return;
+    if (cacheSaveTimer) {
+      clearTimeout(cacheSaveTimer);
+      cacheSaveTimer = null;
+    }
+    cacheDiskDirty = false;
+    const tmp = cachePath + '.sync.tmp';
+    try {
+      const serialized = JSON.stringify(autoCache);
+      cacheJsonStr = serialized;
+      cacheJsonDirty = false;
+      fs.writeFileSync(tmp, serialized, 'utf8');
+      fs.renameSync(tmp, cachePath);
+    } catch (e) {
+      logDebug('Sync cache flush failed: ' + String(e));
+      try { fs.unlinkSync(tmp); } catch (_) {}
+    }
   }
 
   // On-demand lightweight translation via Electron's net.fetch (inherits system proxy automatically).
@@ -343,10 +369,15 @@
       };
     }
 
+    if (app && typeof app.once === 'function') {
+      app.once('before-quit', flushCacheSync);
+    }
+
     if (app && rendererCode) {
       app.on('web-contents-created', (_event, wc) => {
         if (!wc || wc.isDestroyed()) return;
         const wcType = typeof wc.getType === 'function' ? wc.getType() : '';
+        if (wcType === 'devtools') return;
 
         // Listen for on-demand plugin/modal translation requests and homepage open signal from Hub renderer only.
         wc.on('console-message', (ev, _level, message) => {
@@ -380,8 +411,9 @@
           if (!frame || (typeof frame.isDestroyed === 'function' && frame.isDestroyed())) return;
           const fUrl = frame.url || '';
           if (!isLocalUiFrameUrl(fUrl)) return;
-          if (fUrl && injectedChildFrames.get(frame) === fUrl) return;
-          injectedChildFrames.set(frame, fUrl || '__empty__');
+          const frameKey = fUrl || '__empty__';
+          if (injectedChildFrames.get(frame) === frameKey) return;
+          injectedChildFrames.set(frame, frameKey);
           logDebug(`wc child-frame url=${fUrl.slice(0, 80)}`);
           frame.executeJavaScript(buildInjectedPayload(true), true).catch((e) => {
             injectedChildFrames.delete(frame);

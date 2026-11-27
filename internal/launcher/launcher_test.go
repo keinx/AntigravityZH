@@ -6,6 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"antigravity-zh/assets"
 )
 
 func TestBuildNodeOptions(t *testing.T) {
@@ -66,5 +68,41 @@ func TestSyncRuntimeFilesAndExternalOverride(t *testing.T) {
 	info2, _ := os.Stat(paths.HookPath)
 	if !info1.ModTime().Equal(info2.ModTime()) {
 		t.Fatalf("expected cached file not to be rewritten")
+	}
+}
+
+func TestSyncRuntimeFilesExportedDictDedup(t *testing.T) {
+	dir := t.TempDir()
+	rtDir := filepath.Join(dir, "runtime")
+	extDict := filepath.Join(dir, "dict_zh_cn.json")
+
+	// Simulate --export-dict writing the full built-in dictionary.
+	if err := os.WriteFile(extDict, assets.DefaultDictJSON, 0o644); err != nil {
+		t.Fatal(err)
+	}
+
+	var base Dictionary
+	if err := json.Unmarshal(assets.DefaultDictJSON, &base); err != nil {
+		t.Fatal(err)
+	}
+
+	paths, err := SyncRuntimeFiles(rtDir, extDict)
+	if err != nil {
+		t.Fatalf("SyncRuntimeFiles failed: %v", err)
+	}
+	mergedBytes, err := os.ReadFile(paths.DictPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var merged Dictionary
+	if err := json.Unmarshal(mergedBytes, &merged); err != nil {
+		t.Fatal(err)
+	}
+
+	if len(merged.Patterns) != len(base.Patterns) {
+		t.Fatalf("expected patterns to be deduplicated (%d), got %d", len(base.Patterns), len(merged.Patterns))
+	}
+	if len(merged.SkipSelectors) != len(base.SkipSelectors) {
+		t.Fatalf("expected skipSelectors to be deduplicated (%d), got %d", len(base.SkipSelectors), len(merged.SkipSelectors))
 	}
 }
