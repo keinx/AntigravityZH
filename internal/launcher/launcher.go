@@ -31,9 +31,11 @@ type Dictionary struct {
 }
 
 type RuntimePaths struct {
-	HookPath     string
-	RendererPath string
-	DictPath     string
+	HookPath         string
+	RendererPath     string
+	SkinRendererPath string
+	DictPath         string
+	UserDataDir      string
 }
 
 // SyncRuntimeFiles materializes embedded JS hooks and merged dictionary into runtimeDir.
@@ -49,15 +51,19 @@ func SyncRuntimeFiles(runtimeDir, externalDictPath string) (RuntimePaths, error)
 	}
 
 	paths := RuntimePaths{
-		HookPath:     filepath.Join(runtimeDir, "agzh_hook.js"),
-		RendererPath: filepath.Join(runtimeDir, "renderer_i18n.js"),
-		DictPath:     filepath.Join(runtimeDir, "dict_zh_cn.json"),
+		HookPath:         filepath.Join(runtimeDir, "agzh_hook.js"),
+		RendererPath:     filepath.Join(runtimeDir, "renderer_i18n.js"),
+		SkinRendererPath: filepath.Join(runtimeDir, "renderer_skin.js"),
+		DictPath:         filepath.Join(runtimeDir, "dict_zh_cn.json"),
 	}
 
 	if err := writeIfChanged(paths.HookPath, assets.HookJS); err != nil {
 		return RuntimePaths{}, err
 	}
 	if err := writeIfChanged(paths.RendererPath, assets.RendererJS); err != nil {
+		return RuntimePaths{}, err
+	}
+	if err := writeIfChanged(paths.SkinRendererPath, assets.SkinRendererJS); err != nil {
 		return RuntimePaths{}, err
 	}
 	if err := writeIfChanged(paths.DictPath, mergedDict); err != nil {
@@ -200,6 +206,12 @@ func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 		"AGZH_RENDERER="+rt.RendererPath,
 		"AGZH_DICT="+rt.DictPath,
 	)
+	if rt.SkinRendererPath != "" {
+		env = append(env, "AGZH_SKIN_RENDERER="+rt.SkinRendererPath)
+	}
+	if rt.UserDataDir != "" {
+		env = append(env, "AGZH_USER_DATA="+rt.UserDataDir)
+	}
 	if debug {
 		env = append(env, "AGZH_DEBUG=1")
 	}

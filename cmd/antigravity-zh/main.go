@@ -101,6 +101,7 @@ func main() {
 		winui.MessageBoxError(appTitle, fmt.Sprintf("准备汉化运行文件失败：%v", err))
 		os.Exit(1)
 	}
+	rtPaths.UserDataDir = userDataDir
 
 	if err := launcher.Launch(exePath, passthroughArgs, rtPaths, debugMode); err != nil {
 		winui.MessageBoxError(appTitle, fmt.Sprintf("启动 Antigravity 失败：%v", err))

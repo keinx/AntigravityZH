@@ -60,13 +60,19 @@ func TestSyncRuntimeFilesAndExternalOverride(t *testing.T) {
 		t.Fatalf("expected menu override for File, got %q", merged.Menus["File"])
 	}
 
+	if _, err := os.Stat(paths.SkinRendererPath); err != nil {
+		t.Fatalf("expected skin renderer synced at %s: %v", paths.SkinRendererPath, err)
+	}
+
 	// Second call should hit cache cleanly without modifying timestamps.
 	info1, _ := os.Stat(paths.HookPath)
+	skinInfo1, _ := os.Stat(paths.SkinRendererPath)
 	if _, err := SyncRuntimeFiles(rtDir, extDict); err != nil {
 		t.Fatalf("second SyncRuntimeFiles failed: %v", err)
 	}
 	info2, _ := os.Stat(paths.HookPath)
-	if !info1.ModTime().Equal(info2.ModTime()) {
+	skinInfo2, _ := os.Stat(paths.SkinRendererPath)
+	if !info1.ModTime().Equal(info2.ModTime()) || !skinInfo1.ModTime().Equal(skinInfo2.ModTime()) {
 		t.Fatalf("expected cached file not to be rewritten")
 	}
 }

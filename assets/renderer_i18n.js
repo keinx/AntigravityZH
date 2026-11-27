@@ -688,39 +688,63 @@
       if (!next) continue;
       const nextTxt = (next.textContent || '').trim();
       if (nextTxt === '检查更新' || nextTxt === 'Check for Updates' || nextTxt === 'Check for Updates...' || nextTxt === '检查更新...') {
-        if (container.querySelector('[data-agzh-ver-item]')) return;
-        const clone = row.cloneNode(true);
-        clone.setAttribute('data-agzh-ver-item', '1');
-        clone.setAttribute('data-agzh-skip', '1');
-        clone.removeAttribute('disabled');
-        clone.removeAttribute('aria-disabled');
-        if (clone.classList) clone.classList.remove('pointer-events-none');
-        clone.style.pointerEvents = 'auto';
-        clone.style.cursor = 'pointer';
-        clone.title = 'https://github.com/keinx/AntigravityZH';
-        const disabledChildren = clone.querySelectorAll('.pointer-events-none, [disabled], [aria-disabled]');
-        for (let i = 0; i < disabledChildren.length; i++) {
-          const ch = disabledChildren[i];
-          if (ch.classList) ch.classList.remove('pointer-events-none');
-          ch.removeAttribute('disabled');
-          ch.removeAttribute('aria-disabled');
-          ch.style.pointerEvents = 'auto';
-        }
-        clone.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          console.debug('__AGZH_OPEN_HOMEPAGE__');
-          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-        });
-        const tw = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
-        let tn;
-        while ((tn = tw.nextNode())) {
-          if (VERSION_ITEM_RE.test((tn.nodeValue || '').trim())) {
-            tn.nodeValue = '汉化助手版本 ' + zhVersion;
-            break;
+        const makeMenuItemClone = (attrName, labelText, titleText, onClick) => {
+          const clone = row.cloneNode(true);
+          clone.setAttribute(attrName, '1');
+          clone.setAttribute('data-agzh-skip', '1');
+          clone.removeAttribute('disabled');
+          clone.removeAttribute('aria-disabled');
+          if (clone.classList) clone.classList.remove('pointer-events-none');
+          clone.style.pointerEvents = 'auto';
+          clone.style.cursor = 'pointer';
+          if (titleText) clone.title = titleText;
+          const disabledChildren = clone.querySelectorAll('.pointer-events-none, [disabled], [aria-disabled]');
+          for (let i = 0; i < disabledChildren.length; i++) {
+            const ch = disabledChildren[i];
+            if (ch.classList) ch.classList.remove('pointer-events-none');
+            ch.removeAttribute('disabled');
+            ch.removeAttribute('aria-disabled');
+            ch.style.pointerEvents = 'auto';
           }
+          clone.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+            onClick();
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+          });
+          const tw = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
+          let tn;
+          while ((tn = tw.nextNode())) {
+            if (VERSION_ITEM_RE.test((tn.nodeValue || '').trim())) {
+              tn.nodeValue = labelText;
+              break;
+            }
+          }
+          return clone;
+        };
+
+        if (!container.querySelector('[data-agzh-ver-item]')) {
+          const verItem = makeMenuItemClone(
+            'data-agzh-ver-item',
+            '汉化助手版本 ' + zhVersion,
+            'https://github.com/keinx/AntigravityZH',
+            () => console.debug('__AGZH_OPEN_HOMEPAGE__')
+          );
+          container.insertBefore(verItem, next);
         }
-        container.insertBefore(clone, next);
+        if (!container.querySelector('[data-agzh-skin-menu-item]')) {
+          const skinItem = makeMenuItemClone(
+            'data-agzh-skin-menu-item',
+            '自定义皮肤...',
+            '自定义静态图片皮肤设置',
+            () => {
+              if (typeof window.__AGZH_OPEN_SKIN_PANEL__ === 'function') {
+                window.__AGZH_OPEN_SKIN_PANEL__();
+              }
+            }
+          );
+          container.insertBefore(skinItem, next);
+        }
         return;
       }
     }

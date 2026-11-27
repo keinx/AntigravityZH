@@ -72,6 +72,7 @@ jobs:
       - name: Run JS unit tests & syntax check
         run: |
           node assets/renderer_i18n_test.js
+          node assets/renderer_skin_test.js
           node -c assets/agzh_hook.js
 
       - name: Run Go vet (all target platforms) & unit tests (macOS)

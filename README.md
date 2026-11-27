@@ -36,6 +36,10 @@
 - **插件市场与 MCP 商店按需翻译**：
   - 静态词典已覆盖核心 UI、设置页、常用插件及内置技能；未收录的插件详情页描述与 MCP 服务商店描述支持通过 Electron 内置网络（自动继承系统代理）按需翻译并持久化缓存至本地。
   - **克制翻译策略**：插件名称、MCP 服务名称、代码块、命令/技能/智能体 Markdown 弹窗保持英文原貌，避免破坏专业术语与代码可读性。
+- **自定义静态图片皮肤**：
+  - 支持在客户端内直接自定义静态背景皮肤（支持 `PNG`、`JPG`、`JPEG`、`WebP`、`BMP`、`AVIF`，单张最大 20 MB），零文件侵入原版程序。
+  - 提供 **顶部 `Antigravity` 菜单 → `自定义皮肤...`** 与 **「设置 → 外观」内置入口卡片**，支持可视化实时预览与自动持久化保存至 `skin_config.json`。
+  - 支持 **背景融合（半透明毛玻璃）** 与 **轻量叠层** 两种渲染模式、**全窗口 / 仅主内容区** 覆盖范围切换，以及背景可见度、护眼遮罩浓度、界面面板不透明度、模糊度与填充对齐方式调节。
 - **版本升级自然降级**：Antigravity 官方升级后，已匹配文案继续保持中文，新增未收录文案自动保持英文，不会导致白屏或崩溃。
 
 ---
@@ -136,7 +140,8 @@ AntigravityZH (Go 启动器)
 运行时数据存放目录：
 - **Windows**：`%LOCALAPPDATA%\AntigravityZH\runtime\`
 - **macOS**：`~/Library/Application Support/AntigravityZH/runtime/`
-- 目录内文件：`agzh_hook.js`、`renderer_i18n.js`、`dict_zh_cn.json`、`plugin_cache_zh.json`（按需翻译缓存，可随时删除重置）、`fuse_cache.json`（Fuse 检查缓存）。
+- 目录内文件：`agzh_hook.js`、`renderer_i18n.js`、`renderer_skin.js`、`dict_zh_cn.json`、`plugin_cache_zh.json`（按需翻译缓存，可随时删除重置）、`fuse_cache.json`（Fuse 检查缓存）。
+- 自定义皮肤配置文件：`skin_config.json`（Windows 与 macOS 命令行模式位于启动器同目录；macOS `.app` 模式位于 `~/Library/Application Support/AntigravityZH/skin_config.json`）。
 
 ---
 
@@ -160,10 +165,12 @@ AntigravityZH/
 │   └── winui/                        # Windows/macOS 原生弹窗与文件选择器
 ├── assets/
 │   ├── embed.go                      # //go:embed 静态资源嵌入
-│   ├── agzh_hook.js                  # Electron 主进程钩子（菜单、框架注入、按需翻译代理）
+│   ├── agzh_hook.js                  # Electron 主进程钩子（菜单、框架注入、按需翻译代理、皮肤管理）
 │   ├── renderer_i18n.js              # 渲染进程 DOM 汉化引擎
+│   ├── renderer_skin.js              # 渲染进程自定义静态图片皮肤引擎与可视化设置面板
 │   ├── dict_zh_cn.json               # 内置简体中文词典（含编译期兼容版本号）
 │   ├── renderer_i18n_test.js         # JS 翻译引擎单元测试与性能基准
+│   ├── renderer_skin_test.js         # JS 皮肤引擎单元测试
 │   └── app.ico                       # 从原版提取的多分辨率图标
 └── tools/genicon/
     └── main.go                       # 纯 Go 图标工具（PE 提取 .ico、生成 Windows .syso / PNG / Apple .icns）

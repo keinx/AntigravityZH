@@ -8,5 +8,8 @@ var HookJS []byte
 //go:embed renderer_i18n.js
 var RendererJS []byte
 
+//go:embed renderer_skin.js
+var SkinRendererJS []byte
+
 //go:embed dict_zh_cn.json
 var DefaultDictJSON []byte
