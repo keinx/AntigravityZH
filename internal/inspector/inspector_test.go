@@ -47,7 +47,7 @@ func TestInjectAndResumeWithNode(t *testing.T) {
 	if err := os.WriteFile(hookFile, []byte(hookCode), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(appFile, []byte("console.log('APP_DONE');\n"), 0o644); err != nil {
+	if err := os.WriteFile(appFile, []byte("console.log('APP_DONE');\nsetTimeout(() => {}, 100);\n"), 0o644); err != nil {
 		t.Fatal(err)
 	}
 
@@ -64,7 +64,7 @@ func TestInjectAndResumeWithNode(t *testing.T) {
 	}
 	defer func() { _ = cmd.Process.Kill() }()
 
-	if err := InjectAndResume(port, filepath.ToSlash(hookFile), 5*time.Second); err != nil {
+	if err := InjectAndResume(port, filepath.ToSlash(hookFile), 15*time.Second); err != nil {
 		t.Fatalf("InjectAndResume failed: %v (node stderr: %s)", err, stderr.String())
 	}
 

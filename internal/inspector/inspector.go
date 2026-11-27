@@ -370,6 +370,13 @@ func dialWS(rawURL string, timeout time.Duration) (*wsConn, error) {
 }
 
 func (w *wsConn) Close() error {
+	// Send a polite RFC 6455 masked Close frame before closing the TCP socket
+	// to avoid inspector teardown races on fast-exiting Node.js processes.
+	var mask [4]byte
+	_, _ = rand.Read(mask[:])
+	closeFrame := [6]byte{0x88, 0x80, mask[0], mask[1], mask[2], mask[3]}
+	_ = w.conn.SetWriteDeadline(time.Now().Add(200 * time.Millisecond))
+	_, _ = w.conn.Write(closeFrame[:])
 	return w.conn.Close()
 }
 
