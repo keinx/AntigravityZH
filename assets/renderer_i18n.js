@@ -383,7 +383,7 @@
   let dict = typeof __AGZH_DICT__ !== 'undefined' ? __AGZH_DICT__ : {};
   let initCache = typeof __AGZH_CACHE__ !== 'undefined' ? __AGZH_CACHE__ : {};
   const debug = typeof __AGZH_DEBUG__ !== 'undefined' && __AGZH_DEBUG__;
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.1';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.2';
   const skipSelector = Array.isArray(dict.skipSelectors) && dict.skipSelectors.length > 0
     ? dict.skipSelectors.join(',')
     : '';

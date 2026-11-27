@@ -1,5 +1,5 @@
 {
-  "version": "2.35.2.1",
+  "version": "2.35.2.2",
   "menus": {
     "File": "文件",
     "Edit": "编辑",
@@ -43,7 +43,11 @@
     "About": "关于",
     "About Antigravity": "关于 Antigravity",
     "Settings": "设置",
-    "Preferences": "偏好设置"
+    "Preferences": "偏好设置",
+    "Close Tab": "关闭标签页",
+    "Close Other Tabs": "关闭其他标签页",
+    "Close Tabs to the Left": "关闭左侧标签页",
+    "Close Tabs to the Right": "关闭右侧标签页"
   },
   "exact": {
     "View": "视图",
@@ -1238,7 +1242,40 @@
     "Stop Execution": "停止执行",
     "User cancelled agent execution.": "用户已取消智能体执行。",
     "User canceled agent execution.": "用户已取消智能体执行。",
-    "Comment (C)": "批注 (C)"
+    "Comment (C)": "批注 (C)",
+    "Explored artifact": "已浏览产物",
+    "Explored artifacts": "已浏览产物",
+    "Explored artifact, ran command": "已浏览产物、运行命令",
+    "Explored artifact, ran commands": "已浏览产物、运行多条命令",
+    "Explored artifacts, ran command": "已浏览产物、运行命令",
+    "Explored artifacts, ran commands": "已浏览产物、运行多条命令",
+    "Explored file, ran command": "已浏览文件、运行命令",
+    "Explored file, ran commands": "已浏览文件、运行多条命令",
+    "Exploring": "浏览中",
+    "Exploring...": "浏览中...",
+    "Ran": "已运行",
+    "Ran run": "已运行",
+    "Waiting for user input": "等待用户输入",
+    "Waiting for user input..": "等待用户输入...",
+    "Waiting for user input...": "等待用户输入...",
+    "Yes, allow": "是，允许",
+    "Yes, allow this time": "是，仅本次允许",
+    "Yes, and always allow": "是，且始终允许",
+    "No (tell the agent what to do instead)": "否（告诉智能体改为执行什么）",
+    "(tell the agent what to do instead)": "（告诉智能体改为执行什么）",
+    "Skip (Esc), Skip All (Ctrl+Esc)": "跳过 (Esc)，全部跳过 (Ctrl+Esc)",
+    "Skip (Esc), Skip All (Cmd+Esc)": "跳过 (Esc)，全部跳过 (Cmd+Esc)",
+    "Skip (Esc), Skip All (⌘+Esc)": "跳过 (Esc)，全部跳过 (⌘+Esc)",
+    "Skip (Esc)": "跳过 (Esc)",
+    "Skip All (Ctrl+Esc)": "全部跳过 (Ctrl+Esc)",
+    "Submit (↵)": "提交 (↵)",
+    "Submit (Enter)": "提交 (Enter)",
+    "Using browser": "正在使用浏览器",
+    "Using browser · Thinking": "正在使用浏览器 · 思考中",
+    "Using browser · Thinking...": "正在使用浏览器 · 思考中...",
+    "· Thinking": "· 思考中",
+    "· Thinking...": "· 思考中...",
+    "System Message": "系统消息"
   },
   "attributes": {
     "Ask anything...": "输入任何问题或指令...",
@@ -2472,6 +2509,26 @@
     {
       "regex": "^(.+?)\\s*\\(Minimal\\)\\s*·\\s*Remote$",
       "replace": "$1（极简）· 远程"
+    },
+    {
+      "regex": "^Running\\s+(.+)$",
+      "replace": "正在运行 $1"
+    },
+    {
+      "regex": "^Yes, and always allow\\s+(.+)$",
+      "replace": "是，且始终允许 $1"
+    },
+    {
+      "regex": "^Yes, allow\\s+(.+)$",
+      "replace": "是，允许 $1"
+    },
+    {
+      "regex": "^Using browser\\s*·\\s*(.+)$",
+      "replace": "正在使用浏览器 · $1"
+    },
+    {
+      "regex": "^(\\d+)\\s+browser\\s+steps?$",
+      "replace": "$1 个浏览器步骤"
     }
   ],
   "skipSelectors": [

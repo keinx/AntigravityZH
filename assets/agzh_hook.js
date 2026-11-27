@@ -74,7 +74,7 @@
   }
 
   // Pre-serialize static dictionary JSON once at startup (avoids re-stringifying ~100KB on every page load).
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.1';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.2';
   const dictJsonStr = JSON.stringify(dict);
   const menuMap = Object.assign({}, dict.menus || {});
   dict = null; // Free parsed dict object from Electron main-process heap.

@@ -150,6 +150,21 @@ assert.strictEqual(translateString('Applies to /btw and messages sent after this
 assert.strictEqual(translateString('Stop Execution', false), '停止执行');
 assert.strictEqual(translateString('User cancelled agent execution.', false), '用户已取消智能体执行。');
 assert.strictEqual(translateString('Comment (C)', false), '批注 (C)');
+assert.strictEqual(translateString('Explored artifact, ran command', false), '已浏览产物、运行命令');
+assert.strictEqual(translateString('Exploring', false), '浏览中');
+assert.strictEqual(translateString('Ran run', false), '已运行');
+assert.strictEqual(translateString('Running commit CI fix, update tag', false), '正在运行 commit CI fix, update tag');
+assert.strictEqual(translateString('Waiting for user input..', false), '等待用户输入...');
+assert.strictEqual(translateString('Yes, allow this time', false), '是，仅本次允许');
+assert.strictEqual(translateString('No (tell the agent what to do instead)', false), '否（告诉智能体改为执行什么）');
+assert.strictEqual(translateString('(tell the agent what to do instead)', false), '（告诉智能体改为执行什么）');
+assert.strictEqual(translateString('Yes, and always allow', false), '是，且始终允许');
+assert.strictEqual(translateString('Skip (Esc), Skip All (Ctrl+Esc)', false), '跳过 (Esc)，全部跳过 (Ctrl+Esc)');
+assert.strictEqual(translateString('Submit (↵)', false), '提交 (↵)');
+assert.strictEqual(translateString('Yes, allow', false), '是，允许');
+assert.strictEqual(translateString('Using browser · Thinking...', false), '正在使用浏览器 · 思考中...');
+assert.strictEqual(translateString('8 browser steps', false), '8 个浏览器步骤');
+assert.strictEqual(translateString('System Message', false), '系统消息');
 
 // 4b. AutoCache is gated by allowAutoCache so cached plugin names never leak
 const { translateString: txWithCache } = createTranslator(dict, {
