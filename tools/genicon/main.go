@@ -12,9 +12,10 @@ import (
 
 func main() {
 	extractExe := flag.String("extract", "", "Source Windows .exe to extract primary icon from")
-	icoPath := flag.String("ico", "", "Path to .ico file (output when -extract is set, input when -syso or -png is set)")
+	icoPath := flag.String("ico", "", "Path to .ico file (output when -extract is set, input when -syso, -png, or -icns is set)")
 	sysoPath := flag.String("syso", "", "Output Windows amd64 .syso resource file")
 	pngPath := flag.String("png", "", "Output largest PNG image extracted from .ico")
+	icnsPath := flag.String("icns", "", "Output Apple .icns icon file built from PNG frames inside .ico")
 	flag.Parse()
 
 	if *extractExe != "" {
@@ -45,6 +46,16 @@ func main() {
 			fatal(err)
 		}
 		fmt.Printf("Extracted largest PNG icon to %s\n", *pngPath)
+	}
+
+	if *icnsPath != "" {
+		if *icoPath == "" {
+			fatal(errors.New("-ico is required with -icns"))
+		}
+		if err := buildICNSFromICO(*icoPath, *icnsPath); err != nil {
+			fatal(err)
+		}
+		fmt.Printf("Generated Apple ICNS icon %s\n", *icnsPath)
 	}
 }
 
@@ -467,4 +478,97 @@ func extractLargestPNGFromICO(icoPath, outPNG string) error {
 		return errors.New("no PNG image found inside .ico")
 	}
 	return os.WriteFile(outPNG, best, 0o644)
+}
+
+// --- Part 4: Build Apple .icns container directly from PNG frames in .ico ---
+
+func buildICNSFromICO(icoPath, outICNS string) error {
+	ico, err := os.ReadFile(icoPath)
+	if err != nil {
+		return err
+	}
+	if len(ico) < 6 {
+		return errors.New("invalid .ico file")
+	}
+	count := int(binary.LittleEndian.Uint16(ico[4:6]))
+	if count == 0 || len(ico) < 6+count*16 {
+		return errors.New("invalid .ico directory")
+	}
+
+	pngSig := []byte{0x89, 'P', 'N', 'G', '\r', '\n', 0x1a, '\n'}
+	type icnsChunk struct {
+		osType [4]byte
+		data   []byte
+	}
+	var chunks []icnsChunk
+	seen := make(map[[4]byte]bool)
+	var largestPNG []byte
+
+	for i := 0; i < count; i++ {
+		e := ico[6+i*16 : 6+(i+1)*16]
+		size := binary.LittleEndian.Uint32(e[8:12])
+		off := binary.LittleEndian.Uint32(e[12:16])
+		if int(off+size) > len(ico) {
+			return errors.New("icon payload out of bounds")
+		}
+		payload := ico[off : off+size]
+		if len(payload) < 24 || !bytes.Equal(payload[:len(pngSig)], pngSig) {
+			continue
+		}
+		if len(payload) > len(largestPNG) {
+			largestPNG = payload
+		}
+		w := binary.BigEndian.Uint32(payload[16:20])
+		h := binary.BigEndian.Uint32(payload[20:24])
+		if w != h {
+			continue
+		}
+		var osType [4]byte
+		switch w {
+		case 32:
+			osType = [4]byte{'i', 'c', '1', '1'} // 16x16@2x
+		case 64:
+			osType = [4]byte{'i', 'c', '1', '2'} // 32x32@2x
+		case 128:
+			osType = [4]byte{'i', 'c', '0', '7'} // 128x128
+		case 256:
+			osType = [4]byte{'i', 'c', '0', '8'} // 256x256
+		case 512:
+			osType = [4]byte{'i', 'c', '0', '9'} // 512x512
+		case 1024:
+			osType = [4]byte{'i', 'c', '1', '0'} // 512x512@2x
+		default:
+			continue
+		}
+		if !seen[osType] {
+			seen[osType] = true
+			chunks = append(chunks, icnsChunk{osType: osType, data: payload})
+		}
+	}
+
+	if len(chunks) == 0 {
+		if len(largestPNG) == 0 {
+			return errors.New("no PNG image found inside .ico")
+		}
+		chunks = append(chunks, icnsChunk{
+			osType: [4]byte{'i', 'c', '0', '8'},
+			data:   largestPNG,
+		})
+	}
+
+	totalLen := uint32(8)
+	for _, ch := range chunks {
+		totalLen += uint32(8 + len(ch.data))
+	}
+
+	var out bytes.Buffer
+	out.Grow(int(totalLen))
+	out.WriteString("icns")
+	_ = binary.Write(&out, binary.BigEndian, totalLen)
+	for _, ch := range chunks {
+		out.Write(ch.osType[:])
+		_ = binary.Write(&out, binary.BigEndian, uint32(8+len(ch.data)))
+		out.Write(ch.data)
+	}
+	return os.WriteFile(outICNS, out.Bytes(), 0o644)
 }

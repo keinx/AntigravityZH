@@ -2,7 +2,11 @@
 // Expects __AGZH_DICT__, __AGZH_CACHE__, and __AGZH_DEBUG__ in scope (or module.exports for unit tests).
 
 (function initRendererI18n(globalScope) {
+  const NEEDS_NORM_RE = /[\u00A0\u200B\u2018\u2019\u201C\u201D\u2026\u202F]/;
+  const CJK_CHAR_RE = /[\u4e00-\u9fff]/;
+
   function normalizeKey(str) {
+    if (!NEEDS_NORM_RE.test(str)) return str;
     return str
       .replace(/\u2026/g, '...')       // Unicode ellipsis … -> ...
       .replace(/[\u2018\u2019]/g, "'") // Smart single quotes -> '
@@ -69,6 +73,96 @@
       return out;
     }
 
+    function hasUnescapedPipe(regexStr) {
+      for (let i = 0; i < regexStr.length; i++) {
+        if (regexStr[i] === '\\') { i++; continue; }
+        if (regexStr[i] === '|') return true;
+      }
+      return false;
+    }
+
+    function extractLiteralSuffix(regexStr, flags) {
+      if (flags || !regexStr.endsWith('$') || regexStr.endsWith('\\$') || hasUnescapedPipe(regexStr)) return null;
+      const body = regexStr.slice(0, -1);
+      // Tokenize forward so escapes and quantifiers are parsed unambiguously.
+      const tokens = [];
+      for (let i = 0; i < body.length; i++) {
+        const ch = body[i];
+        if (ch === '\\') {
+          if (i + 1 >= body.length) return null;
+          const next = body[++i];
+          if (/[A-Za-z0-9]/.test(next)) {
+            tokens.push({ lit: null });
+          } else {
+            tokens.push({ lit: next });
+          }
+        } else if ('[](){}*+?|.^$'.includes(ch)) {
+          if ((ch === '?' || ch === '*' || ch === '+') && tokens.length > 0) {
+            tokens[tokens.length - 1].lit = null;
+          }
+          tokens.push({ lit: null });
+        } else {
+          tokens.push({ lit: ch });
+        }
+      }
+      let out = '';
+      for (let i = tokens.length - 1; i >= 0; i--) {
+        if (tokens[i].lit === null) break;
+        out = tokens[i].lit + out;
+      }
+      return out.length >= 1 ? out : null;
+    }
+
+    function extractLiteralContains(regexStr, flags) {
+      if (flags || hasUnescapedPipe(regexStr)) return null;
+      let depth = 0;
+      let inClass = false;
+      let cur = '';
+      let best = '';
+      const flush = () => {
+        if (cur.length > best.length) best = cur;
+        cur = '';
+      };
+      for (let i = 0; i < regexStr.length; i++) {
+        const ch = regexStr[i];
+        if (ch === '\\') {
+          if (i + 1 >= regexStr.length) break;
+          const next = regexStr[++i];
+          if (depth === 0 && !inClass && !/[A-Za-z0-9]/.test(next)) {
+            const after = regexStr[i + 1] || '';
+            if (after === '?' || after === '*' || after === '{') {
+              flush();
+            } else {
+              cur += next;
+            }
+          } else {
+            flush();
+          }
+          continue;
+        }
+        if (inClass) {
+          if (ch === ']') inClass = false;
+          continue;
+        }
+        if (ch === '[') { flush(); inClass = true; continue; }
+        if (ch === '(') { flush(); depth++; continue; }
+        if (ch === ')') { flush(); if (depth > 0) depth--; continue; }
+        if (depth > 0) continue;
+        if ('{}*+?|.^$'.includes(ch)) {
+          flush();
+          continue;
+        }
+        const after = regexStr[i + 1] || '';
+        if (after === '?' || after === '*' || after === '{') {
+          flush();
+          continue;
+        }
+        cur += ch;
+      }
+      flush();
+      return best.length >= 4 ? best : null;
+    }
+
     function extractBucket(regexStr, literalPrefix) {
       if (literalPrefix && literalPrefix.length > 0) {
         const ch = literalPrefix[0];
@@ -107,21 +201,31 @@
         if (!p || !p.regex || typeof p.replace !== 'string') continue;
         try {
           const literalPrefix = tryExtractLiteralPrefix(p.regex, p.flags || '', p.replace);
-          const compiled = literalPrefix !== null
-            ? {
-                idx: i,
-                prefix: literalPrefix,
-                rep: p.replace,
-                allowMixedCJK: Boolean(p.allowMixedCJK),
-                fullMatch: true
-              }
-            : {
-                idx: i,
-                re: new RegExp(p.regex, p.flags || ''),
-                rep: p.replace,
-                allowMixedCJK: Boolean(p.allowMixedCJK),
-                fullMatch: p.regex.startsWith('^') && p.regex.endsWith('$')
-              };
+          let compiled;
+          if (literalPrefix !== null) {
+            compiled = {
+              idx: i,
+              prefix: literalPrefix,
+              rep: p.replace,
+              allowMixedCJK: Boolean(p.allowMixedCJK),
+              fullMatch: true
+            };
+          } else {
+            const suffix = extractLiteralSuffix(p.regex, p.flags || '');
+            let contains = extractLiteralContains(p.regex, p.flags || '');
+            if (contains && suffix && suffix.includes(contains)) {
+              contains = null;
+            }
+            compiled = {
+              idx: i,
+              re: new RegExp(p.regex, p.flags || ''),
+              rep: p.replace,
+              allowMixedCJK: Boolean(p.allowMixedCJK),
+              fullMatch: p.regex.startsWith('^') && p.regex.endsWith('$'),
+              suffix: suffix !== null ? suffix : undefined,
+              contains: contains !== null ? contains : undefined
+            };
+          }
           patterns.push(compiled);
           if (compiled.allowMixedCJK) {
             mixedCjkPatterns.push(compiled);
@@ -202,13 +306,17 @@
               changed = true;
               break;
             }
-          } else if (p.re.test(current)) {
-            const replaced = current.replace(p.re, p.rep);
-            if (replaced !== current) {
-              current = replaced;
-              changed = true;
-              if (p.fullMatch) {
-                break;
+          } else {
+            if (p.suffix !== undefined && !current.endsWith(p.suffix)) continue;
+            if (p.contains !== undefined && !current.includes(p.contains)) continue;
+            if (p.re.test(current)) {
+              const replaced = current.replace(p.re, p.rep);
+              if (replaced !== current) {
+                current = replaced;
+                changed = true;
+                if (p.fullMatch) {
+                  break;
+                }
               }
             }
           }
@@ -275,7 +383,7 @@
   let dict = typeof __AGZH_DICT__ !== 'undefined' ? __AGZH_DICT__ : {};
   let initCache = typeof __AGZH_CACHE__ !== 'undefined' ? __AGZH_CACHE__ : {};
   const debug = typeof __AGZH_DEBUG__ !== 'undefined' && __AGZH_DEBUG__;
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.1';
   const skipSelector = Array.isArray(dict.skipSelectors) && dict.skipSelectors.length > 0
     ? dict.skipSelectors.join(',')
     : '';
@@ -458,10 +566,19 @@
     }
   }
 
-  function scheduleAutoTranslate(node, rawText, parentEl) {
+  function scheduleAutoTranslate(node, rawText, parentEl, prechecked) {
     const trimmed = rawText.trim();
     const norm = normalizeKey(trimmed);
-    if (!looksLikePluginDescription(norm, parentEl)) return;
+    if (!prechecked && !looksLikePluginDescription(norm, parentEl)) return;
+
+    let hit = autoCache.get(norm);
+    if (hit === undefined && norm.includes('\n')) {
+      hit = autoCache.get(norm.replace(/\s+/g, ' '));
+    }
+    if (hit !== undefined) {
+      applySingleNode(node, rawText, trimmed, hit);
+      return;
+    }
 
     let set = autoNodeBindings.get(norm);
     if (!set) {
@@ -470,11 +587,6 @@
     }
     set.add(node);
 
-    if (autoCache.has(norm)) {
-      const hit = autoCache.get(norm);
-      applySingleNode(node, rawText, trimmed, hit);
-      return;
-    }
     if (requestedAutoTexts.has(norm)) return;
     if (requestedAutoTexts.size >= MAX_AUTO_REQUESTED) {
       // Drop oldest entry to keep memory bounded in long sessions.
@@ -532,6 +644,8 @@
     }
   };
 
+  const DIALOG_SELECTOR = '[role="dialog"], [aria-modal="true"], dialog';
+
   function shouldSkipTextContainer(el) {
     if (!el || el.nodeType !== 1) return false;
     if (SKIP_TAGS.has(el.tagName)) return true;
@@ -542,6 +656,18 @@
         if (el.matches(skipSelector) || el.closest(skipSelector)) return true;
       } catch (_) {}
     }
+    return false;
+  }
+
+  // Fast self-only check for TreeWalker descendants whose ancestors were already checked & pruned.
+  function shouldSkipSelfInWalk(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (SKIP_TAGS.has(el.tagName)) return true;
+    if (el.isContentEditable) return true;
+    try {
+      if (skipSelector && el.matches(skipSelector)) return true;
+      if (el.matches(DIALOG_SELECTOR) && getDialogKind(el) === 'plugin-item-modal') return true;
+    } catch (_) {}
     return false;
   }
 
@@ -604,27 +730,36 @@
       return;
     }
 
-    const canAuto = Boolean(
-      parent &&
-      isInPluginPageContext(parent) &&
-      !isPluginTitleElement(parent) &&
-      looksLikePluginDescription(val.trim(), parent)
-    );
-    const translated = translateString(val, false, canAuto);
+    // Fast path: check static O(1) dictionary & bucketed rules first with zero DOM closest() walks.
+    const translated = translateString(val, false, false);
     if (translated !== null && translated !== val) {
       lastProcessed.set(node, translated);
       node.nodeValue = translated;
       if (translated.trim().startsWith('版本 ')) {
         maybeInjectZhVersionMenuItem(node, translated);
       }
-    } else if (canAuto) {
+      return;
+    }
+
+    // Only inspect plugin/MCP page context when static lookup missed and text looks like English prose.
+    const trimmed = val.trim();
+    if (
+      parent &&
+      trimmed.length >= 6 &&
+      !CJK_CHAR_RE.test(trimmed) &&
+      ATTR_ASCII_RE.test(trimmed) &&
+      isInPluginPageContext(parent) &&
+      !isPluginTitleElement(parent) &&
+      looksLikePluginDescription(trimmed, parent)
+    ) {
       lastProcessed.set(node, val);
-      scheduleAutoTranslate(node, val, parent);
-    } else {
-      lastProcessed.set(node, val);
-      if (untranslatedSet && val.trim().length >= 2 && val.trim().length <= 160 && /[A-Za-z]/.test(val)) {
-        untranslatedSet.add(val.trim());
-      }
+      scheduleAutoTranslate(node, val, parent, true);
+      return;
+    }
+
+    lastProcessed.set(node, val);
+    if (untranslatedSet && trimmed.length >= 2 && trimmed.length <= 160 && ATTR_ASCII_RE.test(trimmed)) {
+      untranslatedSet.add(trimmed);
     }
   }
 
@@ -653,7 +788,8 @@
 
   function tryTranslateConsecutiveTextRuns(el, skipChecked) {
     if (!el || el.nodeType !== 1) return false;
-    if (el.childNodes.length <= 1) return false;
+    const childLen = el.childNodes.length;
+    if (childLen <= 1 || childLen > 24) return false;
     if (!skipChecked && shouldSkipTextContainer(el)) return false;
 
     let anyTranslated = false;
@@ -713,7 +849,7 @@
         acceptNode(n) {
           if (n.nodeType === 1) {
             processAttributes(n);
-            if (shouldSkipTextContainer(n)) {
+            if (shouldSkipSelfInWalk(n)) {
               return NodeFilter.FILTER_REJECT;
             }
             tryTranslateConsecutiveTextRuns(n, true);
@@ -758,7 +894,7 @@
   }
 
   function enqueue(node) {
-    if (!node) return;
+    if (!node || pendingNodes.has(document.body)) return;
     pendingNodes.add(node);
     if (!rafScheduled) {
       rafScheduled = true;
@@ -778,19 +914,36 @@
     return false;
   }
 
+  function isHotAttrSkipTarget(el) {
+    if (!el || el.nodeType !== 1) return true;
+    if (ATTR_SKIP_TAGS.has(el.tagName)) return true;
+    if (skipSelector) {
+      try {
+        if (el.closest(skipSelector)) return true;
+      } catch (_) {}
+    }
+    return false;
+  }
+
   const observer = new MutationObserver((mutations) => {
     for (let i = 0; i < mutations.length; i++) {
       const m = mutations[i];
       if (m.type === 'characterData') {
+        const val = m.target && m.target.nodeValue;
+        if (!val || lastProcessed.get(m.target) === val) continue;
         if (!isHotSkipTarget(m.target)) enqueue(m.target);
       } else if (m.type === 'attributes') {
-        if (m.target && m.target.nodeType === 1 && !isHotSkipTarget(m.target)) {
+        if (m.target && m.target.nodeType === 1 && !isHotAttrSkipTarget(m.target)) {
           processAttributes(m.target);
         }
       } else if (m.type === 'childList') {
         if (m.addedNodes.length === 0 || isHotSkipTarget(m.target)) continue;
         for (let j = 0; j < m.addedNodes.length; j++) {
-          enqueue(m.addedNodes[j]);
+          const added = m.addedNodes[j];
+          const nt = added && added.nodeType;
+          if (nt !== 1 && nt !== 3) continue;
+          if (nt === 1 && ATTR_SKIP_TAGS.has(added.tagName)) continue;
+          enqueue(added);
         }
       }
     }

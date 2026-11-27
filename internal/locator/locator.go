@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-var ErrNotFound = errors.New("Antigravity.exe not found")
+var ErrNotFound = errors.New("Antigravity not found")
 
 type Config struct {
 	AntigravityExe string `json:"antigravity_exe"`

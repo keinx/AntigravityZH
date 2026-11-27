@@ -1,5 +1,5 @@
 {
-  "version": "2.35.2",
+  "version": "2.35.2.1",
   "menus": {
     "File": "文件",
     "Edit": "编辑",
@@ -54,12 +54,10 @@
     "Command Palette": "命令面板",
     "Minimize": "最小化",
     "Maximize": "最大化",
-
     "Build me a web app": "帮我构建一个 Web 应用",
     "Add a Gemini feature to my app": "为我的应用添加 Gemini 功能",
     "Bring over my setup from other Agentic Developer Tools": "从其他 AI 开发工具迁移我的配置",
     "Antigravity can review code, trace errors, and ship across your stack.": "Antigravity 可以审查代码、追踪错误并完成全栈开发交付。",
-
     "This Computer": "本机电脑",
     "Runs on this machine": "在当前设备上运行",
     "Remote": "远程",
@@ -88,7 +86,6 @@
     "~/.ssh/config (default)": "~/.ssh/config（默认）",
     "Choose File...": "选择文件...",
     "A host can't contain spaces.": "主机名不能包含空格。",
-
     "Select Project": "选择项目",
     "Set Project Name": "设置项目名称",
     "Project Name": "项目名称",
@@ -162,22 +159,18 @@
     "Asked again: your last answer may not have worked.": "再次询问：您上次的输入可能未生效。",
     "That's too long.": "输入内容过长。",
     "Host key verification failed.": "主机密钥验证失败。",
-
     "Welcome to Antigravity": "欢迎使用 Antigravity",
     "Welcome to the new Antigravity!": "欢迎使用全新 Antigravity！",
     "Setting up...": "正在初始化...",
     "Download the Antigravity IDE": "下载 Antigravity IDE",
     "Explore the new Antigravity": "探索全新 Antigravity",
-
     "Invalid Media": "无效的媒体文件",
     "Maximum number of attachments reached": "已达到附件数量上限",
-
     "New Project": "新建项目",
     "No Project": "无项目",
     "Local Checkout": "本地检出",
     "New Worktree": "新建工作树 (Worktree)",
     "Worktrees are available for Git repositories": "工作树仅适用于 Git 仓库",
-
     "Files": "文件",
     "Folder": "文件夹",
     "Folders": "文件夹",
@@ -188,14 +181,12 @@
     "Browse rules": "浏览规则",
     "Conversation": "对话",
     "Install or enable the Google Drive plugin in Customizations to search files with @drive: or paste Drive links": "请在「自定义配置」中安装或启用 Google Drive 插件，以使用 @drive: 搜索文件或粘贴云盘链接",
-
     "Thinking effort": "思考深度",
     "Controls how much time and quota the model spends reasoning before responding. Higher effort improves accuracy on hard problems, at the cost of slower responses and higher quota use.": "控制模型在回复前用于推理的时间与配额。更高的思考深度可提升难题准确率，但响应会稍慢且消耗更多配额。",
     "For most deep reasoning and complex problems": "适用于大多数深度推理与复杂问题",
     "The original Gemini 4 model for advanced workflows. Leaving on Nov 30.": "初代 Gemini 4 模型，适用于高级工作流。将于 11 月 30 日下线。",
     "Use Hydrogen for better quality with lower quota usage. Leaving on Nov 30.": "推荐改用 Hydrogen，质量更高且配额消耗更低。将于 11 月 30 日下线。",
     "GPT-OSS will be removed from Antigravity on November 30, 2026.": "GPT-OSS 将于 2026 年 11 月 30 日从 Antigravity 中移除。",
-
     "Run until the specified goal is completely finished.": "持续运行直到指定目标完全达成。",
     "Compact the conversation now (summarize history to free up the context window).": "立即压缩当前对话（总结历史记录以释放上下文窗口）。",
     "Run an instruction on a recurring schedule or as a one-time timer.": "按周期计划或一次性定时执行指令。",
@@ -205,7 +196,6 @@
     "Invoke a team of agents to autonomously tackle large projects.": "调用多智能体团队自主协作完成大型项目。",
     "Reflect on recent successes or corrections to capture reusable skills or rules.": "总结近期的成功经验或纠正，沉淀为可复用的技能或规则。",
     "Invoke the Boost multi-agent orchestrator for complex tasks.": "调用 Boost 多智能体编排器处理复杂任务。",
-
     "Auto": "自动",
     "Off": "关闭",
     "On": "开启",
@@ -253,7 +243,6 @@
     "Update Available": "发现新版本",
     "Downloading update...": "正在下载更新...",
     "Ready to install": "已就绪，可安装",
-
     "Ask anything, @ to mention, / for actions": "输入任何问题，@ 提及上下文，/ 调用指令",
     "Add Context": "添加上下文",
     "Leaving Soon": "即将下线",
@@ -269,7 +258,6 @@
     "For speed and efficiency in execution tasks": "注重执行任务的速度与效率",
     "Offloads routine steps to a faster executor. Same quality, fewer tokens used.": "将常规步骤交给更快的执行器处理，质量不变，消耗更少 Token。",
     "% left": "% 剩余",
-
     "Remote Permissions": "远程权限",
     "This Conversation": "当前对话",
     "Every command requires approval.": "每条命令都需要手动批准。",
@@ -280,7 +268,6 @@
     "Only this conversation uses this preset.": "仅当前对话使用此预设。",
     "Your This Computer setting": "你的「本机电脑」默认设置",
     "Your Remote setting": "你的「远程」默认设置",
-
     "Browse": "浏览",
     "Unlock the power of agent swarms.": "解锁多智能体蜂群协作的强大能力。",
     "Local Permissions": "本地权限",
@@ -288,7 +275,6 @@
     "Voice speed": "语音语速",
     "Mute Antigravity (Alt+Shift+M)": "静音 Antigravity (Alt+Shift+M)",
     "Unmute Antigravity (Alt+Shift+M)": "取消静音 Antigravity (Alt+Shift+M)",
-
     "Toggle Project Selector": "切换项目选择器",
     "Toggle Environment Selector": "切换环境选择器",
     "Sort Conversations": "对话排序",
@@ -298,7 +284,6 @@
     "Only Archived": "仅看已归档",
     "Only Automations": "仅看自动化任务",
     "Search Conversations": "搜索对话",
-
     "just now": "刚刚",
     "Context usage": "上下文占用",
     "Hide breakdown": "收起明细",
@@ -316,7 +301,6 @@
     "Deleting...": "正在删除...",
     "Reloading...": "正在重新加载...",
     "Restart": "重启",
-
     "Working": "处理中",
     "Send Message": "发送消息",
     "Send Message Enter": "发送消息 Enter",
@@ -331,7 +315,6 @@
     "View Stacked Diff": "堆叠对比视图",
     "Agent Edits": "智能体修改",
     "Unread": "未读",
-
     "Projects (Archived)": "项目（已归档）",
     "Are you sure you want to delete the project": "确定要删除项目",
     "This will permanently delete": "此操作将永久删除其中的",
@@ -361,7 +344,6 @@
     "Watching for a swarm": "正在监听蜂群任务",
     "Export Artifact": "导出产物",
     "Export as PDF": "导出为 PDF",
-
     "Select a folder.": "选择一个文件夹。",
     "Conversation Archived": "对话已归档",
     "View archived in the sidebar (": "在侧边栏的（",
@@ -386,7 +368,6 @@
     "Delete Comment": "删除批注",
     "Comment": "批注",
     "Quote": "引用",
-
     "now": "刚刚",
     "SSH Host...": "SSH 主机...",
     "Copy Project Name": "复制项目名称",
@@ -452,7 +433,6 @@
     "Created file": "已创建文件",
     "Created files": "已创建多个文件",
     "Searched web": "已联网搜索",
-
     "on the": "在每月",
     "Version": "版本",
     "Website": "官方网站",
@@ -651,6 +631,16 @@
     "Downloading Update": "正在下载更新",
     "Loading plugin...": "正在加载插件...",
     "Modify permissions for file and terminal tools.": "修改文件与终端工具的权限。",
+    "Not set": "未设置",
+    "Notification Preferences": "通知偏好设置",
+    "Allow Gemini to notify you when the agent needs your attention or completes a task.": "允许 Gemini 在智能体需要你处理或完成任务时发送通知。",
+    "Open Preferences": "打开偏好设置",
+    "Dismiss": "忽略",
+    "Sorry, this account is ineligible to use Antigravity": "抱歉，当前账号暂不支持使用 Antigravity",
+    "Your current account is not eligible for Antigravity, because it is not currently available in your location. Learn more by visiting our": "你当前的账号暂不符合 Antigravity 使用资格，因为你所在的地区目前尚未开放此服务。了解更多请访问我们的",
+    "Your current account is not eligible for Antigravity, because it is not currently available in your location. Learn more by visiting our FAQ.": "你当前的账号暂不符合 Antigravity 使用资格，因为你所在的地区目前尚未开放此服务。了解更多请访问我们的常见问题 (FAQ)。",
+    "FAQ": "常见问题 (FAQ)",
+    "Continue with different account": "切换其他账号继续",
     "Queue until after the current turn.": "排队等待当前轮次结束后发送。",
     "Interrupt the agent and send immediately.": "中断智能体并立即发送。",
     "Enter Queues after the turn": "Enter：当前轮次后排队发送",
@@ -691,12 +681,10 @@
     "Subtitles": "副标题显示",
     "Worktree": "工作树 (Worktree)",
     "Decorations": "状态标记",
-
     "Summarize this design doc and list the open questions": "总结这份设计文档并列出待解决的问题",
     "Draft a launch announcement in a new doc from my notes": "根据我的笔记在新文档中起草一份发布公告",
     "Reply to the open comments on my doc and resolve them": "回复文档中未解决的评论并将其标记为已解决",
     "Read and write your Google Docs. Summarize any doc from its link, draft proposals and announcements in a new doc, and reply to and resolve open comments.": "读写你的 Google 文档。根据链接总结任意文档、在新文档中起草方案与公告，并回复及解决未关闭的评论。",
-
     "restore_page": "↺",
     "Monday": "星期一",
     "Tuesday": "星期二",
@@ -754,11 +742,9 @@
     "Configure": "配置",
     "Requires Authentication": "需要登录认证",
     "Sign in to use": "登录后使用",
-
     "Set up Firebase in my app and connect it to a Firebase project": "在我的应用中配置 Firebase 并连接到 Firebase 项目",
     "Add Firebase Authentication with Google sign-in to my app": "为我的应用添加支持 Google 登录的 Firebase 身份认证",
     "Write and audit Firestore security rules for my data model": "为我的数据模型编写并审计 Firestore 安全规则",
-
     "Split": "拆分视图",
     "Split Right": "向右拆分",
     "Split Down": "向下拆分",
@@ -779,7 +765,6 @@
     "Maximize Pane": "最大化面板",
     "Restore Pane": "还原面板",
     "Toggle sidebar": "切换侧边栏",
-
     "Repeat every": "重复周期：每",
     "hours": "小时",
     "day": "天",
@@ -793,7 +778,6 @@
     "Copy Config File Path": "复制配置文件路径",
     "Make your coding agent a better engineer": "强化你的编程智能体，打造更高效的工程化工作流。",
     "Google does not control the availability or functionality of third party developer tools. Your data from third party developer tools connected to your Antigravity instance may be shared with Google. Google will protect any such data in accordance with the Google Privacy Policy, found here:": "Google 不控制第三方开发工具的可用性或功能。连接到你 Antigravity 实例的第三方开发工具数据可能会与 Google 共享。Google 将按照 Google 隐私政策保护此类数据，详情见：",
-
     "Create with Prompt": "用提示词创建",
     "No automations yet": "暂无自动化任务",
     "No automations": "暂无自动化任务",
@@ -815,7 +799,6 @@
     "Required to create: title, instructions": "创建前需填写：标题、执行指令",
     "Required to create: title": "创建前需填写：标题",
     "Required to create: instructions": "创建前需填写：执行指令",
-
     "Search customizations...": "搜索自定义配置...",
     "Featured": "精选推荐",
     "Details": "详情",
@@ -827,7 +810,6 @@
     "No custom agents yet.": "暂无自定义智能体。",
     "No MCP servers yet. Use Add to browse the store.": "暂无 MCP 服务，点击「添加」浏览商店。",
     "Create a Plugin with the Agent": "让智能体帮你创建插件",
-
     "Connect to Google Workspace, including Docs, Sheets, Slides, Drive, Calendar, and Gmail.": "连接 Google Workspace，涵盖文档、表格、幻灯片、云端硬盘、日历与 Gmail。",
     "Build with Google": "Google 开发者平台",
     "Build on Google's developer platforms, including Android, Chrome, Gemini, and Google Cloud.": "基于 Android、Chrome、Gemini 与 Google Cloud 等 Google 开发者平台构建应用。",
@@ -845,7 +827,6 @@
     "Payments, CRM, accounting, data, identity, customer support, marketing, and workflow automation.": "支付、CRM、财务、数据、身份认证、客服、营销与工作流自动化。",
     "More Plugins": "更多插件",
     "Explore other marketplace customizations": "探索插件市场中的更多自定义扩展",
-
     "Read, draft, and edit docs.": "阅读、起草和编辑文档。",
     "Read, write, and format spreadsheets.": "读取、编写和格式化电子表格。",
     "Read, edit, and export presentations.": "阅读、编辑和导出演示文稿。",
@@ -857,7 +838,6 @@
     "Integration skill and tools for Google Maps Platform APIs": "Google Maps Platform API 集成技能与工具。",
     "Antigravity for science highlights, and an overview of the main science plugins.": "Antigravity 科研能力亮点及核心科研插件概览。",
     "Prototype, build & run modern apps that users love with Firebase's backend, AI, and operational infrastructure.": "借助 Firebase 后端、AI 与运维基础设施，快速原型设计、构建并运行现代应用。",
-
     "Commands": "命令",
     "Search for commands...": "搜索命令...",
     "Search for files in the project...": "在项目中搜索文件...",
@@ -910,7 +890,6 @@
     "Open Command Palette": "打开命令面板",
     "Open Conversation Picker": "打开对话选择器",
     "Open Project Picker": "打开项目选择器",
-
     "Record Audio": "语音输入",
     "Start Voice mode": "开启语音模式",
     "Stop Recording": "停止录音",
@@ -936,14 +915,12 @@
     "End": "结束",
     "Listening. Ask anything.": "正在聆听，请随时提问。",
     "Speaking...": "正在说话...",
-
     "Low": "低",
     "Medium": "中",
     "High": "高",
     "Minimal": "极简",
     "Max": "最高",
     "New": "新",
-
     "New Conversation": "新建对话",
     "New Chat": "新建对话",
     "New Thread": "新建对话",
@@ -980,7 +957,6 @@
     "Search settings": "搜索设置",
     "Filter": "筛选",
     "Sort": "排序",
-
     "Subagents": "子智能体",
     "Background Tasks": "后台任务",
     "Tasks": "任务",
@@ -997,7 +973,6 @@
     "Logs": "日志",
     "Output": "输出",
     "History": "历史记录",
-
     "Settings": "设置",
     "Application": "应用程序",
     "Not in Project": "不属于任何项目",
@@ -1158,7 +1133,6 @@
     "Feedback": "反馈",
     "Help": "帮助",
     "Documentation": "文档",
-
     "Allow": "允许",
     "Allow Once": "仅允许一次",
     "Always Allow": "始终允许",
@@ -1232,7 +1206,6 @@
     "Skip": "跳过",
     "Learn more": "了解更多",
     "Review": "审阅",
-
     "Thinking": "思考中",
     "Thinking...": "思考中...",
     "Thought": "思考过程",
@@ -1258,7 +1231,14 @@
     "No artifacts": "暂无产物",
     "No terminals": "暂无终端",
     "Waiting for input": "等待输入",
-    "Ready": "就绪"
+    "Ready": "就绪",
+    "Compacting": "压缩中",
+    "Compacting...": "压缩中...",
+    "Applies to /btw and messages sent after this turn": "适用于 /btw 及本轮之后发送的消息",
+    "Stop Execution": "停止执行",
+    "User cancelled agent execution.": "用户已取消智能体执行。",
+    "User canceled agent execution.": "用户已取消智能体执行。",
+    "Comment (C)": "批注 (C)"
   },
   "attributes": {
     "Ask anything...": "输入任何问题或指令...",
@@ -1324,16 +1304,8 @@
       "replace": "在对话或独立产物中渲染交互式 HTML 富媒体组件。"
     },
     {
-      "regex": "^Build, package, and debug MCP Apps for Antigravity:.*$",
-      "replace": "为 Antigravity 构建、打包和调试带交互界面的 MCP 应用。"
-    },
-    {
       "regex": "^Migrates the user's MCP servers, skills, slash commands, subagents.*$",
       "replace": "从 Claude Code、Codex、Cursor 等其他工具迁移 MCP、技能与配置。"
-    },
-    {
-      "regex": "^Automatically migrate legacy workflows to modern skills.*$",
-      "replace": "自动将旧版工作流迁移为新版 Skills 配置。"
     },
     {
       "regex": "^How to manage and create plugins\\s*[—-].*$",
@@ -1350,10 +1322,6 @@
     {
       "regex": "^Manage local Antigravity conversations programmatically.*$",
       "replace": "通过 HTTP+JSON 接口批量管理本地 Antigravity 对话。"
-    },
-    {
-      "regex": "^Discover UI plugin panels relevant to the current task.*$",
-      "replace": "发现并一键打开与当前任务相关的 UI 插件侧边栏面板。"
     },
     {
       "regex": "^(.+?)\\s+will be removed from Antigravity on\\s+(.+?)\\.$",
@@ -1534,14 +1502,6 @@
     {
       "regex": "^Guidelines for interacting with GitHub and request permissions from the user.*$",
       "replace": "与 GitHub 交互并在需要时向用户请求权限的操作规范。"
-    },
-    {
-      "regex": "^ONLY for the native-swarm worker whose brief says it is the monitor\\..*$",
-      "replace": "仅限蜂群监控节点使用：定时检查整体进度并唤醒阻塞成员。"
-    },
-    {
-      "regex": "^ONLY for the coordinator of an active /swarm session\\..*$",
-      "replace": "仅限活跃 /swarm 会话的协调者使用：维护蜂群概览面板与任务分组。"
     },
     {
       "regex": "^Build applications and shell workflows with the Gemini Interactions API.*$",

@@ -1,4 +1,4 @@
-# Compiled binaries & build outputs
+# Compiled binaries & build outputs (note: keep cmd/antigravity-zh/*.syso tracked)
 AntigravityZH.exe
 AntigravityZH
 AntigravityZH-windows-*
@@ -8,12 +8,18 @@ AntigravityZH-darwin-*
 *.so
 *.dylib
 *.app/
+*.app.zip
 *.dmg
+*.pkg
 *.icns
+*.iconset/
+SHA256SUMS.txt
 *.test
 *.out
 /bin/
+/build/
 /dist/
+/out/
 
 # Go workspace & coverage
 go.work
@@ -28,6 +34,9 @@ fuse_cache.json
 debug.log
 *.log
 *.tmp
+
+# Local agent rules
+AGENTS.md
 
 # OS & IDE files
 .DS_Store

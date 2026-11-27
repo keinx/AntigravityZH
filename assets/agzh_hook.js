@@ -74,14 +74,15 @@
   }
 
   // Pre-serialize static dictionary JSON once at startup (avoids re-stringifying ~100KB on every page load).
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2';
+  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.1';
   const dictJsonStr = JSON.stringify(dict);
   const menuMap = Object.assign({}, dict.menus || {});
   dict = null; // Free parsed dict object from Electron main-process heap.
 
   let autoCacheSize = Object.keys(autoCache).length;
   let cacheJsonStr = JSON.stringify(autoCache);
-  let cacheDirty = false;
+  let cacheJsonDirty = false;
+  let cacheDiskDirty = false;
   let cacheSaving = false;
   let cacheSaveTimer = null;
 
@@ -99,7 +100,8 @@
       autoCacheSize++;
     }
     autoCache[key] = val;
-    cacheDirty = true;
+    cacheJsonDirty = true;
+    cacheDiskDirty = true;
     scheduleSaveCache();
   }
 
@@ -114,7 +116,8 @@
       cacheSaving = true;
       const serialized = JSON.stringify(autoCache);
       cacheJsonStr = serialized;
-      cacheDirty = false;
+      cacheJsonDirty = false;
+      cacheDiskDirty = false;
       const tmp = cachePath + '.tmp';
       fs.promises.writeFile(tmp, serialized, 'utf8')
         .then(() => fs.promises.rename(tmp, cachePath))
@@ -124,7 +127,7 @@
         })
         .finally(() => {
           cacheSaving = false;
-          if (cacheDirty) scheduleSaveCache();
+          if (cacheDiskDirty) scheduleSaveCache();
         });
     }, 1000);
   }
@@ -252,29 +255,34 @@
     return out;
   }
 
-  function translateLiveMenu(menu) {
+  function translateLiveMenu(menu, isTopLevel) {
     if (!menu || !Array.isArray(menu.items)) return;
     for (const item of menu.items) {
       if (!item) continue;
       if (typeof item.label === 'string') {
         const clean = item.label.replace(/&/g, '').trim();
-        if (menuMap[item.label]) {
-          try { item.label = menuMap[item.label]; } catch (_) {}
-        } else if (menuMap[clean]) {
-          try { item.label = menuMap[clean]; } catch (_) {}
+        const versionMatch = /^Version\s+([\d.]+)$/i.exec(clean);
+        if (versionMatch) {
+          try { item.label = '版本 ' + versionMatch[1]; } catch (_) {}
+        } else if (!(isTopLevel && clean === 'View')) {
+          if (menuMap[item.label]) {
+            try { item.label = menuMap[item.label]; } catch (_) {}
+          } else if (menuMap[clean]) {
+            try { item.label = menuMap[clean]; } catch (_) {}
+          }
         }
       }
       if (item.submenu) {
-        translateLiveMenu(item.submenu);
+        translateLiveMenu(item.submenu, false);
       }
     }
   }
 
   function buildInjectedPayload(allowFrame) {
     if (!rendererCode) return '';
-    if (cacheDirty) {
+    if (cacheJsonDirty) {
       cacheJsonStr = JSON.stringify(autoCache);
-      cacheDirty = false;
+      cacheJsonDirty = false;
     }
     return `(function(){try{var __AGZH_DICT__=${dictJsonStr};var __AGZH_CACHE__=${cacheJsonStr};var __AGZH_DEBUG__=${debug ? 'true' : 'false'};var __AGZH_ALLOW_FRAME__=${allowFrame ? 'true' : 'false'};\n${rendererCode}\n}catch(e){}})();`;
   }
@@ -329,7 +337,7 @@
       const origSetAppMenu = Menu.setApplicationMenu.bind(Menu);
       Menu.setApplicationMenu = function patchedSetApplicationMenu(menu) {
         try {
-          translateLiveMenu(menu);
+          translateLiveMenu(menu, true);
         } catch (_) {}
         return origSetAppMenu(menu);
       };

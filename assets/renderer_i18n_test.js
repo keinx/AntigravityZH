@@ -32,16 +32,16 @@ assert.ok(sshErrZh.includes('无法连接到 SSH 主机'), 'expected translated 
 assert.ok(sshErrZh.includes('SSH 已退出（退出码 255）：Connection refused'), 'expected translated exit code line');
 
 assert.strictEqual(translateString("Couldn't connect to 127.0.0.1", false), '无法连接到 127.0.0.1');
-assert.strictEqual(translateString("Couldn't connect to root@192.129.133.205:34924", false), '无法连接到 root@192.129.133.205:34924');
+assert.strictEqual(translateString("Couldn't connect to user@203.0.113.10:2222", false), '无法连接到 user@203.0.113.10:2222');
 
 // 3. Mixed CJK + English greeting patterns
 assert.strictEqual(
-  translateString('Welcome back, 张煊. Where should we pick up?', false),
-  '欢迎回来，张煊。我们从哪里继续？'
+  translateString('Welcome back, 小明. Where should we pick up?', false),
+  '欢迎回来，小明。我们从哪里继续？'
 );
 assert.strictEqual(
-  translateString("Good to see you, 张煊. What's next?", false),
-  '很高兴见到你，张煊。接下来做什么？'
+  translateString("Good to see you, 小明. What's next?", false),
+  '很高兴见到你，小明。接下来做什么？'
 );
 
 // 4. Usage & dynamic regex patterns
@@ -138,6 +138,18 @@ assert.strictEqual(translateString('Loading plugin...', false), '正在加载插
 assert.strictEqual(translateString('Modify permissions for file and terminal tools.', false), '修改文件与终端工具的权限。');
 assert.strictEqual(translateString('Create and edit images with Kling Image 4.0, generate videos.', false), '使用可灵图像 4.0 创建和编辑图像、生成高质量视频内容。');
 assert.strictEqual(translateString('Bring Claude, GPT, Muse, Kimi & more into Antigravity.', false), '将 Claude、GPT、Muse、Kimi 等多款大模型接入 Antigravity。');
+assert.strictEqual(translateString('Not set', false), '未设置');
+assert.strictEqual(translateString('Notification Preferences', false), '通知偏好设置');
+assert.strictEqual(translateString('Open Preferences', false), '打开偏好设置');
+assert.strictEqual(translateString('Dismiss', false), '忽略');
+assert.strictEqual(translateString('Sorry, this account is ineligible to use Antigravity', false), '抱歉，当前账号暂不支持使用 Antigravity');
+assert.strictEqual(translateString('Continue with different account', false), '切换其他账号继续');
+assert.strictEqual(translateString('Compacting', false), '压缩中');
+assert.strictEqual(translateString('Compacting...', false), '压缩中...');
+assert.strictEqual(translateString('Applies to /btw and messages sent after this turn', false), '适用于 /btw 及本轮之后发送的消息');
+assert.strictEqual(translateString('Stop Execution', false), '停止执行');
+assert.strictEqual(translateString('User cancelled agent execution.', false), '用户已取消智能体执行。');
+assert.strictEqual(translateString('Comment (C)', false), '批注 (C)');
 
 // 4b. AutoCache is gated by allowAutoCache so cached plugin names never leak
 const { translateString: txWithCache } = createTranslator(dict, {

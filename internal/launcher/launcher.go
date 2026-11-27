@@ -2,7 +2,6 @@ package launcher
 
 import (
 	"bytes"
-	"crypto/sha256"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -115,12 +114,8 @@ func buildMergedDict(baseBytes []byte, externalDictPath string) ([]byte, error) 
 }
 
 func writeIfChanged(path string, content []byte) error {
-	if existing, err := os.ReadFile(path); err == nil {
-		h1 := sha256.Sum256(existing)
-		h2 := sha256.Sum256(content)
-		if bytes.Equal(h1[:], h2[:]) {
-			return nil
-		}
+	if existing, err := os.ReadFile(path); err == nil && bytes.Equal(existing, content) {
+		return nil
 	}
 	tmp := path + ".tmp"
 	if err := os.WriteFile(tmp, content, 0o644); err != nil {
@@ -184,7 +179,7 @@ func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 	applyDetachedSysProcAttr(cmd)
 
 	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("start Antigravity.exe: %w", err)
+		return fmt.Errorf("start Antigravity: %w", err)
 	}
 
 	if err := inspector.InjectAndResume(port, filepath.ToSlash(rt.HookPath), 10*time.Second); err != nil {

@@ -53,7 +53,7 @@ jobs:
           if-no-files-found: error
 
   build-macos:
-    name: Test & Build macOS DMG (arm64 & amd64)
+    name: Test & Build macOS Artifacts (arm64 & amd64)
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -93,24 +93,30 @@ jobs:
           fi
           echo "version=${VER}" >> "$GITHUB_OUTPUT"
 
-      - name: Package macOS arm64 & amd64 DMGs
+      - name: Package macOS arm64 & amd64 (binary, .app.zip, .dmg)
         run: |
           chmod +x scripts/package-macos.sh
           ./scripts/package-macos.sh arm64 "${{ steps.meta.outputs.version }}"
           ./scripts/package-macos.sh amd64 "${{ steps.meta.outputs.version }}"
 
-      - name: Upload macOS arm64 DMG
+      - name: Upload macOS arm64 artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist-darwin-arm64
-          path: dist/AntigravityZH-darwin-arm64.dmg
+          path: |
+            dist/AntigravityZH-darwin-arm64
+            dist/AntigravityZH-darwin-arm64.app.zip
+            dist/AntigravityZH-darwin-arm64.dmg
           if-no-files-found: error
 
-      - name: Upload macOS amd64 DMG
+      - name: Upload macOS amd64 artifacts
         uses: actions/upload-artifact@v4
         with:
           name: dist-darwin-amd64
-          path: dist/AntigravityZH-darwin-amd64.dmg
+          path: |
+            dist/AntigravityZH-darwin-amd64
+            dist/AntigravityZH-darwin-amd64.app.zip
+            dist/AntigravityZH-darwin-amd64.dmg
           if-no-files-found: error
 
   release:
@@ -130,7 +136,14 @@ jobs:
       - name: Generate SHA256SUMS
         working-directory: dist
         run: |
-          sha256sum AntigravityZH-windows-amd64.exe AntigravityZH-darwin-arm64.dmg AntigravityZH-darwin-amd64.dmg > SHA256SUMS.txt
+          sha256sum \
+            AntigravityZH-windows-amd64.exe \
+            AntigravityZH-darwin-arm64 \
+            AntigravityZH-darwin-amd64 \
+            AntigravityZH-darwin-arm64.app.zip \
+            AntigravityZH-darwin-amd64.app.zip \
+            AntigravityZH-darwin-arm64.dmg \
+            AntigravityZH-darwin-amd64.dmg > SHA256SUMS.txt
           cat SHA256SUMS.txt
 
       - name: Create GitHub Release
@@ -138,13 +151,19 @@ jobs:
         with:
           generate_release_notes: true
           body: |
-            ### 下载说明
+            ### 下载说明（共 7 个编译产物）
             - **Windows (x64)**：`AntigravityZH-windows-amd64.exe`（直接双击运行）
-            - **macOS (Apple Silicon / M 系列芯片)**：`AntigravityZH-darwin-arm64.dmg`
-            - **macOS (Intel 芯片)**：`AntigravityZH-darwin-amd64.dmg`
+            - **macOS (Apple Silicon / M 系列芯片)**：
+              - `AntigravityZH-darwin-arm64.dmg`（推荐，打开后拖入「应用程序」）
+              - `AntigravityZH-darwin-arm64.app.zip`（解压即得 `AntigravityZH.app`）
+              - `AntigravityZH-darwin-arm64`（纯命令行二进制，需 `chmod +x` 后运行）
+            - **macOS (Intel 芯片)**：
+              - `AntigravityZH-darwin-amd64.dmg`（推荐，打开后拖入「应用程序」）
+              - `AntigravityZH-darwin-amd64.app.zip`（解压即得 `AntigravityZH.app`）
+              - `AntigravityZH-darwin-amd64`（纯命令行二进制，需 `chmod +x` 后运行）
 
             ### macOS 安装与首次启动
-            1. 打开对应架构的 `.dmg`，将 **`AntigravityZH.app`** 拖入 **`Applications`（应用程序）** 文件夹。
+            1. 打开对应架构的 `.dmg`（或解压 `.app.zip`），将 **`AntigravityZH.app`** 拖入 **`Applications`（应用程序）** 文件夹。
             2. 由于未进行 Apple Developer 付费公证，首次打开若提示「无法验证开发者 / 已损坏」，请在终端执行一次以下命令解除隔离属性即可：
                ```bash
                xattr -cr /Applications/AntigravityZH.app
@@ -152,6 +171,10 @@ jobs:
             3. 之后即可直接从「应用程序」/ 启动台 / Spotlight 双击 **`AntigravityZH`** 启动中文版 Antigravity。
           files: |
             dist/AntigravityZH-windows-amd64.exe
+            dist/AntigravityZH-darwin-arm64
+            dist/AntigravityZH-darwin-amd64
+            dist/AntigravityZH-darwin-arm64.app.zip
+            dist/AntigravityZH-darwin-amd64.app.zip
             dist/AntigravityZH-darwin-arm64.dmg
             dist/AntigravityZH-darwin-amd64.dmg
             dist/SHA256SUMS.txt
