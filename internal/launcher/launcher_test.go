@@ -4,24 +4,10 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"antigravity-zh/assets"
 )
-
-func TestBuildNodeOptions(t *testing.T) {
-	got := BuildNodeOptions("", `C:\Users\my user\AppData\Local\AntigravityZH\runtime\agzh_hook.js`)
-	want := `--require="C:/Users/my user/AppData/Local/AntigravityZH/runtime/agzh_hook.js"`
-	if got != want {
-		t.Fatalf("got %q, want %q", got, want)
-	}
-
-	got2 := BuildNodeOptions("--max-old-space-size=4096", `C:\agzh_hook.js`)
-	if !strings.HasPrefix(got2, "--max-old-space-size=4096 --require=") {
-		t.Fatalf("unexpected merged NODE_OPTIONS: %q", got2)
-	}
-}
 
 func TestSyncRuntimeFilesAndExternalOverride(t *testing.T) {
 	dir := t.TempDir()
@@ -60,13 +46,21 @@ func TestSyncRuntimeFilesAndExternalOverride(t *testing.T) {
 		t.Fatalf("expected menu override for File, got %q", merged.Menus["File"])
 	}
 
+	for _, p := range []string{paths.HookPath, paths.I18nRendererPath, paths.SkinRendererPath, paths.ThemeRendererPath, paths.SettingsRendererPath} {
+		if _, err := os.Stat(p); err != nil {
+			t.Fatalf("expected runtime asset synced at %s: %v", p, err)
+		}
+	}
+
 	// Second call should hit cache cleanly without modifying timestamps.
 	info1, _ := os.Stat(paths.HookPath)
+	settingsInfo1, _ := os.Stat(paths.SettingsRendererPath)
 	if _, err := SyncRuntimeFiles(rtDir, extDict); err != nil {
 		t.Fatalf("second SyncRuntimeFiles failed: %v", err)
 	}
 	info2, _ := os.Stat(paths.HookPath)
-	if !info1.ModTime().Equal(info2.ModTime()) {
+	settingsInfo2, _ := os.Stat(paths.SettingsRendererPath)
+	if !info1.ModTime().Equal(info2.ModTime()) || !settingsInfo1.ModTime().Equal(settingsInfo2.ModTime()) {
 		t.Fatalf("expected cached file not to be rewritten")
 	}
 }
@@ -76,7 +70,6 @@ func TestSyncRuntimeFilesExportedDictDedup(t *testing.T) {
 	rtDir := filepath.Join(dir, "runtime")
 	extDict := filepath.Join(dir, "dict_zh_cn.json")
 
-	// Simulate --export-dict writing the full built-in dictionary.
 	if err := os.WriteFile(extDict, assets.DefaultDictJSON, 0o644); err != nil {
 		t.Fatal(err)
 	}

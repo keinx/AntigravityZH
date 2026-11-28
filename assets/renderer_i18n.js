@@ -1,7 +1,9 @@
-// AntigravityZH Lightweight Renderer DOM Localization Engine
-// Expects __AGZH_DICT__, __AGZH_CACHE__, and __AGZH_DEBUG__ in scope (or module.exports for unit tests).
+'use strict';
 
-(function initRendererI18n(globalScope) {
+// AntigravityZH Optimized Renderer DOM Localization Engine
+// Supports lazy compilation, live ON/OFF toggling with DOM restoration, and configurable auto-translation.
+
+(function initRendererI18n() {
   const NEEDS_NORM_RE = /[\u00A0\u200B\u2018\u2019\u201C\u201D\u2026\u202F]/;
   const CJK_CHAR_RE = /[\u4e00-\u9fff]/;
 
@@ -45,7 +47,7 @@
     }
 
     const patterns = [];
-    const patternsByChar = new Map(); // lowercase char -> Pattern[]
+    const patternsByChar = new Map();
     const digitPatterns = [];
     const fallbackPatterns = [];
     const mixedCjkPatterns = [];
@@ -84,7 +86,6 @@
     function extractLiteralSuffix(regexStr, flags) {
       if (flags || !regexStr.endsWith('$') || regexStr.endsWith('\\$') || hasUnescapedPipe(regexStr)) return null;
       const body = regexStr.slice(0, -1);
-      // Tokenize forward so escapes and quantifiers are parsed unambiguously.
       const tokens = [];
       for (let i = 0; i < body.length; i++) {
         const ch = body[i];
@@ -180,21 +181,18 @@
       const next = regexStr[1];
       if (!next) return { kind: 'fallback' };
       if (CJK_RE.test(next)) return { kind: 'cjk-only' };
-      // Escaped literal non-alphanumeric char like ^\+ or ^\(
       if (next === '\\' && regexStr.length >= 3 && !/[A-Za-z0-9]/.test(regexStr[2])) {
         const after = regexStr[3] || '';
         if (after !== '?' && after !== '*' && after !== '|') {
           return { kind: 'char', ch: regexStr[2] };
         }
       }
-      // Literal ASCII letter not immediately followed by ?, *, or |
       if (/^[A-Za-z]$/.test(next)) {
         const after = regexStr[2] || '';
         if (after !== '?' && after !== '*' && after !== '|') {
           return { kind: 'char', ch: next.toLowerCase() };
         }
       }
-      // Digit-anchored regex like ^(\d+)... or ^\d+...
       if (regexStr.startsWith('^(\\d') || regexStr.startsWith('^\\d')) {
         return { kind: 'digit' };
       }
@@ -255,7 +253,6 @@
       }
     }
 
-    // Pre-merge each bucket with fallbackPatterns in original priority order (zero runtime allocations).
     const mergedByChar = new Map();
     for (const [ch, list] of patternsByChar.entries()) {
       mergedByChar.set(ch, list.concat(fallbackPatterns).sort((a, b) => a.idx - b.idx));
@@ -370,35 +367,49 @@
 
   // Export for Node.js unit testing.
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { createTranslator };
+    module.exports = { createTranslator, normalizeKey };
     return;
   }
 
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
-  if (window.__AGZH_INSTALLED__) return;
+  if (window.__AGL_I18N_INSTALLED__) return;
 
-  const allowFrame = typeof __AGZH_ALLOW_FRAME__ !== 'undefined' && __AGZH_ALLOW_FRAME__;
-  const isHttpsLocal = (location.protocol === 'https:' || location.protocol === 'http:') && (location.hostname === '127.0.0.1' || location.hostname === 'localhost');
+  const init = typeof __AGL_I18N_INIT__ !== 'undefined' && __AGL_I18N_INIT__ ? __AGL_I18N_INIT__ : {};
+  const allowFrame = Boolean(init.allowFrame);
+  const isHttpsLocal = (location.protocol === 'https:' || location.protocol === 'http:') &&
+    (location.hostname === '127.0.0.1' || location.hostname === 'localhost');
   const titleLooksLikeAG = /antigravity/i.test(document.title || '');
   if (!allowFrame && !isHttpsLocal && !titleLooksLikeAG) {
     return;
   }
 
-  window.__AGZH_INSTALLED__ = true;
+  window.__AGL_I18N_INSTALLED__ = true;
 
-  let dict = typeof __AGZH_DICT__ !== 'undefined' ? __AGZH_DICT__ : {};
-  let initCache = typeof __AGZH_CACHE__ !== 'undefined' ? __AGZH_CACHE__ : {};
-  const debug = typeof __AGZH_DEBUG__ !== 'undefined' && __AGZH_DEBUG__;
-  const zhVersion = (dict && typeof dict.version === 'string' && dict.version.trim()) || '2.35.2.3';
-  const skipSelector = Array.isArray(dict.skipSelectors) && dict.skipSelectors.length > 0
-    ? dict.skipSelectors.join(',')
-    : '';
-  const { translateString, autoCache } = createTranslator(dict, initCache);
-  // Release raw parsed JSON objects immediately so V8 GC can reclaim ~100KB per renderer frame.
-  dict = null;
-  initCache = null;
-  if (typeof __AGZH_DICT__ !== 'undefined') { try { __AGZH_DICT__ = null; } catch (_) {} }
-  if (typeof __AGZH_CACHE__ !== 'undefined') { try { __AGZH_CACHE__ = null; } catch (_) {} }
+  let rawDict = init.dict || {};
+  let rawCache = init.cache || {};
+  const debug = Boolean(init.debug);
+  let i18nConfig = {
+    enabled: init.config && init.config.enabled !== undefined ? Boolean(init.config.enabled) : true,
+    autoTranslate: init.config && init.config.autoTranslate !== undefined ? Boolean(init.config.autoTranslate) : true
+  };
+
+  const skipSelector = Array.isArray(rawDict.skipSelectors) && rawDict.skipSelectors.length > 0
+    ? rawDict.skipSelectors.join(',')
+    : '[data-aglaunch-skip],[data-aglaunch-ui]';
+
+  if (typeof __AGL_I18N_INIT__ !== 'undefined') {
+    try { __AGL_I18N_INIT__ = null; } catch (_) {}
+  }
+
+  // Lazy-compiled translator: zero compilation cost if user launches with i18n disabled.
+  let translator = null;
+  function ensureTranslator() {
+    if (translator) return translator;
+    translator = createTranslator(rawDict || {}, rawCache || {});
+    rawDict = null;
+    rawCache = null;
+    return translator;
+  }
 
   const SKIP_TAGS = new Set([
     'SCRIPT', 'STYLE', 'NOSCRIPT', 'CODE', 'PRE', 'TEXTAREA',
@@ -408,17 +419,92 @@
     'SCRIPT', 'STYLE', 'NOSCRIPT', 'SVG', 'PATH', 'MATH', 'CANVAS', 'IFRAME', 'VIDEO', 'AUDIO'
   ]);
   const ATTRS = ['placeholder', 'data-placeholder', 'title', 'aria-label'];
-
-  const lastProcessed = new WeakMap();
-  const attrCache = new WeakMap();
-  const untranslatedSet = debug ? new Set() : null;
+  const DIALOG_SELECTOR = '[role="dialog"], [aria-modal="true"], dialog';
   const ATTR_ASCII_RE = /[A-Za-z]/;
   const MAX_AUTO_REQUESTED = 2000;
 
-  // --- On-demand auto-translation ONLY for Plugin Detail / Marketplace / MCP Store descriptions (O(1) cached, zero reflow) ---
+  let lastProcessed = new WeakMap();
+  let attrCache = new WeakMap();
+  const originalTextMap = new WeakMap(); // TextNode -> original untranslated string
+  const originalAttrMap = new WeakMap(); // Element -> { [attr]: originalVal }
+  const hasWeakRef = typeof WeakRef === 'function';
+  const trackedTextRefs = new Set(); // Set<WeakRef<Text>>
+  const trackedAttrRefs = new Set(); // Set<WeakRef<Element>>
+  const untranslatedSet = debug ? new Set() : null;
+
+  function recordOriginalText(node, origVal) {
+    if (!originalTextMap.has(node)) {
+      originalTextMap.set(node, origVal);
+      if (hasWeakRef) {
+        trackedTextRefs.add(new WeakRef(node));
+        if (trackedTextRefs.size > 4000) pruneWeakRefs(trackedTextRefs);
+      }
+    }
+  }
+
+  function recordOriginalAttr(el, attr, origVal) {
+    let rec = originalAttrMap.get(el);
+    if (!rec) {
+      rec = Object.create(null);
+      originalAttrMap.set(el, rec);
+      if (hasWeakRef) {
+        trackedAttrRefs.add(new WeakRef(el));
+        if (trackedAttrRefs.size > 2000) pruneWeakRefs(trackedAttrRefs);
+      }
+    }
+    if (!(attr in rec)) {
+      rec[attr] = origVal;
+    }
+  }
+
+  function pruneWeakRefs(set) {
+    for (const ref of set) {
+      const target = ref.deref();
+      if (!target || !target.isConnected) {
+        set.delete(ref);
+      }
+    }
+  }
+
+  function restoreOriginalDom() {
+    if (hasWeakRef) {
+      for (const ref of trackedTextRefs) {
+        const node = ref.deref();
+        if (!node || !node.isConnected) {
+          trackedTextRefs.delete(ref);
+          continue;
+        }
+        const orig = originalTextMap.get(node);
+        const last = lastProcessed.get(node);
+        if (orig !== undefined && (node.nodeValue === last || last === undefined)) {
+          node.nodeValue = orig;
+        }
+      }
+      for (const ref of trackedAttrRefs) {
+        const el = ref.deref();
+        if (!el || !el.isConnected) {
+          trackedAttrRefs.delete(ref);
+          continue;
+        }
+        const origAttrs = originalAttrMap.get(el);
+        const seen = attrCache.get(el);
+        if (origAttrs) {
+          for (const attr of Object.keys(origAttrs)) {
+            if (!seen || el.getAttribute(attr) === seen[attr]) {
+              el.setAttribute(attr, origAttrs[attr]);
+            }
+          }
+        }
+      }
+    }
+    lastProcessed = new WeakMap();
+    attrCache = new WeakMap();
+  }
+
+  // --- On-demand auto-translation ONLY for Plugin Detail / Marketplace / MCP Store descriptions ---
   const pendingAutoTexts = new Set();
   const requestedAutoTexts = new Set();
-  const autoNodeBindings = new Map(); // normalizedText -> Set<TextNode>
+  const autoNodeBindings = new Map();
   let autoFlushTimer = null;
 
   function pruneDisconnectedBindings() {
@@ -433,7 +519,7 @@
   let currentPassId = 1;
   let cachedPluginPagePass = 0;
   let cachedPluginPageVal = false;
-  const dialogKindCache = new WeakMap(); // Element -> { pass, kind }
+  const dialogKindCache = new WeakMap();
 
   function getHeadText(root, maxChars) {
     if (!root) return '';
@@ -497,15 +583,14 @@
 
   function isInsidePluginItemModal(el) {
     if (!el || el.nodeType !== 1) return false;
-    const dialog = el.closest('[role="dialog"], [aria-modal="true"], dialog');
+    const dialog = el.closest(DIALOG_SELECTOR);
     if (!dialog) return false;
     return getDialogKind(dialog) === 'plugin-item-modal';
   }
 
   function isInPluginPageContext(el) {
     if (!el || el.nodeType !== 1) return false;
-    // Inside modal dialogs: allow auto-translation ONLY for the Add MCP Server store modal (never Settings or Command/Skill/Agent popups)
-    const dialog = el.closest('[role="dialog"], [aria-modal="true"], dialog');
+    const dialog = el.closest(DIALOG_SELECTOR);
     if (dialog) {
       return getDialogKind(dialog) === 'mcp-store';
     }
@@ -515,12 +600,8 @@
 
   function isPluginTitleElement(el) {
     if (!el || el.nodeType !== 1) return false;
-    if (el.closest('h1, h2, h3, h4, h5, h6, [role="heading"], header, nav')) {
-      return true;
-    }
-    if (el.closest('[class*="title" i], [class*="name" i], [class*="heading" i], [class*="brand" i]')) {
-      return true;
-    }
+    if (el.closest('h1, h2, h3, h4, h5, h6, [role="heading"], header, nav')) return true;
+    if (el.closest('[class*="title" i], [class*="name" i], [class*="heading" i], [class*="brand" i]')) return true;
     return false;
   }
 
@@ -532,24 +613,20 @@
 
   function looksLikePluginDescription(text, el) {
     if (!text || text.length > 800) return false;
-    if (/[\u4e00-\u9fff]/.test(text)) return false;
-    // Skip URLs, file paths, slash command names, CLI flags, version strings
+    if (CJK_CHAR_RE.test(text)) return false;
     if (/^(https?:\/\/|\/[a-z0-9_-]+|[A-Za-z]:\\|~\/|--?[a-z0-9-]+|v?\d+\.\d+)/i.test(text)) return false;
     const words = text.split(/\s+/).filter(Boolean);
     const endsWithPunct = /[.!?:。！？：]$/.test(text);
     const inCodeProse = isInlineCodeProse(el);
 
     if (inCodeProse) {
-      // Allow shorter English prose fragments split by inline <code> elements in plugin overview markdown
       if (text.length < 6) return false;
       const letters = (text.match(/[A-Za-z]/g) || []).length;
       return words.length >= 2 && letters >= 5 && letters / text.length >= 0.4;
     }
 
     if (text.length < 12) return false;
-    // Require a sentence or descriptive phrase (at least 4 words, or 3 words ending with sentence punctuation)
     if (words.length < 3 || (words.length < 4 && !endsWithPunct)) return false;
-    // Skip Title Case proper-noun plugin/MCP names (e.g. "Atlassian Teamwork Graph CLI", "MongoDB Atlas (Managed MCP)")
     if (!endsWithPunct && words.length <= 6 && text.length < 60) {
       let capCount = 0;
       for (let i = 0; i < words.length; i++) {
@@ -563,23 +640,39 @@
 
   function flushAutoBatch() {
     autoFlushTimer = null;
-    if (pendingAutoTexts.size === 0) return;
+    if (!i18nConfig.enabled || !i18nConfig.autoTranslate || pendingAutoTexts.size === 0) {
+      pendingAutoTexts.clear();
+      return;
+    }
     const batch = Array.from(pendingAutoTexts).slice(0, 30);
     for (const item of batch) pendingAutoTexts.delete(item);
-    console.debug('__AGZH_TX__' + JSON.stringify(batch));
+    console.debug('__AGL_MSG__' + JSON.stringify({ type: 'i18n:translate-batch', texts: batch }));
     if (pendingAutoTexts.size > 0) {
       autoFlushTimer = setTimeout(flushAutoBatch, 250);
     }
   }
 
+  function applySingleNode(node, raw, trimmed, hit) {
+    if (!node || !node.isConnected) return;
+    recordOriginalText(node, raw);
+    const startIdx = raw.indexOf(trimmed);
+    const prefix = startIdx > 0 ? raw.slice(0, startIdx) : '';
+    const suffix = startIdx + trimmed.length < raw.length ? raw.slice(startIdx + trimmed.length) : '';
+    const out = prefix + hit + suffix;
+    lastProcessed.set(node, out);
+    node.nodeValue = out;
+  }
+
   function scheduleAutoTranslate(node, rawText, parentEl, prechecked) {
+    if (!i18nConfig.enabled || !i18nConfig.autoTranslate) return;
+    const tx = ensureTranslator();
     const trimmed = rawText.trim();
     const norm = normalizeKey(trimmed);
     if (!prechecked && !looksLikePluginDescription(norm, parentEl)) return;
 
-    let hit = autoCache.get(norm);
+    let hit = tx.autoCache.get(norm);
     if (hit === undefined && norm.includes('\n')) {
-      hit = autoCache.get(norm.replace(/\s+/g, ' '));
+      hit = tx.autoCache.get(norm.replace(/\s+/g, ' '));
     }
     if (hit !== undefined) {
       applySingleNode(node, rawText, trimmed, hit);
@@ -595,7 +688,6 @@
 
     if (requestedAutoTexts.has(norm)) return;
     if (requestedAutoTexts.size >= MAX_AUTO_REQUESTED) {
-      // Drop oldest entry to keep memory bounded in long sessions.
       const first = requestedAutoTexts.values().next().value;
       if (first !== undefined) requestedAutoTexts.delete(first);
     }
@@ -610,48 +702,6 @@
     }
   }
 
-  function applySingleNode(node, raw, trimmed, hit) {
-    if (!node || !node.isConnected) return;
-    const startIdx = raw.indexOf(trimmed);
-    const prefix = startIdx > 0 ? raw.slice(0, startIdx) : '';
-    const suffix = startIdx + trimmed.length < raw.length ? raw.slice(startIdx + trimmed.length) : '';
-    const out = prefix + hit + suffix;
-    lastProcessed.set(node, out);
-    node.nodeValue = out;
-  }
-
-  window.__AGZH_APPLY_TX__ = function (resultMap, failedKeys) {
-    if (resultMap && typeof resultMap === 'object') {
-      for (const [k, v] of Object.entries(resultMap)) {
-        if (!k || !v) continue;
-        const norm = normalizeKey(k);
-        autoCache.set(norm, v);
-        const nodes = autoNodeBindings.get(norm);
-        if (nodes) {
-          for (const node of nodes) {
-            if (!node.isConnected) continue;
-            const cur = node.nodeValue || '';
-            const trimmed = cur.trim();
-            if (normalizeKey(trimmed) === norm) {
-              applySingleNode(node, cur, trimmed, v);
-            }
-          }
-          autoNodeBindings.delete(norm);
-        }
-      }
-    }
-    if (Array.isArray(failedKeys)) {
-      for (let i = 0; i < failedKeys.length; i++) {
-        autoNodeBindings.delete(normalizeKey(failedKeys[i]));
-      }
-    }
-    if (autoNodeBindings.size > 60) {
-      pruneDisconnectedBindings();
-    }
-  };
-
-  const DIALOG_SELECTOR = '[role="dialog"], [aria-modal="true"], dialog';
-
   function shouldSkipTextContainer(el) {
     if (!el || el.nodeType !== 1) return false;
     if (SKIP_TAGS.has(el.tagName)) return true;
@@ -665,7 +715,6 @@
     return false;
   }
 
-  // Fast self-only check for TreeWalker descendants whose ancestors were already checked & pruned.
   function shouldSkipSelfInWalk(el) {
     if (!el || el.nodeType !== 1) return false;
     if (SKIP_TAGS.has(el.tagName)) return true;
@@ -677,57 +726,8 @@
     return false;
   }
 
-  const VERSION_ITEM_RE = /^版本\s+([\d.]+)$/;
-  function maybeInjectZhVersionMenuItem(node, text) {
-    if (!VERSION_ITEM_RE.test(text.trim())) return;
-    let row = node.parentElement;
-    for (let depth = 0; row && depth < 4; depth++, row = row.parentElement) {
-      const container = row.parentElement;
-      if (!container) break;
-      const next = row.nextElementSibling;
-      if (!next) continue;
-      const nextTxt = (next.textContent || '').trim();
-      if (nextTxt === '检查更新' || nextTxt === 'Check for Updates' || nextTxt === 'Check for Updates...' || nextTxt === '检查更新...') {
-        if (container.querySelector('[data-agzh-ver-item]')) return;
-        const clone = row.cloneNode(true);
-        clone.setAttribute('data-agzh-ver-item', '1');
-        clone.setAttribute('data-agzh-skip', '1');
-        clone.removeAttribute('disabled');
-        clone.removeAttribute('aria-disabled');
-        if (clone.classList) clone.classList.remove('pointer-events-none');
-        clone.style.pointerEvents = 'auto';
-        clone.style.cursor = 'pointer';
-        clone.title = 'https://github.com/keinx/AntigravityZH';
-        const disabledChildren = clone.querySelectorAll('.pointer-events-none, [disabled], [aria-disabled]');
-        for (let i = 0; i < disabledChildren.length; i++) {
-          const ch = disabledChildren[i];
-          if (ch.classList) ch.classList.remove('pointer-events-none');
-          ch.removeAttribute('disabled');
-          ch.removeAttribute('aria-disabled');
-          ch.style.pointerEvents = 'auto';
-        }
-        clone.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          console.debug('__AGZH_OPEN_HOMEPAGE__');
-          document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-        });
-        const tw = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
-        let tn;
-        while ((tn = tw.nextNode())) {
-          if (VERSION_ITEM_RE.test((tn.nodeValue || '').trim())) {
-            tn.nodeValue = '汉化助手版本 ' + zhVersion;
-            break;
-          }
-        }
-        container.insertBefore(clone, next);
-        return;
-      }
-    }
-  }
-
   function processTextNode(node, skipChecked) {
-    if (!node || node.nodeType !== 3) return;
+    if (!i18nConfig.enabled || !node || node.nodeType !== 3) return;
     const val = node.nodeValue;
     if (!val || lastProcessed.get(node) === val) return;
     if (!ATTR_ASCII_RE.test(val)) {
@@ -740,20 +740,18 @@
       return;
     }
 
-    // Fast path: check static O(1) dictionary & bucketed rules first with zero DOM closest() walks.
-    const translated = translateString(val, false, false);
+    const tx = ensureTranslator();
+    const translated = tx.translateString(val, false, false);
     if (translated !== null && translated !== val) {
+      recordOriginalText(node, val);
       lastProcessed.set(node, translated);
       node.nodeValue = translated;
-      if (translated.trim().startsWith('版本 ')) {
-        maybeInjectZhVersionMenuItem(node, translated);
-      }
       return;
     }
 
-    // Only inspect plugin/MCP page context when static lookup missed and text looks like English prose.
     const trimmed = val.trim();
     if (
+      i18nConfig.autoTranslate &&
       parent &&
       trimmed.length >= 6 &&
       !CJK_CHAR_RE.test(trimmed) &&
@@ -774,20 +772,27 @@
   }
 
   function processAttributes(el) {
-    if (!el || el.nodeType !== 1) return;
+    if (!i18nConfig.enabled || !el || el.nodeType !== 1) return;
     if (ATTR_SKIP_TAGS.has(el.tagName) || !el.hasAttributes()) return;
+    if (skipSelector) {
+      try {
+        if (el.matches(skipSelector)) return;
+      } catch (_) {}
+    }
+    const tx = ensureTranslator();
     let seen = attrCache.get(el);
     for (let i = 0; i < ATTRS.length; i++) {
       const attr = ATTRS[i];
       const val = el.getAttribute(attr);
       if (!val || !ATTR_ASCII_RE.test(val)) continue;
       if (seen && seen[attr] === val) continue;
-      const translated = translateString(val, true, false);
+      const translated = tx.translateString(val, true, false);
       if (!seen) {
         seen = Object.create(null);
         attrCache.set(el, seen);
       }
       if (translated !== null && translated !== val) {
+        recordOriginalAttr(el, attr, val);
         seen[attr] = translated;
         el.setAttribute(attr, translated);
       } else {
@@ -797,11 +802,12 @@
   }
 
   function tryTranslateConsecutiveTextRuns(el, skipChecked) {
-    if (!el || el.nodeType !== 1) return false;
+    if (!i18nConfig.enabled || !el || el.nodeType !== 1) return false;
     const childLen = el.childNodes.length;
     if (childLen <= 1 || childLen > 24) return false;
     if (!skipChecked && shouldSkipTextContainer(el)) return false;
 
+    const tx = ensureTranslator();
     let anyTranslated = false;
     let i = 0;
     const nodes = el.childNodes;
@@ -819,16 +825,16 @@
       if (i - runStart <= 1) continue;
       if (!combined || lastProcessed.get(nodes[runStart]) === combined) continue;
 
-      const translated = translateString(combined, false, false);
+      const translated = tx.translateString(combined, false, false);
       if (translated !== null && translated !== combined) {
+        for (let k = runStart; k < i; k++) {
+          recordOriginalText(nodes[k], nodes[k].nodeValue || '');
+        }
         lastProcessed.set(nodes[runStart], translated);
         nodes[runStart].nodeValue = translated;
         for (let k = runStart + 1; k < i; k++) {
           lastProcessed.set(nodes[k], '');
           nodes[k].nodeValue = '';
-        }
-        if (translated.trim().startsWith('版本 ')) {
-          maybeInjectZhVersionMenuItem(nodes[runStart], translated);
         }
         anyTranslated = true;
       }
@@ -837,7 +843,7 @@
   }
 
   function walkAndTranslate(root) {
-    if (!root) return;
+    if (!i18nConfig.enabled || !root) return;
     if (root.nodeType === 3) {
       const parent = root.parentElement;
       if (parent) {
@@ -845,17 +851,15 @@
           lastProcessed.set(root, root.nodeValue || '');
           return;
         }
-        if (tryTranslateConsecutiveTextRuns(parent, true)) {
-          return;
-        }
+        if (tryTranslateConsecutiveTextRuns(parent, true)) return;
       }
       processTextNode(root, true);
       return;
     }
     if (root.nodeType !== 1 && root.nodeType !== 11 && root.nodeType !== 9) return;
     if (root.nodeType === 1) {
-      processAttributes(root);
       if (shouldSkipTextContainer(root)) return;
+      processAttributes(root);
       tryTranslateConsecutiveTextRuns(root, true);
     }
 
@@ -865,10 +869,10 @@
       {
         acceptNode(n) {
           if (n.nodeType === 1) {
-            processAttributes(n);
             if (shouldSkipSelfInWalk(n)) {
               return NodeFilter.FILTER_REJECT;
             }
+            processAttributes(n);
             tryTranslateConsecutiveTextRuns(n, true);
           }
           return NodeFilter.FILTER_ACCEPT;
@@ -898,6 +902,10 @@
 
   function flushPending() {
     rafScheduled = false;
+    if (!i18nConfig.enabled) {
+      pendingNodes.clear();
+      return;
+    }
     currentPassId++;
     if (pendingNodes.size === 0) return;
     const snapshot = new Set(pendingNodes);
@@ -911,7 +919,7 @@
   }
 
   function enqueue(node) {
-    if (!node || pendingNodes.has(document.body)) return;
+    if (!i18nConfig.enabled || !node || pendingNodes.has(document.body)) return;
     pendingNodes.add(node);
     if (!rafScheduled) {
       rafScheduled = true;
@@ -943,7 +951,9 @@
     return false;
   }
 
+  let observing = false;
   const observer = new MutationObserver((mutations) => {
+    if (!i18nConfig.enabled) return;
     for (let i = 0; i < mutations.length; i++) {
       const m = mutations[i];
       if (m.type === 'characterData') {
@@ -986,27 +996,142 @@
     }
   });
 
-  function start() {
-    if (!document.body) return;
+  function startObserver() {
+    if (!document.body || !i18nConfig.enabled) return;
+    ensureTranslator();
+    currentPassId++;
     walkAndTranslate(document.body);
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-      attributes: true,
-      attributeFilter: ATTRS
-    });
+    if (!observing) {
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ATTRS
+      });
+      observing = true;
+    }
+  }
+
+  function stopObserver(restoreDom) {
+    if (observing) {
+      observer.disconnect();
+      observing = false;
+    }
+    pendingNodes.clear();
+    pendingAutoTexts.clear();
+    if (autoFlushTimer) {
+      clearTimeout(autoFlushTimer);
+      autoFlushTimer = null;
+    }
+    if (restoreDom) {
+      restoreOriginalDom();
+    }
+  }
+
+  const listeners = new Set();
+  function emitConfigChange() {
+    const snap = Object.assign({}, i18nConfig);
+    for (const cb of listeners) {
+      try { cb(snap); } catch (_) {}
+    }
+  }
+
+  function applyConfig(nextCfg) {
+    if (!nextCfg || typeof nextCfg !== 'object') return;
+    const prevEnabled = i18nConfig.enabled;
+    const prevAuto = i18nConfig.autoTranslate;
+    if (nextCfg.enabled !== undefined) i18nConfig.enabled = Boolean(nextCfg.enabled);
+    if (nextCfg.autoTranslate !== undefined) i18nConfig.autoTranslate = Boolean(nextCfg.autoTranslate);
+
+    if (prevEnabled !== i18nConfig.enabled) {
+      if (i18nConfig.enabled) {
+        startObserver();
+      } else {
+        stopObserver(true);
+      }
+    } else if (!prevAuto && i18nConfig.autoTranslate && i18nConfig.enabled && document.body) {
+      // Re-scan current page so Marketplace/MCP descriptions translate immediately when re-enabled.
+      currentPassId++;
+      walkAndTranslate(document.body);
+    } else if (prevAuto && !i18nConfig.autoTranslate) {
+      pendingAutoTexts.clear();
+      if (autoFlushTimer) {
+        clearTimeout(autoFlushTimer);
+        autoFlushTimer = null;
+      }
+    }
+    emitConfigChange();
+  }
+
+  function applyTranslations(resultMap, failedKeys) {
+    if (!i18nConfig.enabled) return;
+    const tx = ensureTranslator();
+    if (resultMap && typeof resultMap === 'object') {
+      for (const [k, v] of Object.entries(resultMap)) {
+        if (!k || !v) continue;
+        const norm = normalizeKey(k);
+        tx.autoCache.set(norm, v);
+        const nodes = autoNodeBindings.get(norm);
+        if (nodes) {
+          for (const node of nodes) {
+            if (!node.isConnected) continue;
+            const cur = node.nodeValue || '';
+            const trimmed = cur.trim();
+            if (normalizeKey(trimmed) === norm) {
+              applySingleNode(node, cur, trimmed, v);
+            }
+          }
+          autoNodeBindings.delete(norm);
+        }
+      }
+    }
+    if (Array.isArray(failedKeys)) {
+      for (let i = 0; i < failedKeys.length; i++) {
+        autoNodeBindings.delete(normalizeKey(failedKeys[i]));
+      }
+    }
+    if (autoNodeBindings.size > 60) {
+      pruneDisconnectedBindings();
+    }
+  }
+
+  function clearAutoCache() {
+    if (translator) {
+      translator.autoCache.clear();
+    }
+    rawCache = {};
+    requestedAutoTexts.clear();
+    pendingAutoTexts.clear();
+    autoNodeBindings.clear();
+  }
+
+  window.__AGL_I18N__ = {
+    getConfig: () => Object.assign({}, i18nConfig),
+    applyConfig,
+    applyTranslations,
+    clearAutoCache,
+    subscribe(fn) {
+      if (typeof fn === 'function') listeners.add(fn);
+      return () => listeners.delete(fn);
+    }
+  };
+
+  function boot() {
+    if (i18nConfig.enabled) {
+      startObserver();
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start, { once: true });
+    document.addEventListener('DOMContentLoaded', boot, { once: true });
   } else {
-    start();
+    boot();
   }
 
   if (debug) {
-    window.__AGZH_DUMP_UNTRANSLATED__ = function () {
+    window.__AGL_DUMP_UNTRANSLATED__ = function () {
       return Array.from(untranslatedSet).sort();
     };
   }
-})(typeof globalThis !== 'undefined' ? globalThis : this);
+})();

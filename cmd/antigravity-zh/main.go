@@ -15,7 +15,7 @@ import (
 	"antigravity-zh/internal/winui"
 )
 
-const appTitle = "Antigravity 汉化启动器"
+const appTitle = "AntigravityZH"
 
 func main() {
 	selfExe, err := os.Executable()
@@ -34,7 +34,7 @@ func main() {
 			continue
 		}
 		switch arg {
-		case "--agzh-debug", "--debug":
+		case "--agzh-debug", "--aglaunch-debug", "--debug":
 			debugMode = true
 		case "--export-dict":
 			exportDict = true
@@ -57,7 +57,7 @@ func main() {
 		return
 	}
 
-	configPath := filepath.Join(userDataDir, "antigravity-zh.json")
+	configPath := filepath.Join(userDataDir, "launcher_config.json")
 	exePath, err := locator.LocateAntigravity(configPath)
 	if err != nil {
 		picked, ok := winui.BrowseForExe("未自动找到 Antigravity，请手动选择安装位置")
@@ -77,8 +77,8 @@ func main() {
 	if fuseErr == nil && fuseStatus == locator.FuseDisabled {
 		winui.MessageBoxError(appTitle,
 			"当前版本的 Antigravity 已禁用 Electron 调试注入开关，\n"+
-				"无法以无侵入模式注入汉化。\n\n"+
-				"请直接打开原版 Antigravity，或关注汉化工具后续适配更新。")
+				"无法以无侵入模式加载启动器增强功能。\n\n"+
+				"请直接打开原版 Antigravity，或关注 AntigravityZH 后续适配更新。")
 		os.Exit(1)
 	}
 
@@ -87,8 +87,8 @@ func main() {
 	if pids, err := proc.FindPIDsByName(procName); err == nil && len(pids) > 0 {
 		ok := winui.MessageBoxConfirm(appTitle,
 			"检测到 Antigravity 正在运行。\n\n"+
-				"由于 Antigravity 为单实例应用，需要关闭当前实例并重新以汉化模式启动。\n"+
-				"是否立即重启为汉化模式？")
+				"由于 Antigravity 为单实例应用，需要关闭当前实例并通过启动器重新启动。\n"+
+				"是否立即重启？")
 		if !ok {
 			return
 		}
@@ -98,9 +98,10 @@ func main() {
 	externalDict := filepath.Join(userDataDir, "dict_zh_cn.json")
 	rtPaths, err := launcher.SyncRuntimeFiles(runtimeDir, externalDict)
 	if err != nil {
-		winui.MessageBoxError(appTitle, fmt.Sprintf("准备汉化运行文件失败：%v", err))
+		winui.MessageBoxError(appTitle, fmt.Sprintf("准备启动器运行文件失败：%v", err))
 		os.Exit(1)
 	}
+	rtPaths.UserDataDir = userDataDir
 
 	if err := launcher.Launch(exePath, passthroughArgs, rtPaths, debugMode); err != nil {
 		winui.MessageBoxError(appTitle, fmt.Sprintf("启动 Antigravity 失败：%v", err))

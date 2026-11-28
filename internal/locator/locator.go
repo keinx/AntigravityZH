@@ -12,10 +12,6 @@ import (
 
 var ErrNotFound = errors.New("Antigravity not found")
 
-type Config struct {
-	AntigravityExe string `json:"antigravity_exe"`
-}
-
 type FuseStatus int
 
 const (
@@ -29,29 +25,55 @@ var fuseSentinel = []byte("dL7pKGdnNz796PbbjQWNKmHXBZaB9tsX")
 
 const fuseIdxInspectArgs = 3
 
+// LoadConfig reads the antigravity_exe field from the unified launcher_config.json.
 func LoadConfig(configPath string) (string, error) {
 	data, err := os.ReadFile(configPath)
 	if err != nil {
 		return "", err
 	}
-	var cfg Config
-	if err := json.Unmarshal(data, &cfg); err != nil {
+	var raw map[string]any
+	if err := json.Unmarshal(data, &raw); err != nil {
 		return "", err
 	}
-	return strings.TrimSpace(cfg.AntigravityExe), nil
+	if v, ok := raw["antigravity_exe"].(string); ok {
+		return strings.TrimSpace(v), nil
+	}
+	return "", nil
 }
 
+// SaveConfig atomically updates antigravity_exe in launcher_config.json while preserving
+// all other module settings (such as i18n and skin configurations).
 func SaveConfig(configPath, exePath string) error {
 	if dir := filepath.Dir(configPath); dir != "" && dir != "." {
 		if err := os.MkdirAll(dir, 0o755); err != nil {
 			return err
 		}
 	}
-	data, err := json.MarshalIndent(Config{AntigravityExe: exePath}, "", "  ")
+
+	raw := make(map[string]any)
+	if existing, err := os.ReadFile(configPath); err == nil {
+		_ = json.Unmarshal(existing, &raw)
+	}
+	if _, ok := raw["version"]; !ok {
+		raw["version"] = 1
+	}
+	raw["antigravity_exe"] = exePath
+
+	data, err := json.MarshalIndent(raw, "", "  ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(configPath, data, 0o644)
+
+	tmp := configPath + ".tmp"
+	if err := os.WriteFile(tmp, data, 0o644); err != nil {
+		_ = os.Remove(tmp)
+		return err
+	}
+	if err := os.Rename(tmp, configPath); err != nil {
+		_ = os.Remove(tmp)
+		return err
+	}
+	return nil
 }
 
 // LocateAntigravity searches config, platform default installation paths, and platform discovery.

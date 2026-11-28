@@ -2550,6 +2550,8 @@
     ".monaco-editor",
     ".xterm",
     ".cm-editor",
-    "[data-agzh-skip]"
+    "[data-agzh-skip]",
+    "[data-aglaunch-skip]",
+    "[data-aglaunch-ui]"
   ]
 }
