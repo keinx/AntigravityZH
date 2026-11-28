@@ -105,19 +105,6 @@ else
 fi
 codesign --verify --deep --strict "$APP_DIR"
 
-echo "==> Exporting raw binary and .app bundle..."
-RAW_BIN_PATH="$DIST_DIR/${APP_NAME}-darwin-${ARCH}"
-cp "$MACOS_DIR/${APP_NAME}" "$RAW_BIN_PATH"
-chmod +x "$RAW_BIN_PATH"
-
-APP_OUT_PATH="$DIST_DIR/${APP_NAME}-darwin-${ARCH}.app"
-rm -rf "$APP_OUT_PATH"
-cp -R "$APP_DIR" "$APP_OUT_PATH"
-
-APP_ZIP_PATH="$DIST_DIR/${APP_NAME}-darwin-${ARCH}.app.zip"
-rm -f "$APP_ZIP_PATH"
-ditto -c -k --sequesterRsrc --keepParent "$APP_DIR" "$APP_ZIP_PATH"
-
 echo "==> Creating DMG image..."
 ln -s /Applications "$STAGE_DIR/Applications"
 
@@ -131,7 +118,4 @@ hdiutil create \
   "$DMG_PATH" >/dev/null
 
 echo "==> Created:"
-echo "    - ${RAW_BIN_PATH}"
-echo "    - ${APP_OUT_PATH}"
-echo "    - ${APP_ZIP_PATH}"
 echo "    - ${DMG_PATH}"

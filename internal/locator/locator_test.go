@@ -1,6 +1,7 @@
 package locator
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
@@ -34,9 +35,16 @@ func TestCheckInspectFuse(t *testing.T) {
 	}
 }
 
-func TestConfigRoundTrip(t *testing.T) {
+func TestConfigRoundTripPreservesModuleSettings(t *testing.T) {
 	dir := t.TempDir()
-	cfg := filepath.Join(dir, "antigravity-zh.json")
+	cfg := filepath.Join(dir, "launcher_config.json")
+
+	// Pre-populate module configs to verify SaveConfig preserves them cleanly.
+	initial := `{"version":1,"i18n":{"enabled":false,"autoTranslate":true},"skin":{"enabled":true,"mode":"overlay"}}`
+	if err := os.WriteFile(cfg, []byte(initial), 0o644); err != nil {
+		t.Fatal(err)
+	}
+
 	want := `C:\Programs\Antigravity\Antigravity.exe`
 	if err := SaveConfig(cfg, want); err != nil {
 		t.Fatal(err)
@@ -44,6 +52,23 @@ func TestConfigRoundTrip(t *testing.T) {
 	got, err := LoadConfig(cfg)
 	if err != nil || got != want {
 		t.Fatalf("got %q (err=%v), want %q", got, err, want)
+	}
+
+	rawBytes, err := os.ReadFile(cfg)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var parsed map[string]any
+	if err := json.Unmarshal(rawBytes, &parsed); err != nil {
+		t.Fatal(err)
+	}
+	i18nMap, ok := parsed["i18n"].(map[string]any)
+	if !ok || i18nMap["enabled"] != false {
+		t.Fatalf("expected i18n settings to be preserved, got %#v", parsed["i18n"])
+	}
+	skinMap, ok := parsed["skin"].(map[string]any)
+	if !ok || skinMap["mode"] != "overlay" {
+		t.Fatalf("expected skin settings to be preserved, got %#v", parsed["skin"])
 	}
 }
 

@@ -31,13 +31,18 @@ type Dictionary struct {
 }
 
 type RuntimePaths struct {
-	HookPath     string
-	RendererPath string
-	DictPath     string
+	HookPath             string
+	I18nRendererPath     string
+	SkinRendererPath     string
+	ThemeRendererPath    string
+	SettingsRendererPath string
+	TweaksRendererPath   string
+	DictPath             string
+	UserDataDir          string
 }
 
 // SyncRuntimeFiles materializes embedded JS hooks and merged dictionary into runtimeDir.
-// Files are only written when missing or content hash differs (zero unnecessary disk I/O).
+// Files are only written when missing or content differs (zero unnecessary disk I/O).
 func SyncRuntimeFiles(runtimeDir, externalDictPath string) (RuntimePaths, error) {
 	if err := os.MkdirAll(runtimeDir, 0o755); err != nil {
 		return RuntimePaths{}, fmt.Errorf("create runtime dir: %w", err)
@@ -49,19 +54,32 @@ func SyncRuntimeFiles(runtimeDir, externalDictPath string) (RuntimePaths, error)
 	}
 
 	paths := RuntimePaths{
-		HookPath:     filepath.Join(runtimeDir, "agzh_hook.js"),
-		RendererPath: filepath.Join(runtimeDir, "renderer_i18n.js"),
-		DictPath:     filepath.Join(runtimeDir, "dict_zh_cn.json"),
+		HookPath:             filepath.Join(runtimeDir, "aglaunch_hook.js"),
+		I18nRendererPath:     filepath.Join(runtimeDir, "renderer_i18n.js"),
+		SkinRendererPath:     filepath.Join(runtimeDir, "renderer_skin.js"),
+		ThemeRendererPath:    filepath.Join(runtimeDir, "renderer_theme.js"),
+		SettingsRendererPath: filepath.Join(runtimeDir, "renderer_settings.js"),
+		TweaksRendererPath:   filepath.Join(runtimeDir, "renderer_tweaks.js"),
+		DictPath:             filepath.Join(runtimeDir, "dict_zh_cn.json"),
 	}
 
-	if err := writeIfChanged(paths.HookPath, assets.HookJS); err != nil {
-		return RuntimePaths{}, err
+	files := []struct {
+		path string
+		data []byte
+	}{
+		{paths.HookPath, assets.HookJS},
+		{paths.I18nRendererPath, assets.I18nRendererJS},
+		{paths.SkinRendererPath, assets.SkinRendererJS},
+		{paths.ThemeRendererPath, assets.ThemeRendererJS},
+		{paths.SettingsRendererPath, assets.SettingsRendererJS},
+		{paths.TweaksRendererPath, assets.TweaksRendererJS},
+		{paths.DictPath, mergedDict},
 	}
-	if err := writeIfChanged(paths.RendererPath, assets.RendererJS); err != nil {
-		return RuntimePaths{}, err
-	}
-	if err := writeIfChanged(paths.DictPath, mergedDict); err != nil {
-		return RuntimePaths{}, err
+
+	for _, f := range files {
+		if err := writeIfChanged(f.path, f.data); err != nil {
+			return RuntimePaths{}, err
+		}
 	}
 	return paths, nil
 }
@@ -159,20 +177,8 @@ func writeIfChanged(path string, content []byte) error {
 	return nil
 }
 
-// BuildNodeOptions returns a NODE_OPTIONS value with --require="<hookPath>" appended.
-// Forward slashes are used so Node.js NODE_OPTIONS parsing handles Windows paths cleanly.
-func BuildNodeOptions(existing, hookPath string) string {
-	norm := strings.ReplaceAll(filepath.ToSlash(hookPath), `\`, "/")
-	req := fmt.Sprintf(`--require="%s"`, norm)
-	existing = strings.TrimSpace(existing)
-	if existing == "" {
-		return req
-	}
-	return existing + " " + req
-}
-
-// Launch starts Antigravity.exe with a temporary local V8 inspector (--inspect-brk),
-// injects agzh_hook.js into Electron's main process before dist/main.js executes,
+// Launch starts Antigravity with a temporary local V8 inspector (--inspect-brk),
+// injects aglaunch_hook.js into Electron's main process before dist/main.js executes,
 // resumes execution, and returns immediately (0 MB resident memory).
 func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 	port, err := inspector.PickFreePort()
@@ -187,21 +193,28 @@ func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 	cmd := exec.Command(exePath, launchArgs...)
 	cmd.Dir = filepath.Dir(exePath)
 
-	env := make([]string, 0, len(os.Environ())+4)
+	env := make([]string, 0, len(os.Environ())+6)
 	for _, kv := range os.Environ() {
 		upper := strings.ToUpper(kv)
-		if strings.HasPrefix(upper, "AGZH_") {
+		if strings.HasPrefix(upper, "AGLAUNCH_") {
 			continue
 		}
 		env = append(env, kv)
 	}
 
 	env = append(env,
-		"AGZH_RENDERER="+rt.RendererPath,
-		"AGZH_DICT="+rt.DictPath,
+		"AGLAUNCH_I18N_RENDERER="+rt.I18nRendererPath,
+		"AGLAUNCH_SKIN_RENDERER="+rt.SkinRendererPath,
+		"AGLAUNCH_THEME_RENDERER="+rt.ThemeRendererPath,
+		"AGLAUNCH_SETTINGS_RENDERER="+rt.SettingsRendererPath,
+		"AGLAUNCH_TWEAKS_RENDERER="+rt.TweaksRendererPath,
+		"AGLAUNCH_DICT="+rt.DictPath,
 	)
+	if rt.UserDataDir != "" {
+		env = append(env, "AGLAUNCH_USER_DATA="+rt.UserDataDir)
+	}
 	if debug {
-		env = append(env, "AGZH_DEBUG=1")
+		env = append(env, "AGLAUNCH_DEBUG=1")
 	}
 	cmd.Env = env
 
@@ -213,7 +226,7 @@ func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 	}
 
 	if err := inspector.InjectAndResume(port, filepath.ToSlash(rt.HookPath), 10*time.Second); err != nil {
-		return fmt.Errorf("inject localization hook: %w", err)
+		return fmt.Errorf("inject launcher hook: %w", err)
 	}
 	return nil
 }

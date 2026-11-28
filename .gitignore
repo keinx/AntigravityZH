@@ -28,6 +28,9 @@ coverage.out
 
 # Local user config, exported dictionary & runtime/debug files
 antigravity-zh.json
+/launcher_config.json
+/skin_config.json
+/runtime/
 /dict_zh_cn.json
 plugin_cache_zh.json
 fuse_cache.json
