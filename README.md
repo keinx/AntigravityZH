@@ -4,19 +4,13 @@
 
 > 当前内置词典适配版本：**Antigravity `2.35.2`**（可在启动后左上角 `Antigravity` 菜单中查看并点击 `汉化助手版本 2.35.2` 访问项目主页）。
 
-### 支持平台与全部 7 种 Release 编译产物
+### 支持平台与 Release 编译产物
 
-| 序号 | 编译产物 | 适用平台与架构 | 形态与推荐场景 |
+| 序号 | 编译产物 | 适用平台与架构 | 形态与说明 |
 | :---: | :--- | :--- | :--- |
-| 1 | `AntigravityZH-windows-amd64.exe` | Windows 10 / 11 (x64, `windows/amd64`) | 单文件绿色启动器（内置原版图标），**Windows 推荐** |
-| 2 | `AntigravityZH-darwin-arm64.dmg` | macOS Apple Silicon (M1/M2/M3/M4, `darwin/arm64`) | 图形化磁盘镜像（内含已签名 `AntigravityZH.app`），**M 芯片推荐** |
-| 3 | `AntigravityZH-darwin-amd64.dmg` | macOS Intel (x64, `darwin/amd64`) | 图形化磁盘镜像（内含已签名 `AntigravityZH.app`），**Intel 推荐** |
-| 4 | `AntigravityZH-darwin-arm64.app.zip` | macOS Apple Silicon (`darwin/arm64`) | 免挂载便携应用压缩包（解压即得 `AntigravityZH.app`） |
-| 5 | `AntigravityZH-darwin-amd64.app.zip` | macOS Intel (`darwin/amd64`) | 免挂载便携应用压缩包（解压即得 `AntigravityZH.app`） |
-| 6 | `AntigravityZH-darwin-arm64` | macOS Apple Silicon (`darwin/arm64`) | 纯命令行可执行二进制（适合终端 / 脚本调用） |
-| 7 | `AntigravityZH-darwin-amd64` | macOS Intel (`darwin/amd64`) | 纯命令行可执行二进制（适合终端 / 脚本调用） |
-
-> Release 同时附带 `SHA256SUMS.txt` 校验文件，可用于核验全部 7 个产物的完整性。
+| 1 | `AntigravityZH-windows-amd64.exe` | Windows 10 / 11 (x64, `windows/amd64`) | 单文件绿色启动器（内置原版图标） |
+| 2 | `AntigravityZH-darwin-arm64.dmg` | macOS Apple Silicon (M1/M2/M3/M4, `darwin/arm64`) | 图形化磁盘镜像（内含已签名 `AntigravityZH.app`） |
+| 3 | `AntigravityZH-darwin-amd64.dmg` | macOS Intel (x64, `darwin/amd64`) | 图形化磁盘镜像（内含已签名 `AntigravityZH.app`） |
 
 ---
 
@@ -53,13 +47,13 @@
 
 ---
 
-## 7 种编译产物使用方法
+## 使用方法
 
 ### 1. Windows x64（`AntigravityZH-windows-amd64.exe`）
 
 - 下载 `AntigravityZH-windows-amd64.exe`，放到任意目录（也可重命名为 `AntigravityZH.exe` 或创建桌面快捷方式），**直接双击运行**即可。
 
-### 2. macOS 安装镜像（`AntigravityZH-darwin-arm64.dmg` / `AntigravityZH-darwin-amd64.dmg`，推荐）
+### 2. macOS 安装镜像（`AntigravityZH-darwin-arm64.dmg` / `AntigravityZH-darwin-amd64.dmg`）
 
 > Apple Silicon（M1/M2/M3/M4）请选择 `arm64`，Intel 芯片请选择 `amd64`。
 
@@ -70,34 +64,13 @@
    ```
 3. 之后即可直接从「应用程序」/ 启动台 / Spotlight 双击 **`AntigravityZH`** 启动中文版 Antigravity。
 
-### 3. macOS 便携应用包（`AntigravityZH-darwin-arm64.app.zip` / `AntigravityZH-darwin-amd64.app.zip`）
-
-1. 在访达双击解压 `.app.zip`（或在终端执行 `ditto -x -k AntigravityZH-darwin-arm64.app.zip .`），得到 **`AntigravityZH.app`**。
-2. 将 `AntigravityZH.app` 拖入 `/Applications` 或任意目录，首次运行前在终端执行一次：
-   ```bash
-   xattr -cr /path/to/AntigravityZH.app
-   ```
-3. 双击 `AntigravityZH.app` 即可启动。
-
-### 4. macOS 纯命令行二进制（`AntigravityZH-darwin-arm64` / `AntigravityZH-darwin-amd64`）
-
-适合习惯在终端或自动化脚本中启动的用户（以 M 芯片为例，Intel 请将 `arm64` 替换为 `amd64`）：
-
-```bash
-chmod +x ./AntigravityZH-darwin-arm64
-xattr -d com.apple.quarantine ./AntigravityZH-darwin-arm64 2>/dev/null || true
-./AntigravityZH-darwin-arm64
-```
-
-> **注意**：不要在 macOS 访达（Finder）中直接双击无可执行权限的纯二进制文件，否则系统可能会用「文本编辑」打开并提示 **“文本编码 Unicode (UTF-8) 不适用”**。日常图形化双击启动请优先使用 `.dmg` 或 `.app.zip`。
-
-### 5. 运行行为说明
+### 3. 运行行为说明
 
 - 如果 Antigravity 尚未运行，将直接以简体中文模式启动。
 - 如果 Antigravity 已在运行（单实例应用限制），启动器会弹窗询问是否一键关闭当前实例并重启为汉化模式。
 - 启动后点击左上角 `Antigravity` 菜单，可在「版本」与「检查更新」之间看到当前编译固化的 `汉化助手版本 2.35.2`，点击可直接在默认浏览器打开项目主页。
 
-### 6. 命令行参数
+### 4. 命令行参数
 
 | 参数 | 说明 |
 | :--- | :--- |
@@ -150,9 +123,9 @@ AntigravityZH (Go 启动器)
 ```text
 AntigravityZH/
 ├── .github/workflows/
-│   └── release.yml                   # GitHub Actions 跨平台测试与 7 产物自动发布流水线
+│   └── release.yml                   # GitHub Actions 跨平台测试与自动发布流水线
 ├── scripts/
-│   └── package-macos.sh              # macOS 一键打包脚本（纯二进制 / .app / .app.zip / .dmg）
+│   └── package-macos.sh              # macOS 一键打包脚本（.dmg）
 ├── cmd/antigravity-zh/
 │   ├── main.go                       # 启动器主入口
 │   ├── main_test.go                  # macOS .app 路径与数据目录单元测试
@@ -178,27 +151,27 @@ AntigravityZH/
 
 ---
 
-## 从源码编译（全部 7 种产物）
+## 从源码编译
 
 ### 环境要求
 
 - **Go 1.24+**（见 [go.mod](go.mod)）
 - **Node.js 18+**（可选，用于运行 JS 翻译引擎单元测试与语法检查）
-- **macOS 系统工具**（仅打包已签名 `.app.zip` 与 `.dmg` 时需要：`sips`、`iconutil`、`codesign`、`ditto`、`hdiutil`）
+- **macOS 系统工具**（仅打包 `.dmg` 时需要：`sips`、`iconutil`、`codesign`、`hdiutil`）
 
 ### 各环境可构建产物矩阵
 
 | 构建方式 | 对应产物 | 数量 |
 | :--- | :--- | :---: |
-| **方式 A：GitHub Actions（推荐）** | Windows `.exe` + macOS `arm64`/`amd64` 纯二进制、已签名 `.app.zip`、`.dmg` + `SHA256SUMS.txt` | **全部 7 种** |
-| **方式 B：macOS 本地编译** | macOS `arm64`/`amd64` 纯二进制、已签名 `.app` / `.app.zip`、`.dmg` | **6 种** |
+| **方式 A：GitHub Actions（推荐）** | Windows `.exe` + macOS `arm64`/`amd64` `.dmg` | **全部 3 种** |
+| **方式 B：macOS 本地编译** | macOS `arm64`/`amd64` `.dmg` | **2 种** |
 | **方式 C：Windows 本地编译** | Windows `amd64` 单文件 `.exe`（内置原版图标） | **1 种** |
 
 ---
 
-### 方式 A：GitHub Actions 自动构建全部 7 种产物（推荐）
+### 方式 A：GitHub Actions 自动构建全部 3 种产物（推荐）
 
-推送 `v*` 标签即可自动在 `windows-latest` 与 `macos-latest` 并行测试、构建全部 7 种产物并发布到 GitHub Release：
+推送 `v*` 标签即可自动在 `windows-latest` 与 `macos-latest` 并行测试、构建全部 3 种产物并发布到 GitHub Release：
 
 ```bash
 git tag v2.35.2
@@ -209,7 +182,7 @@ git push origin v2.35.2
 
 ---
 
-### 方式 B：在 macOS 上编译全部 6 种 macOS 产物
+### 方式 B：在 macOS 上编译 macOS `.dmg` 产物
 
 ```bash
 # 1. 运行测试与静态检查
@@ -219,16 +192,15 @@ GOOS=darwin GOARCH=amd64 go vet ./...
 GOOS=darwin GOARCH=arm64 go vet ./...
 go test -v ./...
 
-# 2. 打包 macOS arm64 与 amd64 全部 6 种产物（纯二进制 + 已签名 .app.zip + .dmg）
+# 2. 打包 macOS arm64 与 amd64 .dmg 产物
 chmod +x scripts/package-macos.sh
 ./scripts/package-macos.sh arm64
 ./scripts/package-macos.sh amd64
 ```
 
-执行完成后，`dist/` 下将产出全部 **6 种 macOS Release 产物**（另附可直接测试的 `AntigravityZH-darwin-*.app` 目录）：
-- `dist/AntigravityZH-darwin-arm64` / `dist/AntigravityZH-darwin-amd64`
-- `dist/AntigravityZH-darwin-arm64.app.zip` / `dist/AntigravityZH-darwin-amd64.app.zip`
-- `dist/AntigravityZH-darwin-arm64.dmg` / `dist/AntigravityZH-darwin-amd64.dmg`
+执行完成后，`dist/` 下将产出 **2 种 macOS Release 产物**：
+- `dist/AntigravityZH-darwin-arm64.dmg`
+- `dist/AntigravityZH-darwin-amd64.dmg`
 
 > 如持有 Apple Developer ID 证书，可在运行 `package-macos.sh` 前设置 `export APPLE_SIGN_IDENTITY="Developer ID Application: ..."` 以启用正式签名与 Hardened Runtime；未设置时默认执行 ad-hoc 签名（`codesign --sign -`）。
 
@@ -279,8 +251,6 @@ go build -ldflags="-s -w -H windowsgui" -o dist/AntigravityZH-windows-amd64.exe 
   - **macOS**：删除 `~/Library/Application Support/AntigravityZH`
 - **Q：macOS 首次打开提示「无法验证开发者」或「已损坏，无法打开」怎么办？**
   A：这是 macOS Gatekeeper 对未付费公证应用的默认拦截。在终端执行一次 `xattr -cr /Applications/AntigravityZH.app` 清除隔离属性即可正常打开。
-- **Q：macOS 双击下载的文件后弹出「文本编辑」并提示“文本编码 Unicode (UTF-8) 不适用”怎么办？**
-  A：这是因为下载了纯命令行二进制（`AntigravityZH-darwin-arm64` / `amd64`）并在访达直接双击。推荐改用 `.dmg` 或 `.app.zip`；若使用纯二进制，请在终端执行 `chmod +x ./AntigravityZH-darwin-arm64 && ./AntigravityZH-darwin-arm64` 启动。
 - **Q：插件详情页或 MCP 商店的自动翻译想重新拉取怎么办？**
   A：删除运行时目录中的 `plugin_cache_zh.json`（Windows 位于 `%LOCALAPPDATA%\AntigravityZH\runtime\`，macOS 位于 `~/Library/Application Support/AntigravityZH/runtime/`）后重新通过 AntigravityZH 启动即可。
 - **Q：Windows 资源管理器里图标没有立刻变化？**
