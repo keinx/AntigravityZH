@@ -46,7 +46,7 @@ func TestSyncRuntimeFilesAndExternalOverride(t *testing.T) {
 		t.Fatalf("expected menu override for File, got %q", merged.Menus["File"])
 	}
 
-	for _, p := range []string{paths.HookPath, paths.I18nRendererPath, paths.SkinRendererPath, paths.ThemeRendererPath, paths.SettingsRendererPath} {
+	for _, p := range []string{paths.HookPath, paths.I18nRendererPath, paths.SkinRendererPath, paths.ThemeRendererPath, paths.SettingsRendererPath, paths.TweaksRendererPath} {
 		if _, err := os.Stat(p); err != nil {
 			t.Fatalf("expected runtime asset synced at %s: %v", p, err)
 		}

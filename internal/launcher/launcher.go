@@ -36,6 +36,7 @@ type RuntimePaths struct {
 	SkinRendererPath     string
 	ThemeRendererPath    string
 	SettingsRendererPath string
+	TweaksRendererPath   string
 	DictPath             string
 	UserDataDir          string
 }
@@ -58,6 +59,7 @@ func SyncRuntimeFiles(runtimeDir, externalDictPath string) (RuntimePaths, error)
 		SkinRendererPath:     filepath.Join(runtimeDir, "renderer_skin.js"),
 		ThemeRendererPath:    filepath.Join(runtimeDir, "renderer_theme.js"),
 		SettingsRendererPath: filepath.Join(runtimeDir, "renderer_settings.js"),
+		TweaksRendererPath:   filepath.Join(runtimeDir, "renderer_tweaks.js"),
 		DictPath:             filepath.Join(runtimeDir, "dict_zh_cn.json"),
 	}
 
@@ -70,6 +72,7 @@ func SyncRuntimeFiles(runtimeDir, externalDictPath string) (RuntimePaths, error)
 		{paths.SkinRendererPath, assets.SkinRendererJS},
 		{paths.ThemeRendererPath, assets.ThemeRendererJS},
 		{paths.SettingsRendererPath, assets.SettingsRendererJS},
+		{paths.TweaksRendererPath, assets.TweaksRendererJS},
 		{paths.DictPath, mergedDict},
 	}
 
@@ -204,6 +207,7 @@ func Launch(exePath string, args []string, rt RuntimePaths, debug bool) error {
 		"AGLAUNCH_SKIN_RENDERER="+rt.SkinRendererPath,
 		"AGLAUNCH_THEME_RENDERER="+rt.ThemeRendererPath,
 		"AGLAUNCH_SETTINGS_RENDERER="+rt.SettingsRendererPath,
+		"AGLAUNCH_TWEAKS_RENDERER="+rt.TweaksRendererPath,
 		"AGLAUNCH_DICT="+rt.DictPath,
 	)
 	if rt.UserDataDir != "" {

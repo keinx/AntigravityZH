@@ -500,6 +500,7 @@
   const skinRendererPath = process.env.AGLAUNCH_SKIN_RENDERER || '';
   const themeRendererPath = process.env.AGLAUNCH_THEME_RENDERER || '';
   const settingsRendererPath = process.env.AGLAUNCH_SETTINGS_RENDERER || '';
+  const tweaksRendererPath = process.env.AGLAUNCH_TWEAKS_RENDERER || '';
   const userDataDir = process.env.AGLAUNCH_USER_DATA || '';
 
   delete process.env.AGLAUNCH_DICT;
@@ -507,6 +508,7 @@
   delete process.env.AGLAUNCH_SKIN_RENDERER;
   delete process.env.AGLAUNCH_THEME_RENDERER;
   delete process.env.AGLAUNCH_SETTINGS_RENDERER;
+  delete process.env.AGLAUNCH_TWEAKS_RENDERER;
   delete process.env.AGLAUNCH_USER_DATA;
   delete process.env.AGLAUNCH_DEBUG;
 
@@ -545,6 +547,7 @@
   let skinRendererCode = '';
   let themeRendererCode = '';
   let settingsRendererCode = '';
+  let tweaksRendererCode = '';
   try {
     if (dictPath && fs.existsSync(dictPath)) {
       dict = JSON.parse(fs.readFileSync(dictPath, 'utf8'));
@@ -560,6 +563,9 @@
     }
     if (settingsRendererPath && fs.existsSync(settingsRendererPath)) {
       settingsRendererCode = fs.readFileSync(settingsRendererPath, 'utf8');
+    }
+    if (tweaksRendererPath && fs.existsSync(tweaksRendererPath)) {
+      tweaksRendererCode = fs.readFileSync(tweaksRendererPath, 'utf8');
     }
   } catch (err) {
     logDebug('Failed to load core assets: ' + String(err));
@@ -2344,6 +2350,11 @@
     return `(function(){try{var __AGL_SETTINGS_INIT__={config:${JSON.stringify(launcherConfig)},skinImageDataUrl:${JSON.stringify(skinImageDataUrl)},meta:${JSON.stringify(getLauncherMeta())}};\n${settingsRendererCode}\n}catch(e){}})();`;
   }
 
+  function buildTweaksPayload() {
+    if (!tweaksRendererCode) return '';
+    return `(function(){try{\n${tweaksRendererCode}\n}catch(e){}})();`;
+  }
+
   function isAntigravityHubUrl(rawUrl) {
     if (!rawUrl || typeof rawUrl !== 'string') return false;
     try {
@@ -2482,6 +2493,7 @@
         let lastInjectedSkinUrl = '';
         let lastInjectedThemeUrl = '';
         let lastInjectedSettingsUrl = '';
+        let lastInjectedTweaksUrl = '';
 
         wc.on('did-start-navigation', (_ev, _url, isInPlace, isMainFrame) => {
           if (isMainFrame && !isInPlace) {
@@ -2489,6 +2501,7 @@
             lastInjectedSkinUrl = '';
             lastInjectedThemeUrl = '';
             lastInjectedSettingsUrl = '';
+            lastInjectedTweaksUrl = '';
           }
         });
 
@@ -2532,6 +2545,13 @@
               wc.executeJavaScript(buildSettingsPayload(), true).catch((e) => {
                 lastInjectedSettingsUrl = '';
                 logDebug('settings executeJavaScript failed: ' + String(e));
+              });
+            }
+            if (tweaksRendererCode && lastInjectedTweaksUrl !== url) {
+              lastInjectedTweaksUrl = url;
+              wc.executeJavaScript(buildTweaksPayload(), true).catch((e) => {
+                lastInjectedTweaksUrl = '';
+                logDebug('tweaks executeJavaScript failed: ' + String(e));
               });
             }
           }

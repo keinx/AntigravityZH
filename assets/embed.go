@@ -17,5 +17,8 @@ var ThemeRendererJS []byte
 //go:embed renderer_settings.js
 var SettingsRendererJS []byte
 
+//go:embed renderer_tweaks.js
+var TweaksRendererJS []byte
+
 //go:embed dict_zh_cn.json
 var DefaultDictJSON []byte

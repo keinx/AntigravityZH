@@ -83,10 +83,12 @@ jobs:
           node -c assets/renderer_skin.js
           node -c assets/renderer_theme.js
           node -c assets/renderer_settings.js
+          node -c assets/renderer_tweaks.js
           node assets/renderer_i18n_test.js
           node assets/renderer_skin_test.js
           node assets/renderer_theme_test.js
           node assets/renderer_settings_test.js
+          node assets/renderer_tweaks_test.js
 
       - name: Run Go vet (all target platforms) & unit tests (macOS)
         run: |
